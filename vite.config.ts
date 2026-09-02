@@ -1,6 +1,6 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -12,6 +12,21 @@ export default defineConfig({
   },
   server: {
     port: 5173,
-    host: true
-  }
-})
+    host: true,
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          animations: ['gsap', 'framer-motion', 'lenis'],
+          icons: ['lucide-react'],
+        },
+      },
+    },
+    chunkSizeWarningLimit: 1000,
+  },
+});
