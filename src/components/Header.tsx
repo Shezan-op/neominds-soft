@@ -219,37 +219,38 @@ export const Header: React.FC<HeaderProps> = ({
           top: 0,
           left: 0,
           width: '100%',
-          zIndex: 100,
+          zIndex: 1000,
           pointerEvents: isVisible ? 'auto' : 'none',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          paddingTop: 'clamp(14px, 1.8vw, 20px)',
+          paddingInline: '16px',
+          boxSizing: 'border-box',
         }}
       >
         {/* ========================================================
-            UNIFIED DESKTOP NAVBAR (Smoothly Morphs & Shrinks On Scroll)
+            REFINED FLOATING NAVBAR PILL (Pulled Down & Sleek Size)
             ======================================================== */}
         <div
           style={{
-            width: isScrolled ? 'min(92%, 860px)' : '100%',
-            maxWidth: isScrolled ? '860px' : '100%',
-            marginTop: isScrolled ? '16px' : '0px',
-            height: isScrolled ? '52px' : 'var(--navbar-height)',
-            borderRadius: isScrolled ? '8px' : '0px',
-            backgroundColor: isScrolled ? 'rgba(17, 19, 23, 0.95)' : 'rgba(0, 0, 0, 0.88)',
+            width: isScrolled ? 'min(90%, 780px)' : 'min(92%, 840px)',
+            maxWidth: isScrolled ? '780px' : '840px',
+            height: isScrolled ? '46px' : '50px',
+            borderRadius: '9px',
+            backgroundColor: isScrolled ? 'rgba(12, 14, 18, 0.95)' : 'rgba(10, 12, 16, 0.90)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
-            borderBottom: isScrolled ? '1px solid rgba(255, 255, 255, 0.15)' : '1px solid rgba(255, 255, 255, 0.08)',
-            borderTop: isScrolled ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
-            borderLeft: isScrolled ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
-            borderRight: isScrolled ? '1px solid rgba(255, 255, 255, 0.15)' : 'none',
-            boxShadow: isScrolled ? '0 16px 36px rgba(0, 0, 0, 0.7)' : 'none',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            boxShadow: isScrolled
+              ? '0 12px 30px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05)'
+              : '0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingInline: isScrolled ? '20px' : 'var(--page-padding)',
+            paddingInline: isScrolled ? '16px' : '18px',
             pointerEvents: 'auto',
-            transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+            transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
           }}
         >
           {/* Left Brand Logo */}
@@ -258,14 +259,14 @@ export const Header: React.FC<HeaderProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: isScrolled ? '8px' : 'var(--space-3)',
+              gap: '8px',
               cursor: 'pointer',
               userSelect: 'none',
               transition: 'all 0.3s ease',
             }}
           >
             {/* 5-Bar Logo SVG matching EffectiveSoft */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: isScrolled ? '2.5px' : '3px', width: isScrolled ? '20px' : '22px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', width: '16px' }}>
               <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
               <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
               <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
@@ -276,7 +277,7 @@ export const Header: React.FC<HeaderProps> = ({
             <span
               style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: isScrolled ? '18px' : '20px',
+                fontSize: '17px',
                 fontWeight: 700,
                 letterSpacing: '-0.02em',
                 color: '#ffffff',
@@ -292,7 +293,7 @@ export const Header: React.FC<HeaderProps> = ({
             style={{
               display: 'none',
               alignItems: 'center',
-              gap: isScrolled ? '22px' : 'var(--nav-gap)',
+              gap: isScrolled ? '18px' : '22px',
               height: '100%',
               transition: 'gap 0.3s ease',
             }}
@@ -307,13 +308,13 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => handleMenuToggle(e, 'what-we-do')}
                 style={{
                   color: activeMenu === 'what-we-do' ? '#ffffff' : 'rgba(255, 255, 255, 0.85)',
-                  fontSize: isScrolled ? '14px' : '15px',
+                  fontSize: '13.5px',
                   fontWeight: 500,
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
-                  padding: '8px 4px',
-                  transition: 'color 0.2s, font-size 0.3s',
+                  padding: '6px 2px',
+                  transition: 'color 0.2s',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -321,7 +322,7 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <span>What we do</span>
                 <ChevronRight
-                  size={13}
+                  size={12}
                   style={{
                     transform: activeMenu === 'what-we-do' ? 'rotate(90deg)' : 'none',
                     transition: 'transform 0.2s',
@@ -340,13 +341,13 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => handleMenuToggle(e, 'who-we-are')}
                 style={{
                   color: activeMenu === 'who-we-are' ? '#ffffff' : 'rgba(255, 255, 255, 0.85)',
-                  fontSize: isScrolled ? '14px' : '15px',
+                  fontSize: '13.5px',
                   fontWeight: 500,
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
-                  padding: '8px 4px',
-                  transition: 'color 0.2s, font-size 0.3s',
+                  padding: '6px 2px',
+                  transition: 'color 0.2s',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -354,7 +355,7 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <span>Who we are</span>
                 <ChevronRight
-                  size={13}
+                  size={12}
                   style={{
                     transform: activeMenu === 'who-we-are' ? 'rotate(90deg)' : 'none',
                     transition: 'transform 0.2s',
@@ -369,10 +370,10 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => navigateToPage('insights')}
               style={{
                 color: currentPage === 'insights' ? '#2258e7' : 'rgba(255, 255, 255, 0.85)',
-                fontSize: isScrolled ? '14px' : '15px',
+                fontSize: '13.5px',
                 fontWeight: 500,
-                padding: '8px 4px',
-                transition: 'color 0.2s, font-size 0.3s',
+                padding: '6px 2px',
+                transition: 'color 0.2s',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
@@ -388,10 +389,10 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => navigateToPage('portfolio')}
               style={{
                 color: currentPage === 'portfolio' ? '#2258e7' : 'rgba(255, 255, 255, 0.85)',
-                fontSize: isScrolled ? '14px' : '15px',
+                fontSize: '13.5px',
                 fontWeight: 500,
-                padding: '8px 4px',
-                transition: 'color 0.2s, font-size 0.3s',
+                padding: '6px 2px',
+                transition: 'color 0.2s',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
@@ -407,24 +408,25 @@ export const Header: React.FC<HeaderProps> = ({
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
             <button
               onClick={() => navigateToPage('contacts')}
-              className={`btn btn-primary ${isScrolled ? 'btn-sm' : 'btn-md'} desktop-send-btn`}
+              className="desktop-send-btn"
               style={{
-                height: isScrolled ? '34px' : '40px',
-                paddingInline: isScrolled ? '18px' : '22px',
-                fontSize: isScrolled ? '13px' : '14px',
+                height: isScrolled ? '32px' : '34px',
+                paddingInline: isScrolled ? '14px' : '16px',
+                fontSize: '12.5px',
                 fontWeight: 600,
                 letterSpacing: '-0.01em',
                 lineHeight: 1,
                 borderRadius: '6px',
+                backgroundColor: '#2258e7',
+                color: '#ffffff',
                 border: '1px solid rgba(255, 255, 255, 0.15)',
-                boxShadow: isScrolled
-                  ? '0 2px 8px rgba(34, 88, 231, 0.35)'
-                  : '0 3px 12px rgba(34, 88, 231, 0.4)',
+                boxShadow: '0 2px 8px rgba(34, 88, 231, 0.35)',
                 transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 whiteSpace: 'nowrap',
+                cursor: 'pointer',
               }}
             >
               Send request
@@ -438,8 +440,8 @@ export const Header: React.FC<HeaderProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: isScrolled ? '34px' : '40px',
-                height: isScrolled ? '34px' : '40px',
+                width: '32px',
+                height: '32px',
                 color: '#ffffff',
                 background: 'rgba(255, 255, 255, 0.04)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -449,7 +451,7 @@ export const Header: React.FC<HeaderProps> = ({
               }}
               aria-label="Open Mobile Menu"
             >
-              <Menu size={isScrolled ? 18 : 20} />
+              <Menu size={17} />
             </button>
           </div>
         </div>
@@ -460,15 +462,15 @@ export const Header: React.FC<HeaderProps> = ({
         {activeMenu === 'what-we-do' && (
           <div
             style={{
-              width: isScrolled ? 'min(92%, 860px)' : 'min(94%, 900px)',
-              maxWidth: isScrolled ? '860px' : '900px',
+              width: isScrolled ? 'min(90%, 780px)' : 'min(92%, 840px)',
+              maxWidth: isScrolled ? '780px' : '840px',
               marginTop: '8px',
-              borderRadius: '12px',
+              borderRadius: '10px',
               border: '1px solid rgba(255, 255, 255, 0.12)',
               backgroundColor: 'rgba(12, 14, 18, 0.97)',
               backdropFilter: 'blur(24px)',
               boxShadow: '0 24px 50px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-              zIndex: 99,
+              zIndex: 1001,
               animation: 'megaDropdownFadeIn 0.22s ease-out',
               pointerEvents: 'auto',
               overflow: 'hidden',
@@ -642,15 +644,15 @@ export const Header: React.FC<HeaderProps> = ({
         {activeMenu === 'who-we-are' && (
           <div
             style={{
-              width: isScrolled ? 'min(92%, 640px)' : 'min(94%, 680px)',
-              maxWidth: isScrolled ? '640px' : '680px',
+              width: isScrolled ? 'min(90%, 600px)' : 'min(92%, 640px)',
+              maxWidth: isScrolled ? '600px' : '640px',
               marginTop: '8px',
-              borderRadius: '12px',
+              borderRadius: '10px',
               border: '1px solid rgba(255, 255, 255, 0.12)',
               backgroundColor: 'rgba(12, 14, 18, 0.97)',
               backdropFilter: 'blur(24px)',
               boxShadow: '0 24px 50px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05)',
-              zIndex: 99,
+              zIndex: 1001,
               animation: 'megaDropdownFadeIn 0.22s ease-out',
               pointerEvents: 'auto',
               overflow: 'hidden',
@@ -919,16 +921,6 @@ export const Header: React.FC<HeaderProps> = ({
           .desktop-send-btn {
             display: inline-flex !important;
           }
-          .compact-desktop-nav {
-            display: flex !important;
-          }
-          .compact-mobile-brand {
-            display: none !important;
-          }
-          .compact-capsule {
-            margin: 16px auto 0 auto !important;
-            border-radius: 0px !important;
-          }
         }
         @media (max-width: 859px) {
           .desktop-nav {
@@ -939,21 +931,6 @@ export const Header: React.FC<HeaderProps> = ({
           }
           .desktop-send-btn {
             display: none !important;
-          }
-          .compact-desktop-nav {
-            display: none !important;
-          }
-          .compact-mobile-brand {
-            display: block !important;
-          }
-          .compact-capsule {
-            width: 100% !important;
-            margin: 0 !important;
-            border-radius: 0px !important;
-            border-left: none !important;
-            border-right: none !important;
-            border-top: none !important;
-            justify-content: space-between !important;
           }
         }
       `}</style>

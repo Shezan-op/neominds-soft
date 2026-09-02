@@ -16,7 +16,7 @@
   left: 0;
   right: 0;
   height: var(--blur-size, 80px);
-  z-index: 950;
+  z-index: 50;
   pointer-events: none;
   overflow: hidden;
 }
@@ -28,7 +28,7 @@
   left: 0;
   right: 0;
   height: var(--blur-size, 80px);
-  z-index: 950;
+  z-index: 50;
   pointer-events: none;
   overflow: hidden;
   transform: rotate(180deg);
@@ -45,11 +45,11 @@
 /* Custom Scrollbar */
 .cinematic-scrollbar-track {
   position: fixed;
-  top: 24px;
+  top: 20px;
   right: 8px;
-  bottom: 24px;
+  bottom: 20px;
   width: 6px;
-  z-index: 999;
+  z-index: 90;
   pointer-events: none;
 }
 
