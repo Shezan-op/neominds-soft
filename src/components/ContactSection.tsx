@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Check, HelpCircle, Paperclip, Mic, Smile, X, Volume2 } from 'lucide-react';
+import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface ContactSectionProps {
   onSuccessToast?: (msg: string) => void;
@@ -89,7 +90,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onSuccessToast, 
           }}
         >
           <div>
-            <h2
+            <ScrollReveal
+              as="h2"
               style={{
                 fontFamily: 'var(--font-heading)',
                 fontSize: 'clamp(30px, 3.8vw, 48px)',
@@ -97,30 +99,38 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onSuccessToast, 
                 marginBottom: '16px',
                 letterSpacing: '-0.02em',
                 lineHeight: 1.15,
+                color: '#ffffff',
+                display: 'block',
               }}
+              blurStrength={7}
             >
               Let’s connect
-            </h2>
-            <p
-              className="body-lead"
-              style={{
-                color: 'rgba(255, 255, 255, 0.92)',
-                marginBottom: 'clamp(32px, 4vw, 56px)',
-              }}
-            >
-              Fill out the form, and we’ve got you covered.
-            </p>
+            </ScrollReveal>
+            <RevealElement variant="text" delay={0.06}>
+              <p
+                className="body-lead"
+                style={{
+                  color: 'rgba(255, 255, 255, 0.92)',
+                  marginBottom: 'clamp(32px, 4vw, 56px)',
+                }}
+              >
+                Fill out the form, and we’ve got you covered.
+              </p>
+            </RevealElement>
 
-            <h3
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: 'clamp(17px, 1.8vw, 20px)',
-                fontWeight: 600,
-                marginBottom: '24px',
-              }}
-            >
-              What happens next?
-            </h3>
+            <RevealElement variant="text" delay={0.1}>
+              <h3
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: 'clamp(17px, 1.8vw, 20px)',
+                  fontWeight: 600,
+                  marginBottom: '24px',
+                  color: '#ffffff',
+                }}
+              >
+                What happens next?
+              </h3>
+            </RevealElement>
 
             {/* Stepper Checkpoints */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -212,17 +222,18 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onSuccessToast, 
         </div>
 
         {/* Right White Form Panel matching full-site white theme */}
-        <div
-          style={{
-            backgroundColor: '#ffffff',
-            padding: 'clamp(36px, 5vw, 80px) clamp(20px, 4vw, 64px)',
-            color: '#0f172a',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            borderTop: '1px solid #e2e8f0',
-          }}
-        >
+        <RevealElement variant="card" start="top 88%" end="top 55%">
+          <div
+            style={{
+              backgroundColor: '#ffffff',
+              padding: 'clamp(36px, 5vw, 80px) clamp(20px, 4vw, 64px)',
+              color: '#0f172a',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              borderTop: '1px solid #e2e8f0',
+            }}
+          >
           {submitted ? (
             <div style={{ textAlign: 'center', padding: '48px 0' }}>
               <div
@@ -548,7 +559,8 @@ export const ContactSection: React.FC<ContactSectionProps> = ({ onSuccessToast, 
             </form>
           )}
         </div>
-      </div>
+      </RevealElement>
+    </div>
 
       <style>{`
         @media (max-width: 860px) {

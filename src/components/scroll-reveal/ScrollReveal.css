@@ -1,0 +1,32 @@
+/* ==========================================================================
+   SCROLL REVEAL (Word-Level Blur Reveal Animation System)
+   Inspired by React Bits ScrollReveal - GSAP Scrubbed Blur Reveal
+   ========================================================================== */
+
+.scroll-reveal {
+  display: inline-block;
+  will-change: opacity, filter, transform;
+}
+
+.scroll-reveal-word {
+  display: inline-block;
+  white-space: nowrap;
+  will-change: opacity, filter, transform;
+  transform-origin: 0% 50%;
+}
+
+.scroll-reveal-space {
+  display: inline-block;
+  white-space: pre;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .scroll-reveal-word {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}

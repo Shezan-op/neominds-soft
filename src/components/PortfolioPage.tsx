@@ -5,6 +5,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { Footer } from './Footer';
+import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface PortfolioPageProps {
   onNavigateHome?: () => void;
@@ -192,7 +193,8 @@ export const PortfolioPage: React.FC<PortfolioPageProps> = ({
             <span>Success Stories & Client Results</span>
           </div>
 
-          <h1
+          <ScrollReveal
+            as="h1"
             style={{
               fontSize: 'clamp(36px, 5vw, 56px)',
               fontWeight: 800,
@@ -201,22 +203,26 @@ export const PortfolioPage: React.FC<PortfolioPageProps> = ({
               color: '#0f172a',
               marginBottom: '24px',
               fontFamily: 'var(--font-heading)',
+              display: 'block',
             }}
+            blurStrength={8}
           >
             Engineering <span style={{ color: '#2258e7' }}>Impactful</span> Digital Products
-          </h1>
+          </ScrollReveal>
 
-          <p
-            style={{
-              fontSize: 'clamp(16px, 1.2vw, 18px)',
-              lineHeight: 1.6,
-              color: '#475569',
-              marginBottom: '36px',
-              maxWidth: '560px',
-            }}
-          >
-            Across finance, healthcare, AI, and enterprise logistics, we turn bold ideas into clear product direction, fragmented workflows into automated systems, and legacy tech into scalable platforms. Over 23+ years, Neominds has delivered 1,000+ successful projects globally.
-          </p>
+          <RevealElement variant="text" delay={0.06}>
+            <p
+              style={{
+                fontSize: 'clamp(16px, 1.2vw, 18px)',
+                lineHeight: 1.6,
+                color: '#475569',
+                marginBottom: '36px',
+                maxWidth: '560px',
+              }}
+            >
+              Across finance, healthcare, AI, and enterprise logistics, we turn bold ideas into clear product direction, fragmented workflows into automated systems, and legacy tech into scalable platforms. Over 23+ years, Neominds has delivered 1,000+ successful projects globally.
+            </p>
+          </RevealElement>
 
           <div className="btn-group-lg">
             <button
@@ -241,48 +247,50 @@ export const PortfolioPage: React.FC<PortfolioPageProps> = ({
         </div>
 
         {/* Hero Visual Mockup */}
-        <div
-          style={{
-            backgroundColor: '#f8fafc',
-            border: '1px solid #e2e8f0',
-            borderRadius: '8px',
-            padding: '28px',
-            boxShadow: '0 20px 48px rgba(0, 0, 0, 0.04)',
-            position: 'relative',
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
-            <div style={{ display: 'flex', gap: '8px' }}>
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ff5f56' }} />
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ffbd2e' }} />
-              <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#27c93f' }} />
+        <RevealElement variant="card" start="top 90%" end="top 60%">
+          <div
+            style={{
+              backgroundColor: '#f8fafc',
+              border: '1px solid #e2e8f0',
+              borderRadius: '8px',
+              padding: '28px',
+              boxShadow: '0 20px 48px rgba(0, 0, 0, 0.04)',
+              position: 'relative',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', borderBottom: '1px solid #e2e8f0', paddingBottom: '12px' }}>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ff5f56' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#ffbd2e' }} />
+                <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#27c93f' }} />
+              </div>
+              <span style={{ fontSize: '12px', color: '#64748b', fontFamily: 'monospace', fontWeight: 600 }}>
+                DELIVERY METRICS // 2003–2026
+              </span>
             </div>
-            <span style={{ fontSize: '12px', color: '#64748b', fontFamily: 'monospace', fontWeight: 600 }}>
-              DELIVERY METRICS // 2003–2026
-            </span>
-          </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '20px' }}>
-            <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', padding: '18px', borderRadius: '6px', borderLeft: '3px solid #2258e7' }}>
-              <div style={{ fontSize: '32px', fontWeight: 800, color: '#2258e7', letterSpacing: '-0.02em', fontFamily: 'var(--font-heading)' }}>1,000+</div>
-              <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px', fontWeight: 500 }}>Successful Products Delivered</div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '16px', marginBottom: '20px' }}>
+              <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', padding: '18px', borderRadius: '6px', borderLeft: '3px solid #2258e7' }}>
+                <div style={{ fontSize: '32px', fontWeight: 800, color: '#2258e7', letterSpacing: '-0.02em', fontFamily: 'var(--font-heading)' }}>1,000+</div>
+                <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px', fontWeight: 500 }}>Successful Products Delivered</div>
+              </div>
+              <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', padding: '18px', borderRadius: '6px', borderLeft: '3px solid #16a34a' }}>
+                <div style={{ fontSize: '32px', fontWeight: 800, color: '#16a34a', letterSpacing: '-0.02em', fontFamily: 'var(--font-heading)' }}>52%</div>
+                <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px', fontWeight: 500 }}>Clients Partnering &gt; 4 Years</div>
+              </div>
             </div>
-            <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', padding: '18px', borderRadius: '6px', borderLeft: '3px solid #16a34a' }}>
-              <div style={{ fontSize: '32px', fontWeight: 800, color: '#16a34a', letterSpacing: '-0.02em', fontFamily: 'var(--font-heading)' }}>52%</div>
-              <div style={{ fontSize: '13px', color: '#64748b', marginTop: '4px', fontWeight: 500 }}>Clients Partnering &gt; 4 Years</div>
-            </div>
-          </div>
 
-          <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', padding: '16px 20px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ fontSize: '12px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>Top Vertical Specializations</div>
-              <div style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>Fintech, HealthTech, AI & Automotive</div>
-            </div>
-            <div style={{ backgroundColor: 'rgba(34, 88, 231, 0.1)', color: '#2258e7', padding: '6px 12px', borderRadius: '4px', fontSize: '12px', fontWeight: 700 }}>
-              ISO 27001
+            <div style={{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', padding: '16px 20px', borderRadius: '6px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ fontSize: '12px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>Top Vertical Specializations</div>
+                <div style={{ fontSize: '15px', fontWeight: 700, color: '#0f172a', marginTop: '4px' }}>Fintech, HealthTech, AI & Automotive</div>
+              </div>
+              <div style={{ backgroundColor: 'rgba(34, 88, 231, 0.1)', color: '#2258e7', padding: '6px 12px', borderRadius: '4px', fontSize: '12px', fontWeight: 700 }}>
+                ISO 27001
+              </div>
             </div>
           </div>
-        </div>
+        </RevealElement>
       </section>
 
       {/* ========================================================
@@ -350,22 +358,23 @@ export const PortfolioPage: React.FC<PortfolioPageProps> = ({
             gap: '28px',
           }}
         >
-          {filteredCases.map((cs) => (
-            <div
-              key={cs.id}
-              style={{
-                backgroundColor: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '8px',
-                padding: '32px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
-                position: 'relative',
-                overflow: 'hidden',
-                boxShadow: '0 4px 16px rgba(0, 0, 0, 0.03)',
-              }}
+          {filteredCases.map((cs, idx) => (
+            <RevealElement key={cs.id} variant="card" delay={(idx % 3) * 0.08} start="top 92%" end="top 65%">
+              <div
+                style={{
+                  backgroundColor: '#f8fafc',
+                  border: '1px solid #e2e8f0',
+                  borderRadius: '8px',
+                  padding: '32px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  height: '100%',
+                  transition: 'transform 0.2s, border-color 0.2s, box-shadow 0.2s',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.03)',
+                }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-4px)';
                 e.currentTarget.style.borderColor = '#2258e7';
@@ -481,68 +490,77 @@ export const PortfolioPage: React.FC<PortfolioPageProps> = ({
                 </div>
               </div>
             </div>
-          ))}
+          </RevealElement>
+        ))}
         </div>
       </section>
 
       {/* ========================================================
           LEAD CTA STRIP
           ======================================================== */}
-      <section
-        style={{
-          backgroundColor: '#2258e7',
-          padding: '48px 24px',
-          color: '#ffffff',
-        }}
-      >
-        <div
+      <RevealElement variant="card" start="top 92%" end="top 68%">
+        <section
           style={{
-            maxWidth: '1240px',
-            margin: '0 auto',
-            display: 'flex',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            gap: '24px',
+            backgroundColor: '#2258e7',
+            padding: '48px 24px',
+            color: '#ffffff',
           }}
         >
-          <div>
-            <h3 style={{ fontSize: '24px', fontWeight: 800, color: '#ffffff', marginBottom: '8px', fontFamily: 'var(--font-heading)' }}>
-              Looking for a specialized project reference in your industry?
-            </h3>
-            <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>
-              Over 80% of our enterprise systems operate under strict NDA. Contact us for custom architectures and code walk-throughs.
-            </p>
-          </div>
+          <div
+            style={{
+              maxWidth: '1240px',
+              margin: '0 auto',
+              display: 'flex',
+              flexWrap: 'wrap',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '24px',
+            }}
+          >
+            <div>
+              <ScrollReveal
+                as="h3"
+                style={{ fontSize: '24px', fontWeight: 800, color: '#ffffff', marginBottom: '8px', fontFamily: 'var(--font-heading)', display: 'block' }}
+                blurStrength={6}
+              >
+                Looking for a specialized project reference in your industry?
+              </ScrollReveal>
+              <RevealElement variant="text" delay={0.06}>
+                <p style={{ fontSize: '15px', color: 'rgba(255, 255, 255, 0.9)', margin: 0 }}>
+                  Over 80% of our enterprise systems operate under strict NDA. Contact us for custom architectures and code walk-throughs.
+                </p>
+              </RevealElement>
+            </div>
 
-          <form onSubmit={handleLeadSubmit} style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-            <input
-              type="email"
-              placeholder="Enter your corporate email"
-              value={leadEmail}
-              onChange={(e) => setLeadEmail(e.target.value)}
-              required
-              style={{
-                padding: '12px 18px',
-                fontSize: '14px',
-                backgroundColor: '#ffffff',
-                border: '1px solid #ffffff',
-                borderRadius: '4px',
-                color: '#0f172a',
-                minWidth: '280px',
-                outline: 'none',
-              }}
-            />
-            <button
-              type="submit"
-              className="btn btn-white btn-md"
-              style={{ backgroundColor: '#ffffff', color: '#2258e7', fontWeight: 700 }}
-            >
-              Get Custom Deck
-            </button>
-          </form>
-        </div>
-      </section>
+            <form onSubmit={handleLeadSubmit} style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <input
+                type="email"
+                placeholder="Enter your corporate email"
+                value={leadEmail}
+                onChange={(e) => setLeadEmail(e.target.value)}
+                required
+                style={{
+                  padding: '12px 18px',
+                  fontSize: '14px',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #ffffff',
+                  borderRadius: '4px',
+                  color: '#0f172a',
+                  minWidth: '280px',
+                  outline: 'none',
+                }}
+              />
+              <button
+                type="submit"
+                className="btn btn-white btn-md"
+                style={{ backgroundColor: '#ffffff', color: '#2258e7', fontWeight: 700 }}
+              >
+                Get Custom Deck
+              </button>
+            </form>
+          </div>
+        </section>
+      </RevealElement>
 
       {/* ========================================================
           GLOBAL FOOTER

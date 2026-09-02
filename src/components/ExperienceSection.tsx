@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { RevealElement } from './scroll-reveal';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +14,7 @@ export const ExperienceSection: React.FC = () => {
       const lineElements = textContainerRef.current?.querySelectorAll('.fill-line-text');
       if (!lineElements || lineElements.length === 0) return;
 
-      // Line-by-line progressive text fill linked to scroll position
+      // Line-by-line progressive text fill and blur reduction linked to scroll position
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -26,8 +27,8 @@ export const ExperienceSection: React.FC = () => {
       lineElements.forEach((line) => {
         tl.fromTo(
           line,
-          { opacity: 0.2, color: 'rgba(255, 255, 255, 0.25)' },
-          { opacity: 1, color: '#ffffff', ease: 'none', duration: 1 }
+          { opacity: 0.15, filter: 'blur(6px)', color: 'rgba(255, 255, 255, 0.25)' },
+          { opacity: 1, filter: 'blur(0px)', color: '#ffffff', ease: 'none', duration: 1 }
         );
       });
     }, sectionRef);
@@ -88,102 +89,100 @@ export const ExperienceSection: React.FC = () => {
         </div>
 
         {/* Client Logos Grid (Responsive 4-col desktop, 2-col mobile) */}
-        <div
-          className="logos-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-            alignItems: 'center',
-            justifyItems: 'start',
-            gap: '36px 28px',
-            opacity: 0.9,
-            paddingTop: '24px',
-            borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-          }}
-        >
-          {/* miDiagnostics Logo */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <span
-              style={{
-                fontSize: 'clamp(20px, 2.2vw, 24px)',
-                fontWeight: 700,
-                color: '#ffffff',
-                fontFamily: 'var(--font-heading)',
-                letterSpacing: '-0.03em',
-              }}
-            >
-              <i style={{ fontStyle: 'italic', fontWeight: 800 }}>mi</i>Diagnostics
-            </span>
-          </div>
+        <RevealElement variant="card" start="top 92%" end="top 68%">
+          <div
+            className="logos-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+              alignItems: 'center',
+              justifyItems: 'start',
+              gap: '36px 28px',
+              opacity: 0.9,
+              paddingTop: '24px',
+              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+            }}
+          >
+            {/* miDiagnostics Logo */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <span
+                style={{
+                  fontSize: 'clamp(20px, 2.2vw, 24px)',
+                  fontWeight: 700,
+                  color: '#ffffff',
+                  fontFamily: 'var(--font-heading)',
+                  letterSpacing: '-0.03em',
+                }}
+              >
+                <i style={{ fontStyle: 'italic', fontWeight: 800 }}>mi</i>Diagnostics
+              </span>
+            </div>
 
-          {/* Delta Symbol Logo */}
-          <div style={{ display: 'flex', alignItems: 'center' }}>
-            <svg width="38" height="34" viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M20 2L38 33H2L20 2Z"
-                stroke="#ffffff"
-                strokeWidth="3.5"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M20 12L29 28H11L20 12Z"
-                stroke="#ffffff"
-                strokeWidth="2.5"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-
-          {/* MAERSK BROKER Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div
-              style={{
-                width: '26px',
-                height: '26px',
-                backgroundColor: '#ffffff',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="#001334">
-                <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+            {/* Delta Symbol Logo */}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <svg width="38" height="34" viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20 2L38 33H2L20 2Z"
+                  stroke="#ffffff"
+                  strokeWidth="3.5"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M20 12L29 28H11L20 12Z"
+                  stroke="#ffffff"
+                  strokeWidth="2.5"
+                  strokeLinejoin="round"
+                />
               </svg>
             </div>
-            <span
-              style={{
-                fontSize: 'clamp(14px, 1.4vw, 17px)',
-                fontWeight: 700,
-                color: '#ffffff',
-                fontFamily: 'var(--font-heading)',
-                letterSpacing: '0.04em',
-              }}
-            >
-              MAERSK BROKER
-            </span>
-          </div>
 
-          {/* TruBridge Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <svg width="32" height="18" viewBox="0 0 34 20" fill="none">
-              <path
-                d="M2 18C8 4 26 4 32 18H26C22 9 12 9 8 18H2Z"
-                fill="#ffffff"
-              />
-            </svg>
-            <span
-              style={{
-                fontSize: 'clamp(18px, 1.8vw, 22px)',
-                fontWeight: 700,
-                color: '#ffffff',
-                fontFamily: 'var(--font-heading)',
-                letterSpacing: '-0.02em',
-              }}
-            >
-              TruBridge<sup style={{ fontSize: '10px' }}>®</sup>
-            </span>
+            {/* MAERSK BROKER Logo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div
+                style={{
+                  width: '24px',
+                  height: '24px',
+                  backgroundColor: '#0284c7',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="#ffffff">
+                  <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
+                </svg>
+              </div>
+              <span
+                style={{
+                  fontSize: 'clamp(14px, 1.4vw, 17px)',
+                  fontWeight: 800,
+                  color: '#ffffff',
+                  letterSpacing: '0.04em',
+                }}
+              >
+                MAERSK BROKER
+              </span>
+            </div>
+
+            {/* TruBridge Logo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <svg width="28" height="16" viewBox="0 0 34 20" fill="none">
+                <path d="M2 18C8 4 26 4 32 18H26C22 9 12 9 8 18H2Z" fill="#10b981" />
+              </svg>
+              <span
+                style={{
+                  fontSize: 'clamp(18px, 1.8vw, 22px)',
+                  fontWeight: 800,
+                  color: '#ffffff',
+                  fontFamily: 'var(--font-heading)',
+                  letterSpacing: '-0.02em',
+                }}
+              >
+                TruBridge<sup style={{ fontSize: '10px' }}>®</sup>
+              </span>
+            </div>
           </div>
-        </div>
+        </RevealElement>
       </div>
 
       <style>{`

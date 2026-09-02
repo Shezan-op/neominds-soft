@@ -1,0 +1,33 @@
+/* ==========================================================================
+   REVEAL ELEMENT (Variant-Based Blur Reveal Animation System)
+   Presets for Text, Headings, Cards, Images, Buttons, and Sections
+   ========================================================================== */
+
+.reveal-element {
+  position: relative;
+}
+
+.reveal-element-active {
+  will-change: opacity, filter, transform;
+}
+
+/* Variant base classes if needed */
+.reveal-variant-section {
+  width: 100%;
+}
+
+.reveal-variant-card {
+  height: 100%;
+}
+
+/* Accessibility: Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-element,
+  .reveal-element-active,
+  .reveal-element * {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    will-change: auto !important;
+  }
+}

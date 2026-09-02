@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface Principle {
   id: string;
@@ -124,23 +125,26 @@ export const DeliveryPrinciples: React.FC = () => {
         >
           {/* Left Column: Label */}
           <div>
-            <span
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: '13px',
-                fontWeight: 700,
-                letterSpacing: '0.15em',
-                color: '#475067',
-                textTransform: 'uppercase',
-              }}
-            >
-              OUR DELIVERY PRINCIPLES
-            </span>
+            <RevealElement variant="text">
+              <span
+                style={{
+                  fontFamily: 'var(--font-heading)',
+                  fontSize: '13px',
+                  fontWeight: 700,
+                  letterSpacing: '0.15em',
+                  color: '#475067',
+                  textTransform: 'uppercase',
+                }}
+              >
+                OUR DELIVERY PRINCIPLES
+              </span>
+            </RevealElement>
           </div>
 
           {/* Right Column: Statement & Interactive FAQ Principles */}
           <div>
-            <h3
+            <ScrollReveal
+              as="h3"
               style={{
                 fontFamily: 'var(--font-heading)',
                 fontSize: 'clamp(20px, 2.2vw, 32px)',
@@ -149,10 +153,12 @@ export const DeliveryPrinciples: React.FC = () => {
                 color: '#121212',
                 marginBottom: 'clamp(28px, 4vw, 40px)',
                 maxWidth: '650px',
+                display: 'block',
               }}
+              blurStrength={6}
             >
               We own the engineering from early concept to enterprise-scale systems and long-term support.
-            </h3>
+            </ScrollReveal>
 
             {/* Principle Accordion Items */}
             <div
@@ -313,63 +319,64 @@ export const DeliveryPrinciples: React.FC = () => {
         </div>
 
         {/* 4-Column Statistics Grid with Smooth Animated Viewport Counter */}
-        <div
-          ref={statsRef}
-          className="stats-grid"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            border: '1px solid #e4e4e7',
-            backgroundColor: '#ffffff',
-          }}
-        >
-          {statsData.map((stat, index) => (
-            <div
-              key={stat.label}
-              className="stat-box"
-              style={{
-                padding: 'clamp(28px, 3.5vw, 40px) clamp(20px, 2.5vw, 32px)',
-                borderRight: index < 3 ? '1px solid #e4e4e7' : 'none',
-                borderBottom: '1px solid #e4e4e7',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                minHeight: '190px',
-                transition: 'background-color 0.2s ease',
-              }}
-            >
-              <span
+        <RevealElement variant="card" start="top 92%" end="top 65%">
+          <div
+            ref={statsRef}
+            className="stats-grid"
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+              border: '1px solid #e4e4e7',
+              backgroundColor: '#ffffff',
+            }}
+          >
+            {statsData.map((stat, index) => (
+              <div
+                key={stat.label}
+                className="stat-box"
                 style={{
-                  fontFamily: 'var(--font-heading)',
-                  fontSize: '12px',
-                  fontWeight: 700,
-                  letterSpacing: '0.12em',
-                  color: '#475067',
-                  textTransform: 'uppercase',
-                  marginBottom: '24px',
-                  lineHeight: 1.4,
+                  padding: 'clamp(28px, 3.5vw, 40px) clamp(20px, 2.5vw, 32px)',
+                  borderRight: index < 3 ? '1px solid #e4e4e7' : 'none',
+                  borderBottom: '1px solid #e4e4e7',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  minHeight: '190px',
+                  transition: 'background-color 0.2s ease',
                 }}
               >
-                {stat.label}
-              </span>
-              <h4
-                style={{
-                  fontSize: 'clamp(44px, 5.2vw, 84px)',
-                  fontWeight: 800,
-                  color: '#2258E7',
-                  lineHeight: 1,
-                  fontFamily: 'var(--font-heading)',
-                  letterSpacing: '-0.03em',
-                  margin: 0,
-                  fontVariantNumeric: 'tabular-nums',
-                }}
-              >
-                {counts[index]}
-                {stat.suffix}
-              </h4>
-            </div>
-          ))}
-        </div>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '12px',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    color: '#475067',
+                    textTransform: 'uppercase',
+                    marginBottom: '24px',
+                    lineHeight: 1.4,
+                  }}
+                >
+                  {stat.label}
+                </span>
+
+                <h4
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: 'clamp(36px, 4.2vw, 56px)',
+                    fontWeight: 700,
+                    color: '#121212',
+                    lineHeight: 1,
+                    fontVariantNumeric: 'tabular-nums',
+                  }}
+                >
+                  {counts[index]}
+                  {stat.suffix}
+                </h4>
+              </div>
+            ))}
+          </div>
+        </RevealElement>
       </div>
 
       <style>{`

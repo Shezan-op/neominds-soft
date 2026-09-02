@@ -8,6 +8,7 @@ import {
   Send,
 } from 'lucide-react';
 import { Footer } from './Footer';
+import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface BlogPost {
   id: string;
@@ -168,7 +169,8 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({
             <span>Neominds Research & Engineering Briefs</span>
           </div>
 
-          <h1
+          <ScrollReveal
+            as="h1"
             style={{
               fontSize: 'clamp(36px, 4.5vw, 54px)',
               fontWeight: 800,
@@ -176,14 +178,18 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({
               letterSpacing: '-0.03em',
               color: '#0f172a',
               marginBottom: '16px',
+              display: 'block',
             }}
+            blurStrength={7}
           >
             Insights, Architecture & <span style={{ color: '#2258e7' }}>Tech Briefs</span>
-          </h1>
+          </ScrollReveal>
 
-          <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '680px', lineHeight: 1.6, marginBottom: '32px' }}>
-            Deep architectural teardowns, production AI agent blueprints, and cloud engineering best practices authored by our senior engineering leadership.
-          </p>
+          <RevealElement variant="text" delay={0.06}>
+            <p style={{ fontSize: '18px', color: '#64748b', maxWidth: '680px', lineHeight: 1.6, marginBottom: '32px' }}>
+              Deep architectural teardowns, production AI agent blueprints, and cloud engineering best practices authored by our senior engineering leadership.
+            </p>
+          </RevealElement>
 
           {/* Search Bar & Category Filters */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
@@ -233,72 +239,74 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({
           ======================================================== */}
       {featuredPost && (
         <section style={{ padding: '48px 24px 32px', maxWidth: '1240px', margin: '0 auto' }}>
-          <div
-            style={{
-              backgroundColor: '#0f172a',
-              color: '#ffffff',
-              borderRadius: '8px',
-              overflow: 'hidden',
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-              boxShadow: '0 16px 36px rgba(15, 23, 42, 0.12)',
-            }}
-          >
-            {/* Visual Header */}
+          <RevealElement variant="card" start="top 90%" end="top 65%">
             <div
               style={{
-                background: featuredPost.imageBg,
-                padding: '48px 36px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                minHeight: '280px',
+                backgroundColor: '#0f172a',
+                color: '#ffffff',
+                borderRadius: '8px',
+                overflow: 'hidden',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+                boxShadow: '0 16px 36px rgba(15, 23, 42, 0.12)',
               }}
             >
-              <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(4px)', padding: '4px 12px', borderRadius: '100px', width: 'fit-content', fontSize: '12px', fontWeight: 600 }}>
-                <Sparkles size={13} color="#60a5fa" />
-                <span>Featured Engineering Teardown</span>
-              </div>
-
-              <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)', display: 'flex', gap: '16px' }}>
-                <span>{featuredPost.date}</span>
-                <span>•</span>
-                <span>{featuredPost.readTime}</span>
-              </div>
-            </div>
-
-            {/* Content Body */}
-            <div style={{ padding: '40px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-              <div>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
-                  {featuredPost.category}
-                </span>
-
-                <h2 style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 700, fontFamily: 'var(--font-heading)', color: '#ffffff', margin: '10px 0 16px', lineHeight: 1.25 }}>
-                  {featuredPost.title}
-                </h2>
-
-                <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#94a3b8', marginBottom: '24px' }}>
-                  {featuredPost.excerpt}
-                </p>
-              </div>
-
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px' }}>
-                <div>
-                  <div style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff' }}>{featuredPost.author}</div>
-                  <div style={{ fontSize: '12px', color: '#94a3b8' }}>{featuredPost.authorRole}</div>
+              {/* Visual Header */}
+              <div
+                style={{
+                  background: featuredPost.imageBg,
+                  padding: '48px 36px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  minHeight: '280px',
+                }}
+              >
+                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', backgroundColor: 'rgba(255, 255, 255, 0.15)', backdropFilter: 'blur(4px)', padding: '4px 12px', borderRadius: '100px', width: 'fit-content', fontSize: '12px', fontWeight: 600 }}>
+                  <Sparkles size={13} color="#60a5fa" />
+                  <span>Featured Engineering Teardown</span>
                 </div>
 
-                <button
-                  onClick={() => onSuccessToast(`Opening full brief: "${featuredPost.title}"`)}
-                  className="btn btn-primary btn-sm"
-                >
-                  <span>Read Article</span>
-                  <ArrowRight size={14} />
-                </button>
+                <div style={{ fontSize: '13px', color: 'rgba(255, 255, 255, 0.8)', display: 'flex', gap: '16px' }}>
+                  <span>{featuredPost.date}</span>
+                  <span>•</span>
+                  <span>{featuredPost.readTime}</span>
+                </div>
+              </div>
+
+              {/* Content Body */}
+              <div style={{ padding: '40px 36px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                    {featuredPost.category}
+                  </span>
+
+                  <h2 style={{ fontSize: 'clamp(22px, 2.5vw, 30px)', fontWeight: 700, fontFamily: 'var(--font-heading)', color: '#ffffff', margin: '10px 0 16px', lineHeight: 1.25 }}>
+                    {featuredPost.title}
+                  </h2>
+
+                  <p style={{ fontSize: '15px', lineHeight: 1.6, color: '#94a3b8', marginBottom: '24px' }}>
+                    {featuredPost.excerpt}
+                  </p>
+                </div>
+
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px' }}>
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 700, color: '#ffffff' }}>{featuredPost.author}</div>
+                    <div style={{ fontSize: '12px', color: '#94a3b8' }}>{featuredPost.authorRole}</div>
+                  </div>
+
+                  <button
+                    onClick={() => onSuccessToast(`Opening full brief: "${featuredPost.title}"`)}
+                    className="btn btn-primary btn-sm"
+                  >
+                    <span>Read Article</span>
+                    <ArrowRight size={14} />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </RevealElement>
         </section>
       )}
 
@@ -313,20 +321,21 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({
           </div>
         ) : (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '28px' }}>
-            {gridPosts.map((post) => (
-              <article
-                key={post.id}
-                style={{
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '6px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  overflow: 'hidden',
-                  transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s',
-                  cursor: 'pointer',
-                }}
+            {gridPosts.map((post, idx) => (
+              <RevealElement key={post.id} variant="card" delay={(idx % 3) * 0.08} start="top 92%" end="top 65%">
+                <article
+                  style={{
+                    backgroundColor: '#ffffff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '6px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    height: '100%',
+                    overflow: 'hidden',
+                    transition: 'border-color 0.2s, transform 0.2s, box-shadow 0.2s',
+                    cursor: 'pointer',
+                  }}
                 onClick={() => onSuccessToast(`Opening brief: "${post.title}"`)}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = '#2258e7';
@@ -376,25 +385,33 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({
                   </div>
                 </div>
               </article>
-            ))}
-          </div>
-        )}
-      </section>
+            </RevealElement>
+          ))}
+        </div>
+      )}
+    </section>
 
       {/* ========================================================
           4. NEWSLETTER SUBSCRIPTION STRIP
           ======================================================== */}
-      <section style={{ backgroundColor: '#0f172a', color: '#ffffff', padding: '64px 24px', borderTop: '1px solid #1e293b' }}>
-        <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ fontSize: '12px', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
-            Stay Ahead
-          </div>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#ffffff', fontFamily: 'var(--font-heading)', marginBottom: '12px' }}>
-            Subscribe to the Neominds Tech Brief
-          </h2>
-          <p style={{ fontSize: '16px', color: '#94a3b8', maxWidth: '580px', margin: '0 auto 28px', lineHeight: 1.6 }}>
-            Join 25,000+ engineering leaders receiving bi-weekly deep dives into AI system design, cloud scalability, and architecture trade-offs. Zero spam.
-          </p>
+      <RevealElement variant="card" start="top 92%" end="top 68%">
+        <section style={{ backgroundColor: '#0f172a', color: '#ffffff', padding: '64px 24px', borderTop: '1px solid #1e293b' }}>
+          <div style={{ maxWidth: '840px', margin: '0 auto', textAlign: 'center' }}>
+            <div style={{ fontSize: '12px', fontWeight: 700, color: '#60a5fa', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '10px' }}>
+              Stay Ahead
+            </div>
+            <ScrollReveal
+              as="h2"
+              style={{ fontSize: '32px', fontWeight: 800, color: '#ffffff', fontFamily: 'var(--font-heading)', marginBottom: '12px', display: 'block' }}
+              blurStrength={6}
+            >
+              Subscribe to the Neominds Tech Brief
+            </ScrollReveal>
+            <RevealElement variant="text" delay={0.06}>
+              <p style={{ fontSize: '16px', color: '#94a3b8', maxWidth: '580px', margin: '0 auto 28px', lineHeight: 1.6 }}>
+                Join 25,000+ engineering leaders receiving bi-weekly deep dives into AI system design, cloud scalability, and architecture trade-offs. Zero spam.
+              </p>
+            </RevealElement>
 
           <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '10px', maxWidth: '480px', margin: '0 auto', flexWrap: 'wrap' }}>
             <input
@@ -422,6 +439,7 @@ export const InsightsPage: React.FC<InsightsPageProps> = ({
           </form>
         </div>
       </section>
+    </RevealElement>
 
       {/* ========================================================
           GLOBAL FOOTER

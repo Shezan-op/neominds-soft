@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, Sparkles, Server, Cpu, Database, Cloud, ShieldCheck, Zap, Activity } from 'lucide-react';
+import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface ServicePill {
   label: string;
@@ -200,22 +201,26 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
           paddingBottom: 'clamp(24px, 3vw, 40px)',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#2258E7' }} />
-          <span
-            style={{
-              fontFamily: 'var(--font-heading)',
-              fontSize: '13px',
-              fontWeight: 700,
-              letterSpacing: '0.15em',
-              color: '#475067',
-              textTransform: 'uppercase',
-            }}
-          >
-            OUR SERVICES // WHAT WE DELIVER
-          </span>
-        </div>
-        <h2
+        <RevealElement variant="text">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px' }}>
+            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#2258E7' }} />
+            <span
+              style={{
+                fontFamily: 'var(--font-heading)',
+                fontSize: '13px',
+                fontWeight: 700,
+                letterSpacing: '0.15em',
+                color: '#475067',
+                textTransform: 'uppercase',
+              }}
+            >
+              OUR SERVICES // WHAT WE DELIVER
+            </span>
+          </div>
+        </RevealElement>
+
+        <ScrollReveal
+          as="h2"
           style={{
             fontFamily: 'var(--font-heading)',
             fontSize: 'clamp(28px, 3.2vw, 44px)',
@@ -225,10 +230,12 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
             maxWidth: '750px',
             margin: 0,
             letterSpacing: '-0.02em',
+            display: 'block',
           }}
+          blurStrength={7}
         >
           Specialized engineering practices tailored to enterprise scale.
-        </h2>
+        </ScrollReveal>
       </div>
 
       {stackCards.map((card, idx) => {

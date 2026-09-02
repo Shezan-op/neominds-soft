@@ -1,4 +1,5 @@
 import React from 'react';
+import { RevealElement } from './scroll-reveal';
 
 interface TestimonialItem {
   id: string;
@@ -97,20 +98,21 @@ export const Testimonials: React.FC = () => {
             gap: 'clamp(28px, 4vw, 48px) clamp(20px, 3vw, 36px)',
           }}
         >
-          {testimonials.map((t) => (
-            <div
-              key={t.id}
-              style={{
-                backgroundColor: '#ffffff',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                padding: 'clamp(24px, 3.5vw, 36px) clamp(20px, 3vw, 32px)',
-                border: '1px solid #e4e4e7',
-                minHeight: '400px',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
-              }}
-            >
+          {testimonials.map((t, idx) => (
+            <RevealElement key={t.id} variant="card" delay={idx * 0.08} start="top 90%" end="top 60%">
+              <div
+                style={{
+                  backgroundColor: '#ffffff',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  padding: 'clamp(24px, 3.5vw, 36px) clamp(20px, 3vw, 32px)',
+                  border: '1px solid #e4e4e7',
+                  minHeight: '400px',
+                  boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+                  height: '100%',
+                }}
+              >
               {/* Top Client Logo */}
               <div style={{ marginBottom: 'clamp(24px, 3vw, 36px)', height: '36px', display: 'flex', alignItems: 'center' }}>
                 {t.logo}
@@ -167,7 +169,8 @@ export const Testimonials: React.FC = () => {
                 </div>
               </div>
             </div>
-          ))}
+          </RevealElement>
+        ))}
         </div>
       </div>
     </section>

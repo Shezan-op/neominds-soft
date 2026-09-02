@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
 import gsap from 'gsap';
+import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface RecognitionSlide {
   badgeTitle: string;
@@ -97,56 +98,64 @@ export const IndustryRecognition: React.FC = () => {
         >
           {/* Left Column Text */}
           <div style={{ maxWidth: '540px' }}>
-            <h2
+            <ScrollReveal
+              as="h2"
               className="section-title"
               style={{
                 color: '#0f172a',
                 marginBottom: 'clamp(20px, 3vw, 28px)',
+                display: 'block',
               }}
+              blurStrength={7}
             >
               Industry recognition
-            </h2>
+            </ScrollReveal>
 
-            <p
-              className="body-lead"
-              style={{
-                color: '#334155',
-                marginBottom: '20px',
-              }}
-            >
-              We are recognized for AI engineering capabilities in the{' '}
-              <span style={{ color: '#2258e7', fontWeight: 700 }}>
-                “Agentic AI in Digital Engineering Market 2025–2029”
-              </span>{' '}
-              report by Research and Markets, listed alongside NVIDIA, OpenAI, Google Cloud, and Accenture.
-            </p>
+            <RevealElement variant="text" delay={0.05}>
+              <p
+                className="body-lead"
+                style={{
+                  color: '#334155',
+                  marginBottom: '20px',
+                }}
+              >
+                We are recognized for AI engineering capabilities in the{' '}
+                <span style={{ color: '#2258e7', fontWeight: 700 }}>
+                  “Agentic AI in Digital Engineering Market 2025–2029”
+                </span>{' '}
+                report by Research and Markets, listed alongside NVIDIA, OpenAI, Google Cloud, and Accenture.
+              </p>
+            </RevealElement>
 
-            <p
-              className="body-text"
-              style={{
-                color: '#64748b',
-              }}
-            >
-              Beyond AI, we bring AWS, Google Cloud, and Microsoft partnerships with ISO/IEC 27001:2022-certified processes.
-            </p>
+            <RevealElement variant="text" delay={0.1}>
+              <p
+                className="body-text"
+                style={{
+                  color: '#64748b',
+                }}
+              >
+                Beyond AI, we bring AWS, Google Cloud, and Microsoft partnerships with ISO/IEC 27001:2022-certified processes.
+              </p>
+            </RevealElement>
           </div>
 
           {/* Right Column Recognition Artwork Carousel */}
-          <div
-            style={{
-              position: 'relative',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: '12px',
-              padding: 'clamp(36px, 5vw, 60px) clamp(20px, 3vw, 40px)',
-              minHeight: '440px',
-              boxShadow: '0 16px 36px rgba(0, 0, 0, 0.04)',
-            }}
-          >
+          <RevealElement variant="card">
+            <div
+              style={{
+                position: 'relative',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f8fafc',
+                border: '1px solid #e2e8f0',
+                borderRadius: '12px',
+                padding: 'clamp(36px, 5vw, 60px) clamp(20px, 3vw, 40px)',
+                minHeight: '440px',
+                boxShadow: '0 16px 36px rgba(0, 0, 0, 0.04)',
+              }}
+            >
             {/* Left Nav Arrow */}
             <button
               onClick={prevSlide}
@@ -386,8 +395,9 @@ export const IndustryRecognition: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </RevealElement>
       </div>
+    </div>
     </section>
   );
 };
