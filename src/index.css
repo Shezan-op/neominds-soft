@@ -1,0 +1,653 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@300;400;500;600;700;800&display=swap');
+
+/* ==========================================================================
+   PROFESSIONAL WEBSITE SPACING SYSTEM & DESIGN TOKENS
+   ========================================================================== */
+
+:root {
+  /* 1. Core Colors */
+  --color-primary: #2258e7;
+  --color-primary-hover: #183c9e;
+  --color-primary-light: #e9eefd;
+  --color-background: #ffffff;
+  --color-background-tint: #f5f7fc;
+  --color-background-dark: #001334;
+  --color-background-dark-alt: #15171b;
+  --color-background-black: #000000;
+  
+  --color-text-primary: #121212;
+  --color-text-secondary: #666e85;
+  --color-text-muted: #475067;
+  --color-text-dark-on-light: #3d4c65;
+  --color-text-inverse: #ffffff;
+  --color-text-inverse-muted: #e4e4e7;
+  
+  --color-border: #d0d3dd;
+  --color-border-subtle: rgba(255, 255, 255, 0.12);
+  --color-border-active: #2258e7;
+  --color-border-input: #e4e4e7;
+  --color-link-hover: #2258e7;
+  
+  --dark-surface: #0a1d3d;
+  --dark-text: #ffffff;
+  --dark-text-muted: #d0d3dd;
+  --dark-border: #293956;
+
+  /* 2. Typography Design Tokens */
+  --font-heading: 'Bricolage Grotesque', 'BricolageGrotesque', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family: var(--font-body);
+
+  /* 3. CORE SPACING SCALE (4px foundation, 8px primary rhythm) */
+  --space-1: 4px;    /* micro adjustment */
+  --space-2: 8px;    /* extra-small */
+  --space-3: 12px;   /* small */
+  --space-4: 16px;   /* base */
+  --space-5: 24px;   /* medium */
+  --space-6: 32px;   /* large */
+  --space-7: 40px;   /* extra-large */
+  --space-8: 48px;   /* 2XL */
+  --space-9: 64px;   /* 3XL */
+  --space-10: 80px;  /* 4XL */
+  --space-11: 96px;  /* 5XL */
+  --space-12: 128px; /* 6XL */
+  --space-13: 160px; /* 7XL */
+
+  /* 4. BORDER RADIUS SYSTEM */
+  --radius-subtle: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-pill: 9999px;
+
+  /* 5. CONTAINERS */
+  --container-md: 640px;
+  --container-reading: 720px;
+  --container-content: 760px;
+  --container-lg: 1200px;
+  --container-xl: 1280px;
+
+  /* 6. PAGE LAYOUT PADDING */
+  --page-padding: var(--space-9);          /* 64px desktop */
+  --page-padding-lg: var(--space-10);      /* 80px large desktop */
+  --page-padding-tablet: var(--space-6);   /* 32px tablet */
+  --page-padding-mobile: 20px;             /* 20px mobile */
+
+  /* 7. SECTION SPACING */
+  --section-padding-y: var(--space-11);    /* 96px standard desktop */
+  --section-hero-y: var(--space-12);       /* 128px hero */
+  --section-break-y: var(--space-13);      /* 160px major break */
+  --section-small-y: var(--space-8);       /* 48px small */
+  --section-standard-y: var(--space-9);    /* 64px standard */
+  --section-large-y: var(--space-10);      /* 80px large */
+  --section-premium-y: var(--space-11);    /* 96px premium */
+
+  /* 8. SECTION INTERNAL SPACING */
+  --space-eyebrow-to-heading: var(--space-2);      /* 8px */
+  --space-heading-to-description: var(--space-4);  /* 16px */
+  --space-description-to-cta: var(--space-5);      /* 24px */
+  --space-header-to-content: var(--space-8);       /* 48px */
+  --space-heading-to-content: var(--space-6);      /* 32px */
+  --space-paragraph-to-paragraph: var(--space-4);  /* 16px */
+
+  /* 9. CARDS */
+  --card-padding-compact: var(--space-4);  /* 16px */
+  --card-padding-standard: var(--space-5); /* 24px */
+  --card-padding-large: var(--space-6);    /* 32px */
+  --card-gap-compact: var(--space-4);      /* 16px */
+  --card-gap-standard: var(--space-5);     /* 24px */
+  --card-gap-spacious: var(--space-6);     /* 32px */
+  --card-radius-standard: var(--radius-lg);/* 16px */
+  --card-radius-large: var(--radius-2xl);  /* 24px */
+
+  /* 10. BUTTONS (Standardized UX Scale) */
+  --btn-font-family: var(--font-body);
+  --btn-font-weight: 600;
+  --btn-letter-spacing: -0.01em;
+  --btn-line-height: 1;
+
+  --btn-height-sm: 34px;
+  --btn-padding-x-sm: 16px;
+  --btn-font-size-sm: 13px;
+
+  --btn-height-md: 42px;
+  --btn-padding-x-md: 22px;
+  --btn-font-size-md: 14px;
+
+  --btn-height-lg: 50px;
+  --btn-padding-x-lg: 28px;
+  --btn-font-size-lg: 15px;
+
+  --btn-radius: 6px;
+  --btn-gap: var(--space-2);               /* 8px */
+  --btn-group-gap-tight: var(--space-2);       /* 8px */
+  --btn-group-gap-standard: var(--space-3);    /* 12px */
+  --btn-group-gap-comfortable: var(--space-4); /* 16px */
+
+  /* 11. NAVIGATION */
+  --navbar-height: 72px;
+  --nav-gap: var(--space-6);               /* 32px */
+  --nav-logo-gap: var(--space-8);          /* 48px */
+  --nav-cta-gap: var(--space-6);           /* 32px */
+
+  /* 12. GRID SYSTEM */
+  --grid-gap-sm: var(--space-4);           /* 16px */
+  --grid-gap-std: var(--space-5);          /* 24px */
+  --grid-gap-lg: var(--space-6);           /* 32px */
+  --grid-gap-col: var(--space-8);          /* 48px */
+
+  /* 13. FORMS */
+  --form-label-gap: var(--space-2);        /* 8px */
+  --form-input-gap: var(--space-4);        /* 16px */
+  --form-group-gap: var(--space-5);        /* 24px */
+  --form-cta-gap: var(--space-6);          /* 32px */
+  --input-height: 48px;
+  --input-radius: var(--radius-sm);        /* 8px */
+
+  /* 14. ICONS */
+  --icon-xs: 16px;
+  --icon-sm: 20px;
+  --icon-md: 24px;
+  --icon-lg: 32px;
+  --icon-xl: 40px;
+  --icon-2xl: 48px;
+  --icon-text-gap: var(--space-2);         /* 8px */
+
+  /* 15. BADGES / CHIPS */
+  --badge-pad-x: var(--space-3);           /* 12px */
+  --badge-pad-y: 6px;
+  --badge-radius: var(--radius-pill);
+
+  /* 16. FOOTER */
+  --footer-padding-top: var(--space-10);   /* 80px */
+  --footer-padding-bottom: var(--space-9); /* 64px */
+  --footer-col-gap: var(--space-8);        /* 48px */
+  --footer-link-gap: var(--space-3);       /* 12px */
+  --footer-section-gap: var(--space-6);    /* 32px */
+
+  /* Transitions */
+  --transition-fast: 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-standard: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-smooth: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Tablet Responsive Token Adjustments */
+@media (max-width: 1024px) {
+  :root {
+    --page-padding: var(--space-6);        /* 32px */
+    --section-padding-y: var(--space-10);   /* 80px */
+  }
+}
+
+/* Mobile Responsive Token Adjustments */
+@media (max-width: 640px) {
+  :root {
+    --page-padding: 20px;                  /* 20px */
+    --section-padding-y: var(--space-9);   /* 64px */
+    --section-hero-y: var(--space-10);     /* 80px */
+    --card-padding-standard: var(--space-4); /* 16px */
+    --grid-gap-std: var(--space-4);        /* 16px */
+  }
+}
+
+/* Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Lenis Smooth Scroll Overrides (Ballance Physics) */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Hide Default Scrollbar in favor of Cinematic Custom Scrollbar */
+html, body {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+  width: 0px;
+  height: 0px;
+}
+
+html {
+  font-family: var(--font-body);
+  font-size: 16px;
+  background-color: var(--color-background-black);
+  color: var(--color-text-primary);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: clip;
+  background-color: #000000;
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+}
+
+.neominds-app {
+  overflow-x: clip;
+  width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+button {
+  font-family: var(--font-heading);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Headings Typography Rules (Bricolage Grotesque) */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: inherit;
+}
+
+/* Containers */
+.container {
+  width: 100%;
+  max-width: var(--container-lg);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
+}
+
+.container-large {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
+}
+
+.container-reading {
+  width: 100%;
+  max-width: var(--container-content);
+  margin-inline: auto;
+  padding-inline: var(--page-padding);
+}
+
+/* Section Spacing Utilities */
+.section {
+  padding-block: var(--section-padding-y);
+}
+
+.section-hero {
+  padding-block: var(--section-hero-y);
+}
+
+.section-small {
+  padding-block: var(--section-small-y);
+}
+
+.section-large {
+  padding-block: var(--section-large-y);
+}
+
+/* Typography Utility Classes */
+.display-title {
+  font-family: var(--font-heading);
+  font-size: clamp(34px, 5.5vw, 84px);
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(26px, 3.2vw, 48px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+}
+
+.section-subtitle {
+  font-family: var(--font-heading);
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.55;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.body-lead {
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.25vw, 19px);
+  line-height: 1.65;
+  font-weight: 400;
+  max-width: var(--container-reading);
+}
+
+.body-text {
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.65;
+  font-weight: 400;
+  max-width: var(--container-reading);
+}
+
+/* ==========================================================================
+   BUTTON SPACING & SIZING SYSTEM (Standardized)
+   ========================================================================== */
+
+.btn,
+button.btn,
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--btn-gap);
+  font-family: var(--btn-font-family);
+  font-size: var(--btn-font-size-md);
+  font-weight: var(--btn-font-weight);
+  letter-spacing: var(--btn-letter-spacing);
+  line-height: var(--btn-line-height);
+  height: var(--btn-height-md);
+  padding-inline: var(--btn-padding-x-md);
+  border-radius: var(--btn-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  outline: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* Button Sizing Classes */
+.btn-sm {
+  height: var(--btn-height-sm) !important;
+  padding-inline: var(--btn-padding-x-sm) !important;
+  font-size: var(--btn-font-size-sm) !important;
+  line-height: 1 !important;
+}
+
+.btn-md {
+  height: var(--btn-height-md) !important;
+  padding-inline: var(--btn-padding-x-md) !important;
+  font-size: var(--btn-font-size-md) !important;
+  line-height: 1 !important;
+}
+
+.btn-lg {
+  height: var(--btn-height-lg) !important;
+  padding-inline: var(--btn-padding-x-lg) !important;
+  font-size: var(--btn-font-size-lg) !important;
+  line-height: 1 !important;
+}
+
+/* Primary Button */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+  box-shadow: 0 2px 8px rgba(34, 88, 231, 0.35);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+  box-shadow: 0 4px 18px rgba(34, 88, 231, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+/* Secondary / Outline Button */
+.btn-secondary,
+.btn-outline {
+  background-color: transparent;
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.btn-secondary:hover,
+.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.btn-secondary:active,
+.btn-outline:active {
+  transform: translateY(1px);
+}
+
+/* White High-Contrast Button */
+.btn-white {
+  background-color: #ffffff;
+  color: #0c0e12;
+  border-color: #ffffff;
+  font-weight: 700;
+}
+
+.btn-white:hover {
+  background-color: #f0f3fa;
+  border-color: #f0f3fa;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+}
+
+.btn-white:active {
+  transform: translateY(1px);
+}
+
+/* Inline Text Button */
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: transparent;
+  border: none;
+  color: #5f85ed;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 4px 0;
+  height: auto;
+  cursor: pointer;
+  transition: color var(--transition-fast);
+}
+
+.btn-text:hover {
+  color: #ffffff;
+}
+
+/* Button Sizing Variations */
+.btn-lg {
+  height: var(--btn-height-lg);
+  padding-inline: var(--btn-padding-x-lg);
+  font-size: var(--btn-font-size-lg);
+}
+
+.btn-md {
+  height: var(--btn-height-md);
+  padding-inline: var(--btn-padding-x-md);
+  font-size: var(--btn-font-size-md);
+}
+
+.btn-sm {
+  height: var(--btn-height-sm);
+  padding-inline: var(--btn-padding-x-sm);
+  font-size: var(--btn-font-size-sm);
+}
+
+/* Button Layout Groups */
+.btn-group {
+  display: flex;
+  align-items: center;
+  gap: var(--btn-group-gap-standard);
+  flex-wrap: wrap;
+}
+
+.btn-group-tight {
+  display: flex;
+  align-items: center;
+  gap: var(--btn-group-gap-tight);
+  flex-wrap: wrap;
+}
+
+.btn-group-comfortable {
+  display: flex;
+  align-items: center;
+  gap: var(--btn-group-gap-comfortable);
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .btn-group,
+  .btn-group-tight,
+  .btn-group-comfortable {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .btn-group > .btn,
+  .btn-group-tight > .btn,
+  .btn-group-comfortable > .btn {
+    width: 100%;
+  }
+}
+
+/* ==========================================================================
+   CARDS & GRIDS
+   ========================================================================== */
+
+.card {
+  padding: var(--card-padding-standard);
+  background-color: #13161f;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--card-radius-standard);
+  display: flex;
+  flex-direction: column;
+}
+
+.card-compact {
+  padding: var(--card-padding-compact);
+  border-radius: var(--radius-md);
+}
+
+.card-large {
+  padding: var(--card-padding-large);
+  border-radius: var(--card-radius-large);
+}
+
+.grid-standard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--grid-gap-std);
+}
+
+.grid-compact {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--grid-gap-sm);
+}
+
+.grid-large {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: var(--grid-gap-lg);
+}
+
+/* Badges / Chips */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--badge-pad-y) var(--badge-pad-x);
+  border-radius: var(--badge-radius);
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Forms */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--form-label-gap);
+  margin-bottom: var(--form-input-gap);
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.form-input {
+  width: 100%;
+  height: var(--input-height);
+  padding-inline: var(--space-4);
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--input-radius);
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-size: 14px;
+  outline: none;
+  transition: border-color var(--transition-fast);
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+}
+
+/* Decorative blue dot */
+.blue-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-primary);
+  box-shadow: 0 0 10px rgba(34, 88, 231, 0.6);
+}

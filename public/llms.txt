@@ -1,0 +1,20 @@
+# Neominds
+
+> AI-Enabled Product Engineering & Full-Spectrum Software Development
+
+## Overview
+Neominds is an elite corporate software engineering firm delivering custom software, autonomous AI agent pipelines, cloud microservices, and regulated enterprise applications.
+
+## Core Capabilities
+- **Design Thinking**: User-centric product discovery, interaction logic, and design systems.
+- **Custom Software Development**: Resilient cloud-native microservices, scalable distributed architectures.
+- **AI & Machine Learning**: Cognitive workflows, LLM orchestration, agentic pipelines, vector retrieval.
+- **Cloud & DevOps**: Multi-cloud orchestration, Kubernetes, automated GitOps CI/CD pipelines.
+- **Mobile Development**: High-performance native iOS, Android, and Flutter applications.
+- **Legacy Modernization**: Microservices strangler-fig migration without business disruption.
+- **Quality Assurance**: Automated regression testing, performance benchmarking, chaos engineering.
+
+## Headquarters
+- **Location**: 50 California St #1500, San Francisco, CA 94111, United States
+- **Contact Email**: rfq@neominds.io
+- **Phone**: +1 (800) 288-9659

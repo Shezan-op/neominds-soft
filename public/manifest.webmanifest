@@ -1,0 +1,17 @@
+{
+  "name": "Neominds — AI-Enabled Product Engineering",
+  "short_name": "Neominds",
+  "description": "Premier product engineering and AI integration partner delivering complex, enterprise-scale software solutions.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#2258E7",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
