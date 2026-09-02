@@ -5,6 +5,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
+if (typeof window !== 'undefined') {
+  (window as any).ScrollTrigger = ScrollTrigger;
+  (window as any).gsap = gsap;
+}
+
 let globalLenis: Lenis | null = null;
 
 export function useLenis() {
@@ -43,6 +48,11 @@ export function useLenis() {
     gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
+    // Refresh ScrollTrigger positions after DOM layout stabilizes
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 250);
+
     // 4. Global Anchor Link Interception
     // Intercepts clicks on <a href="#id"> to route through Lenis Lerp math instead of browser snapping
     const handleAnchorClick = (e: MouseEvent) => {
@@ -65,6 +75,7 @@ export function useLenis() {
     document.addEventListener('click', handleAnchorClick, { capture: true });
 
     return () => {
+      clearTimeout(refreshTimer);
       document.removeEventListener('click', handleAnchorClick, { capture: true });
       gsap.ticker.remove(updateTicker);
       lenis.destroy();

@@ -20,13 +20,11 @@
   white-space: pre;
 }
 
-/* Reduced Motion Override */
+/* Reduced Motion Fallback: soft fade without heavy blur/tilt */
 @media (prefers-reduced-motion: reduce) {
   .scroll-reveal,
   .scroll-reveal-word {
-    opacity: 1 !important;
-    filter: none !important;
-    transform: none !important;
-    will-change: auto !important;
+    filter: none;
+    transform: none;
   }
 }

@@ -89,6 +89,16 @@
 
 <body>
   <div id="root"></div>
+  <script>
+    // Clean up any stray service workers from other projects on localhost:5173
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.getRegistrations().then(function (registrations) {
+        for (var i = 0; i < registrations.length; i++) {
+          registrations[i].unregister();
+        }
+      });
+    }
+  </script>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 

@@ -40,67 +40,67 @@ interface VariantPreset {
 
 const VARIANT_PRESETS: Record<RevealVariant, VariantPreset> = {
   default: {
-    opacity: 0,
-    blur: 5,
-    y: 12,
-    scale: 1,
-    rotate: 0,
-    start: 'top 85%',
-    end: 'top 50%',
-  },
-  text: {
-    opacity: 0.1,
-    blur: 5,
-    y: 10,
-    scale: 1,
-    rotate: 2.5,
-    start: 'top 85%',
-    end: 'top 45%',
-  },
-  heading: {
-    opacity: 0.1,
-    blur: 7,
-    y: 14,
-    scale: 1,
-    rotate: 2,
-    start: 'top 85%',
-    end: 'top 45%',
-  },
-  image: {
-    opacity: 0,
-    blur: 8,
-    y: 10,
-    scale: 0.97,
-    rotate: 0,
-    start: 'top 85%',
-    end: 'top 50%',
-  },
-  card: {
-    opacity: 0,
-    blur: 5.5,
+    opacity: 0.15,
+    blur: 6,
     y: 18,
-    scale: 0.985,
-    rotate: 0,
-    start: 'top 88%',
-    end: 'top 55%',
-  },
-  button: {
-    opacity: 0,
-    blur: 2.5,
-    y: 8,
     scale: 1,
     rotate: 0,
     start: 'top 90%',
+    end: 'top 55%',
+  },
+  text: {
+    opacity: 0.15,
+    blur: 6,
+    y: 16,
+    scale: 1,
+    rotate: 2,
+    start: 'top 90%',
+    end: 'top 50%',
+  },
+  heading: {
+    opacity: 0.15,
+    blur: 8,
+    y: 22,
+    scale: 1,
+    rotate: 2.5,
+    start: 'top 90%',
+    end: 'top 48%',
+  },
+  image: {
+    opacity: 0.15,
+    blur: 10,
+    y: 24,
+    scale: 0.95,
+    rotate: 0,
+    start: 'top 90%',
+    end: 'top 52%',
+  },
+  card: {
+    opacity: 0.15,
+    blur: 7,
+    y: 28,
+    scale: 0.97,
+    rotate: 0,
+    start: 'top 92%',
+    end: 'top 55%',
+  },
+  button: {
+    opacity: 0.2,
+    blur: 4,
+    y: 12,
+    scale: 1,
+    rotate: 0,
+    start: 'top 92%',
     end: 'top 60%',
   },
   section: {
-    opacity: 0.85,
-    blur: 2,
+    opacity: 0.3,
+    blur: 5,
     y: 0,
     scale: 1,
     rotate: 0,
     start: 'top 95%',
-    end: 'top 70%',
+    end: 'top 65%',
   },
 };
 
@@ -122,31 +122,21 @@ export const RevealElement: React.FC<RevealElementProps> = ({
     const el = elRef.current;
     if (!el) return;
 
-    // Accessibility check: Prefers Reduced Motion
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-      return;
-    }
-
     const ctx = gsap.context(() => {
       const preset = VARIANT_PRESETS[variant];
       const isMobile = window.innerWidth < 768;
 
-      // Mobile tuning: softer blurs, zero rotation, smaller vertical translation
       const initialBlur = enableBlur
         ? blurMax !== undefined
           ? blurMax
           : isMobile
-          ? Math.min(preset.blur, 3.5)
+          ? Math.min(preset.blur, 4)
           : preset.blur
         : 0;
 
       const initialRotate = isMobile ? 0 : preset.rotate;
-      const initialY = isMobile ? Math.min(preset.y, 8) : preset.y;
-      const initialScale = isMobile && preset.scale < 1 ? 0.99 : preset.scale;
+      const initialY = isMobile ? Math.min(preset.y, 10) : preset.y;
+      const initialScale = isMobile && preset.scale < 1 ? 0.985 : preset.scale;
 
       const triggerStart = start || preset.start;
       const triggerEnd = end || preset.end;
@@ -172,7 +162,7 @@ export const RevealElement: React.FC<RevealElementProps> = ({
             trigger: el,
             start: triggerStart,
             end: triggerEnd,
-            scrub: true,
+            scrub: 1,
           },
         }
       );

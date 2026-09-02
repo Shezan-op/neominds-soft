@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { cn } from "@/lib/utils";
+import "./cinematic-scroll.css";
 
 export interface CinematicScrollProps {
   children: React.ReactNode;
@@ -26,8 +27,6 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const scrollerRef = useRef<HTMLDivElement>(null);
 
-  // When isGlobal is true, useScroll binds to the browser window;
-  // otherwise it binds to the internal container scrollerRef.
   const { scrollYProgress } = useScroll(
     isGlobal
       ? {}
@@ -36,7 +35,6 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
         }
   );
 
-  // Spring smooth progress for the custom bar
   const scaleY = useSpring(scrollYProgress, {
     stiffness: 120,
     damping: 28,
@@ -47,7 +45,7 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
     return (
       <div
         ref={containerRef}
-        className={cn("relative w-full min-h-screen", className)}
+        className={cn("cinematic-scroll-global", className)}
         style={
           {
             "--blur-max": `${blurMax}px`,
@@ -58,14 +56,14 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
       >
         {/* Top Progressive Blur Mask Layers (Fixed Viewport) */}
         <div
-          className="fixed top-0 left-0 right-0 z-40 pointer-events-none overflow-hidden"
+          className="cinematic-mask-top"
           style={{ height: blurSize }}
           aria-hidden="true"
         >
           {[...Array(blurLayers)].map((_, i) => (
             <div
               key={`top-${i}`}
-              className="absolute inset-0"
+              className="cinematic-mask-layer"
               style={{
                 backdropFilter: `blur(${
                   Math.sin(((blurLayers - (i + 1)) / blurLayers) * Math.PI / 2) *
@@ -88,14 +86,14 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
 
         {/* Bottom Progressive Blur Mask Layers (Fixed Viewport) */}
         <div
-          className="fixed bottom-0 left-0 right-0 z-40 pointer-events-none overflow-hidden rotate-180"
+          className="cinematic-mask-bottom"
           style={{ height: blurSize }}
           aria-hidden="true"
         >
           {[...Array(blurLayers)].map((_, i) => (
             <div
               key={`bottom-${i}`}
-              className="absolute inset-0"
+              className="cinematic-mask-layer"
               style={{
                 backdropFilter: `blur(${
                   Math.sin(((blurLayers - (i + 1)) / blurLayers) * Math.PI / 2) *
@@ -119,13 +117,12 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
         {/* Global Custom Spring Scrollbar Indicator */}
         {showScrollbar && (
           <div
-            className="fixed top-6 right-2 bottom-6 w-1.5 z-50 pointer-events-none hidden sm:block"
+            className="cinematic-scrollbar-track"
             aria-hidden="true"
           >
-            {/* Scrollbar Track Background */}
-            <div className="w-full h-full bg-white/[0.08] backdrop-blur-md rounded-full overflow-hidden border border-white/[0.06]">
+            <div className="cinematic-scrollbar-rail">
               <motion.div
-                className="w-full rounded-full origin-top"
+                className="cinematic-scrollbar-thumb"
                 style={{
                   scaleY,
                   height: "100%",
@@ -138,7 +135,7 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
         )}
 
         {/* Main Content Area */}
-        <div className="w-full min-h-screen">
+        <div style={{ width: "100%", minHeight: "100vh" }}>
           {children}
         </div>
       </div>
@@ -149,10 +146,7 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
   return (
     <div
       ref={containerRef}
-      className={cn(
-        "relative w-full h-full overflow-hidden rounded-xl border border-white/10 bg-[#0c0e12]",
-        className
-      )}
+      className={cn("cinematic-scroll-container", className)}
       style={
         {
           "--blur-max": `${blurMax}px`,
@@ -163,14 +157,14 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
     >
       {/* Top Blur Mask Layers */}
       <div
-        className="absolute top-0 left-0 right-0 z-30 pointer-events-none overflow-hidden"
-        style={{ height: blurSize }}
+        className="cinematic-mask-top"
+        style={{ height: blurSize, position: "absolute", zIndex: 30 }}
         aria-hidden="true"
       >
         {[...Array(blurLayers)].map((_, i) => (
           <div
             key={`top-${i}`}
-            className="absolute inset-0"
+            className="cinematic-mask-layer"
             style={{
               backdropFilter: `blur(${
                 Math.sin(((blurLayers - (i + 1)) / blurLayers) * Math.PI / 2) *
@@ -193,14 +187,14 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
 
       {/* Bottom Blur Mask Layers */}
       <div
-        className="absolute bottom-0 left-0 right-0 z-30 pointer-events-none overflow-hidden rotate-180"
-        style={{ height: blurSize }}
+        className="cinematic-mask-bottom"
+        style={{ height: blurSize, position: "absolute", zIndex: 30 }}
         aria-hidden="true"
       >
         {[...Array(blurLayers)].map((_, i) => (
           <div
             key={`bottom-${i}`}
-            className="absolute inset-0"
+            className="cinematic-mask-layer"
             style={{
               backdropFilter: `blur(${
                 Math.sin(((blurLayers - (i + 1)) / blurLayers) * Math.PI / 2) *
@@ -224,28 +218,30 @@ export const CinematicScroll: React.FC<CinematicScrollProps> = ({
       {/* Custom Scrollbar */}
       {showScrollbar && (
         <div
-          className="absolute top-2 right-2 bottom-2 w-1.5 z-40 pointer-events-none hidden sm:block"
+          className="cinematic-scrollbar-track"
+          style={{ position: "absolute", top: 8, right: 8, bottom: 8, zIndex: 40 }}
           aria-hidden="true"
         >
-          <motion.div
-            className="w-full rounded-full origin-top"
-            style={{
-              scaleY,
-              height: "100%",
-              background: `linear-gradient(to bottom, ${accentColor}, ${accentColor}dd)`,
-              boxShadow: `0 0 10px ${accentColor}44`,
-            }}
-          />
+          <div className="cinematic-scrollbar-rail">
+            <motion.div
+              className="cinematic-scrollbar-thumb"
+              style={{
+                scaleY,
+                height: "100%",
+                background: `linear-gradient(to bottom, ${accentColor}, ${accentColor}dd)`,
+                boxShadow: `0 0 10px ${accentColor}44`,
+              }}
+            />
+          </div>
         </div>
       )}
 
       {/* Main Scrollable Content */}
       <div
         ref={scrollerRef}
-        className="w-full h-full overflow-y-auto overflow-x-hidden custom-scrollbar"
-        style={{ scrollbarWidth: "none" }}
+        className="cinematic-scroll-content"
       >
-        <div className="px-6 py-12">
+        <div style={{ padding: "48px 24px" }}>
           {children}
         </div>
       </div>

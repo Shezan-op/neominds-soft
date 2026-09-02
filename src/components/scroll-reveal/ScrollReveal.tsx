@@ -20,63 +20,90 @@ export interface ScrollRevealProps {
   wordSpacing?: string;
 }
 
+/**
+ * Recursively tokenizes React children (strings, nested spans, elements)
+ * into individual `.scroll-reveal-word` spans so that every word is individually scrubbed.
+ */
+function tokenizeWords(
+  node: React.ReactNode,
+  keyPrefix = 'sr'
+): React.ReactNode {
+  if (typeof node === 'string' || typeof node === 'number') {
+    const str = String(node);
+    const tokens = str.split(/(\s+)/);
+    return tokens.map((token, i) => {
+      if (/^\s+$/.test(token)) {
+        return (
+          <span key={`${keyPrefix}-space-${i}`} className="scroll-reveal-space">
+            {token}
+          </span>
+        );
+      }
+      if (token === '') return null;
+      return (
+        <span
+          key={`${keyPrefix}-word-${i}`}
+          className="scroll-reveal-word"
+          data-reveal-word
+        >
+          {token}
+        </span>
+      );
+    });
+  }
+
+  if (React.isValidElement(node)) {
+    const element = node as React.ReactElement<any>;
+    const children = element.props?.children;
+    if (children !== undefined && children !== null) {
+      return React.cloneElement(
+        element,
+        { key: element.key || keyPrefix },
+        tokenizeWords(children, `${keyPrefix}-nested`)
+      );
+    }
+    return element;
+  }
+
+  if (Array.isArray(node)) {
+    return node.map((child, idx) =>
+      tokenizeWords(child, `${keyPrefix}-${idx}`)
+    );
+  }
+
+  return node;
+}
+
 export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   children,
   as: Component = 'span',
   className = '',
   style,
-  baseOpacity = 0.1,
+  baseOpacity = 0.12,
   baseRotation = 2.5,
-  blurStrength = 6,
+  blurStrength = 8,
   enableBlur = true,
-  start = 'top 85%',
+  start = 'top 88%',
   end = 'top 45%',
-  stagger = 0.04,
-  wordSpacing = '0.25em',
+  stagger = 0.05,
 }) => {
   const containerRef = useRef<HTMLElement | null>(null);
 
-  // Split string children into words and whitespace
+  // Recursively tokenize words even when children contains styled spans
   const renderedContent = useMemo(() => {
-    if (typeof children === 'string') {
-      const tokens = children.split(/(\s+)/);
-      return tokens.map((token, i) => {
-        if (/^\s+$/.test(token)) {
-          return (
-            <span key={i} className="scroll-reveal-space" style={{ marginRight: wordSpacing }}>
-              {token}
-            </span>
-          );
-        }
-        return (
-          <span key={i} className="scroll-reveal-word" data-reveal-word>
-            {token}
-          </span>
-        );
-      });
-    }
-    return children;
-  }, [children, wordSpacing]);
+    return tokenizeWords(children);
+  }, [children]);
 
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
 
-    // Check for reduced motion preference
-    const prefersReducedMotion =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (prefersReducedMotion) {
-      return;
-    }
-
     const ctx = gsap.context(() => {
       const words = el.querySelectorAll<HTMLElement>('.scroll-reveal-word');
       const isMobile = window.innerWidth < 768;
-      const actualBlur = isMobile ? Math.min(blurStrength, 3) : blurStrength;
+      const actualBlur = isMobile ? Math.min(blurStrength, 4) : blurStrength;
       const actualRotation = isMobile ? 0 : baseRotation;
-      const actualY = isMobile ? 4 : 8;
+      const actualY = isMobile ? 8 : 16;
 
       if (words.length > 0) {
         gsap.fromTo(
@@ -98,12 +125,12 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
               trigger: el,
               start,
               end,
-              scrub: true,
+              scrub: 1,
             },
           }
         );
       } else {
-        // If children wasn't a raw string, animate the container element directly
+        // Fallback for containers with non-text elements
         gsap.fromTo(
           el,
           {
@@ -122,7 +149,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
               trigger: el,
               start,
               end,
-              scrub: true,
+              scrub: 1,
             },
           }
         );

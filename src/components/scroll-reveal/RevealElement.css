@@ -11,7 +11,7 @@
   will-change: opacity, filter, transform;
 }
 
-/* Variant base classes if needed */
+/* Variant base classes */
 .reveal-variant-section {
   width: 100%;
 }
@@ -20,14 +20,10 @@
   height: 100%;
 }
 
-/* Accessibility: Prefers Reduced Motion */
+/* Accessibility: gracefully reduce motion without blocking GSAP */
 @media (prefers-reduced-motion: reduce) {
-  .reveal-element,
-  .reveal-element-active,
-  .reveal-element * {
-    opacity: 1 !important;
-    filter: none !important;
-    transform: none !important;
-    will-change: auto !important;
+  .reveal-element-active {
+    filter: none;
+    transform: none;
   }
 }
