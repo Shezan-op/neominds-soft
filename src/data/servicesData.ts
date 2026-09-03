@@ -33,6 +33,14 @@ export interface ServiceData {
   heroHeadline: string;
   heroHeadlineHighlight: string;
   heroDescription: string;
+  heroImage?: string;
+  heroImageCaption?: string;
+  architectureMap?: {
+    layer: string;
+    title: string;
+    desc: string;
+    color: string;
+  }[];
   metrics: { value: string; label: string }[];
   capabilities: ServiceCapability[];
   processSteps: ServiceProcessStep[];
@@ -1237,3 +1245,7 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     ],
   },
 };
+
+// Merge all additional Fintech, Healthcare, and AI services
+import { ADDITIONAL_SERVICES_DATA } from './additionalServices';
+Object.assign(SERVICES_DATA, ADDITIONAL_SERVICES_DATA);

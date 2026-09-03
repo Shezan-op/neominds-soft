@@ -18,6 +18,17 @@ import {
   MessageSquare,
   BarChart3,
   LifeBuoy,
+  CreditCard,
+  Building2,
+  Landmark,
+  TrendingUp,
+  LineChart,
+  ShieldAlert,
+  Activity,
+  Video,
+  HeartHandshake,
+  Stethoscope,
+  Workflow,
 } from 'lucide-react';
 import { ServiceData } from '../data/servicesData';
 import { Footer } from './Footer';
@@ -73,6 +84,7 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
 
   const getServiceIcon = (slug: string) => {
     switch (slug) {
+      // Core & Existing Services
       case 'software-development':
         return Code2;
       case 'ai-development':
@@ -86,15 +98,54 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
       case 'devops':
         return Cloud;
       case 'ai-agents':
+      case 'ai-agent-systems':
         return Bot;
       case 'ai-automations':
         return Zap;
       case 'chatbot-videobot':
         return MessageSquare;
       case 'analytics-dashboard':
+      case 'financial-analytics':
         return BarChart3;
       case 'technical-support':
         return LifeBuoy;
+
+      // Fintech Services
+      case 'digital-banking':
+        return Landmark;
+      case 'payment-solutions':
+        return CreditCard;
+      case 'lending-credit-platforms':
+        return Building2;
+      case 'investment-wealth-management':
+        return TrendingUp;
+      case 'fraud-risk-management':
+        return ShieldAlert;
+
+      // Healthcare Services
+      case 'healthcare-management-software':
+        return Activity;
+      case 'telemedicine-platforms':
+        return Video;
+      case 'patient-engagement':
+        return HeartHandshake;
+      case 'medical-ai-solutions':
+        return Stethoscope;
+      case 'healthcare-analytics':
+        return LineChart;
+      case 'healthcare-automation':
+        return Workflow;
+
+      // AI Services
+      case 'ai-product-engineering':
+        return Code2;
+      case 'applied-ai':
+        return Cpu;
+      case 'intelligent-automation':
+        return Zap;
+      case 'generative-ai':
+        return Sparkles;
+
       default:
         return Layers;
     }
@@ -210,47 +261,103 @@ export const ServicePageTemplate: React.FC<ServicePageTemplateProps> = ({
               </div>
             </div>
 
-            {/* Right Interactive Architecture Visual Card */}
+            {/* Right Interactive Architecture & Hero Visual */}
             <div
               style={{
-                backgroundColor: '#0f172a',
-                color: '#ffffff',
-                borderRadius: '6px',
-                padding: '32px',
-                boxShadow: '0 20px 40px rgba(15, 23, 42, 0.12)',
-                border: '1px solid #1e293b',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
               }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', paddingBottom: '12px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
-                  <span style={{ fontSize: '13px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>
-                    {data.title} Architecture Map
+              {/* Premium Hero Image with Glassmorphic Badge */}
+              <div
+                style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: 'clamp(260px, 30vw, 340px)',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  boxShadow: '0 20px 40px rgba(15, 23, 42, 0.12)',
+                  border: '1px solid #e2e8f0',
+                  backgroundImage: `url(${
+                    data.heroImage ||
+                    'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop'
+                  })`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              >
+                {/* Floating Architectural Badge */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '16px',
+                    left: '16px',
+                    right: '16px',
+                    backgroundColor: 'rgba(15, 23, 42, 0.88)',
+                    backdropFilter: 'blur(12px)',
+                    WebkitBackdropFilter: 'blur(12px)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    borderRadius: '6px',
+                    padding: '12px 16px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#22c55e' }} />
+                    <span style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                      {data.heroImageCaption || `${data.title} Production Architecture`}
+                    </span>
+                  </div>
+                  <span style={{ fontSize: '11px', color: '#60a5fa', fontWeight: 600 }}>99.99% SLA</span>
+                </div>
+              </div>
+
+              {/* Architecture Blueprint Card */}
+              <div
+                style={{
+                  backgroundColor: '#0f172a',
+                  color: '#ffffff',
+                  borderRadius: '6px',
+                  padding: '24px 28px',
+                  boxShadow: '0 12px 28px rgba(15, 23, 42, 0.08)',
+                  border: '1px solid #1e293b',
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '10px' }}>
+                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                    Execution Blueprint
                   </span>
-                </div>
-                <span style={{ fontSize: '12px', color: '#60a5fa', fontWeight: 600 }}>Production Ready</span>
-              </div>
-
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                <div style={{ backgroundColor: '#1e293b', padding: '16px', borderRadius: '4px', borderLeft: '3px solid #2258e7' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', marginBottom: '4px' }}>01 / Ingestion & Core Logic</div>
-                  <div style={{ fontSize: '12px', color: '#94a3b8' }}>High-throughput APIs with microservice orchestration.</div>
+                  <span style={{ fontSize: '11px', color: '#22c55e', fontWeight: 600 }}>Zero Technical Debt</span>
                 </div>
 
-                <div style={{ backgroundColor: '#1e293b', padding: '16px', borderRadius: '4px', borderLeft: '3px solid #38bdf8' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', marginBottom: '4px' }}>02 / Scalable Cloud Compute</div>
-                  <div style={{ fontSize: '12px', color: '#94a3b8' }}>Auto-scaling Kubernetes pods with Redis caching layer.</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {(data.architectureMap && data.architectureMap.length > 0
+                    ? data.architectureMap
+                    : [
+                        { layer: '01', title: 'Core Logic & Ingestion APIs', desc: 'Resilient event-driven microservices with low latency.', color: '#2258e7' },
+                        { layer: '02', title: 'Distributed Cloud Cluster', desc: 'Auto-scaling compute pods with Redis caching & multi-region sync.', color: '#38bdf8' },
+                        { layer: '03', title: 'Enterprise Security Boundary', desc: 'SOC 2, ISO 27001, end-to-end encryption & continuous telemetry.', color: '#10b981' },
+                      ]
+                  ).map((arch, aIdx) => (
+                    <div
+                      key={aIdx}
+                      style={{
+                        backgroundColor: '#1e293b',
+                        padding: '12px 14px',
+                        borderRadius: '4px',
+                        borderLeft: `3px solid ${arch.color}`,
+                      }}
+                    >
+                      <div style={{ fontSize: '12.5px', fontWeight: 700, color: '#ffffff', marginBottom: '2px' }}>
+                        {arch.layer} / {arch.title}
+                      </div>
+                      <div style={{ fontSize: '11.5px', color: '#94a3b8', lineHeight: 1.4 }}>{arch.desc}</div>
+                    </div>
+                  ))}
                 </div>
-
-                <div style={{ backgroundColor: '#1e293b', padding: '16px', borderRadius: '4px', borderLeft: '3px solid #10b981' }}>
-                  <div style={{ fontSize: '13px', fontWeight: 700, color: '#ffffff', marginBottom: '4px' }}>03 / Security & Compliance Gateways</div>
-                  <div style={{ fontSize: '12px', color: '#94a3b8' }}>SOC 2 Type II, ISO 27001, and AES-256 encryption at rest.</div>
-                </div>
-              </div>
-
-              <div style={{ marginTop: '24px', paddingTop: '16px', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '12px', color: '#94a3b8' }}>Guaranteed Enterprise SLA</span>
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#22c55e' }}>99.99% Uptime</span>
               </div>
             </div>
           </div>

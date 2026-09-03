@@ -28,6 +28,9 @@ import { PortfolioPage } from './components/PortfolioPage';
 import { AboutUsPage } from './components/AboutUsPage';
 import { ContactsPage } from './components/ContactsPage';
 import { InsightsPage } from './components/InsightsPage';
+import { BlogHubPage } from './components/BlogHubPage';
+import { CompanyUpdatesPage } from './components/CompanyUpdatesPage';
+import { BlogPostDetailPage } from './components/BlogPostDetailPage';
 
 // Legal Policy Pages
 import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
@@ -50,7 +53,7 @@ export const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<PageType>(() => {
     const hash = window.location.hash.replace('#', '');
     if (hash && (hash in SERVICES_DATA || [
-      'insights', 'portfolio', 'about-us', 'contacts',
+      'insights', 'blog', 'company-updates', 'portfolio', 'about-us', 'contacts',
       'privacy-policy', 'cookie-policy', 'security-policy',
       'product-discovery', 'product-engineering', 'business-analysis',
       'it-consulting', 'ui-ux-design'
@@ -65,6 +68,7 @@ export const App: React.FC = () => {
 
   // Interactive Modal & Palette State
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<string | null>(null);
+  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<number | null>(null);
   const [legalModal, setLegalModal] = useState<{
     isOpen: boolean;
@@ -86,6 +90,10 @@ export const App: React.FC = () => {
         setCurrentPage(cleanHash as PageType);
       } else if (cleanHash === 'insights') {
         setCurrentPage('insights');
+      } else if (cleanHash === 'blog') {
+        setCurrentPage('blog');
+      } else if (cleanHash === 'company-updates') {
+        setCurrentPage('company-updates');
       } else if (cleanHash === 'portfolio' || rawHash === '#casestudies') {
         setCurrentPage('portfolio');
       } else if (cleanHash === 'about-us' || rawHash === '#leaders') {
@@ -135,7 +143,7 @@ export const App: React.FC = () => {
     (targetId: string) => {
       const cleanTarget = targetId.replace('#', '');
       if (cleanTarget in SERVICES_DATA || [
-        'insights', 'portfolio', 'about-us', 'contacts',
+        'insights', 'blog', 'company-updates', 'portfolio', 'about-us', 'contacts',
         'privacy-policy', 'cookie-policy', 'security-policy',
         'product-discovery', 'product-engineering', 'business-analysis',
         'it-consulting', 'ui-ux-design'
@@ -242,6 +250,54 @@ export const App: React.FC = () => {
               onNavigateHome={() => handleSelectPage('home')}
               onNavigatePage={(p) => handleSelectPage(p as PageType)}
               onSuccessToast={(msg) => addToast('Success', msg, 'success')}
+              onOpenLegal={(tab) => {
+                if (tab === 'privacy') handleSelectPage('privacy-policy');
+                else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                else handleSelectPage('security-policy');
+              }}
+            />
+          </main>
+        )}
+
+        {/* 2b. Technical Blog Hub & Reader */}
+        {currentPage === 'blog' && (
+          <main id="main-content">
+            {selectedArticleId ? (
+              <BlogPostDetailPage
+                articleId={selectedArticleId}
+                onBack={() => setSelectedArticleId(null)}
+                onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                onSelectArticle={(id) => setSelectedArticleId(id)}
+                onSuccessToast={(msg) => addToast('Article', msg, 'info')}
+                onOpenLegal={(tab) => {
+                  if (tab === 'privacy') handleSelectPage('privacy-policy');
+                  else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                  else handleSelectPage('security-policy');
+                }}
+              />
+            ) : (
+              <BlogHubPage
+                onNavigateHome={() => handleSelectPage('home')}
+                onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                onSelectArticle={(id) => setSelectedArticleId(id)}
+                onSuccessToast={(msg) => addToast('Blog', msg, 'info')}
+                onOpenLegal={(tab) => {
+                  if (tab === 'privacy') handleSelectPage('privacy-policy');
+                  else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                  else handleSelectPage('security-policy');
+                }}
+              />
+            )}
+          </main>
+        )}
+
+        {/* 2c. Company Updates & Milestones */}
+        {currentPage === 'company-updates' && (
+          <main id="main-content">
+            <CompanyUpdatesPage
+              onNavigateHome={() => handleSelectPage('home')}
+              onNavigatePage={(p) => handleSelectPage(p as PageType)}
+              onSuccessToast={(msg) => addToast('Company Update', msg, 'info')}
               onOpenLegal={(tab) => {
                 if (tab === 'privacy') handleSelectPage('privacy-policy');
                 else if (tab === 'cookie') handleSelectPage('cookie-policy');

@@ -10,6 +10,8 @@ import {
 export type PageType =
   | 'home'
   | 'insights'
+  | 'blog'
+  | 'company-updates'
   | 'portfolio'
   | 'about-us'
   | 'contacts'
@@ -31,7 +33,27 @@ export type PageType =
   | 'product-engineering'
   | 'business-analysis'
   | 'it-consulting'
-  | 'ui-ux-design';
+  | 'ui-ux-design'
+  // Fintech
+  | 'digital-banking'
+  | 'payment-solutions'
+  | 'lending-credit-platforms'
+  | 'investment-wealth-management'
+  | 'financial-analytics'
+  | 'fraud-risk-management'
+  // Healthcare
+  | 'healthcare-management-software'
+  | 'telemedicine-platforms'
+  | 'patient-engagement'
+  | 'medical-ai-solutions'
+  | 'healthcare-analytics'
+  | 'healthcare-automation'
+  // AI
+  | 'ai-product-engineering'
+  | 'applied-ai'
+  | 'ai-agent-systems'
+  | 'intelligent-automation'
+  | 'generative-ai';
 
 interface HeaderProps {
   onNavigate: (sectionId: string) => void;
@@ -46,8 +68,7 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
-  const [activeMenu, setActiveMenu] = useState<'what-we-do' | 'who-we-are' | null>(null);
-  const [activeCategory, setActiveCategory] = useState<string>('product-engineering');
+  const [activeMenu, setActiveMenu] = useState<'what-we-do' | 'who-we-are' | 'insights' | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>('what-we-do');
 
@@ -60,6 +81,7 @@ export const Header: React.FC<HeaderProps> = ({
     setIsScrolled(window.scrollY > 40);
   }, [currentPage]);
 
+  // Scroll dynamics & timer-based auto-reappearance (1.5s after user stops scrolling)
   useEffect(() => {
     let lastWheelTime = 0;
     let isTouching = false;
@@ -100,17 +122,13 @@ export const Header: React.FC<HeaderProps> = ({
       hideAndStartTimer(1500);
     };
 
-    // 3. Native scroll (Scrollbar dragging, keyboard navigation, or programmatic jumps)
+    // 3. Native scroll (Scrollbar dragging or continuous page scroll)
     const onNativeScroll = () => {
       setIsScrolled(window.scrollY > 40);
 
-      // If scroll was triggered by recent wheel input (< 1000ms ago) or touch drag,
-      // let the user-input countdown run so smooth Lenis inertia doesn't prolong the timer
       if (Date.now() - lastWheelTime < 1000 || isTouching) {
         return;
       }
-
-      // User is dragging the scrollbar directly
       hideAndStartTimer(1500);
     };
 
@@ -154,7 +172,7 @@ export const Header: React.FC<HeaderProps> = ({
     }
   }, [isVisible]);
 
-  const handleMouseEnter = (menu: 'what-we-do' | 'who-we-are') => {
+  const handleMouseEnter = (menu: 'what-we-do' | 'who-we-are' | 'insights') => {
     setActiveMenu(menu);
   };
 
@@ -162,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({
     setActiveMenu(null);
   };
 
-  const handleMenuToggle = (e: React.MouseEvent, menu: 'what-we-do' | 'who-we-are') => {
+  const handleMenuToggle = (e: React.MouseEvent, menu: 'what-we-do' | 'who-we-are' | 'insights') => {
     e.stopPropagation();
     setActiveMenu((prev) => (prev === menu ? null : menu));
   };
@@ -181,31 +199,46 @@ export const Header: React.FC<HeaderProps> = ({
     onNavigate('#hero');
   };
 
-  // Left Categories in What We Do Dropdown
-  const categories = [
-    { id: 'product-discovery', title: 'Product discovery', directPage: 'product-discovery' as const },
-    { id: 'product-engineering', title: 'Product engineering', isExpandable: true },
-    { id: 'business-analysis', title: 'Business analysis', directPage: 'business-analysis' as const },
-    { id: 'it-consulting', title: 'IT consulting', directPage: 'it-consulting' as const },
-    { id: 'ui-ux-design', title: 'UX/UI design', directPage: 'ui-ux-design' as const },
+  /* =========================================================================
+     NAVBAR WHAT WE DO - 4 CLEAN COLUMNS (MATCHES USER IMAGE 2)
+     ========================================================================= */
+
+  // Column 1: Our services
+  const ourServicesList = [
+    { title: 'Product discovery', page: 'product-discovery' as const },
+    { title: 'Product engineering', page: 'product-engineering' as const },
+    { title: 'Cloud', page: 'devops' as const },
+    { title: 'Data', page: 'analytics-dashboard' as const },
+    { title: 'Design', page: 'ui-ux-design' as const, hasExternalArrow: true },
   ];
 
-  // 11 Core Services provided by Neominds (Pure Text Only, ZERO Cards)
-  const neomindsServicesCol1 = [
-    { title: 'Software Development', page: 'software-development' as const },
-    { title: 'AI Development', page: 'ai-development' as const },
-    { title: 'Mobile App Development', page: 'mobile-app-development' as const },
-    { title: 'Web & CMS Development', page: 'web-cms-development' as const },
-    { title: 'Ecommerce Development', page: 'ecommerce-development' as const },
-    { title: 'DevOps', page: 'devops' as const },
+  // Column 2: Artificial intelligence
+  const artificialIntelligenceList = [
+    { title: 'AI Product Engineering', page: 'ai-product-engineering' as const, hasExternalArrow: true },
+    { title: 'Applied AI', page: 'applied-ai' as const },
+    { title: 'AI Agent Systems', page: 'ai-agent-systems' as const },
+    { title: 'Intelligent Automation', page: 'intelligent-automation' as const },
+    { title: 'Generative AI', page: 'generative-ai' as const },
   ];
 
-  const neomindsServicesCol2 = [
-    { title: 'AI Agents', page: 'ai-agents' as const, isNew: true },
-    { title: 'AI Automations', page: 'ai-automations' as const },
-    { title: 'Chatbot & Video Bot Development', page: 'chatbot-videobot' as const },
-    { title: 'Analytics Dashboard', page: 'analytics-dashboard' as const },
-    { title: 'Technical Support', page: 'technical-support' as const },
+  // Column 3: Fintech
+  const fintechList = [
+    { title: 'Digital Banking', page: 'digital-banking' as const },
+    { title: 'Payment Solutions', page: 'payment-solutions' as const },
+    { title: 'Lending & Credit Platforms', page: 'lending-credit-platforms' as const },
+    { title: 'Investment & Wealth Management', page: 'investment-wealth-management' as const },
+    { title: 'Financial Analytics', page: 'financial-analytics' as const },
+    { title: 'Fraud & Risk Management', page: 'fraud-risk-management' as const },
+  ];
+
+  // Column 4: Healthcare
+  const healthcareList = [
+    { title: 'Healthcare Management Software', page: 'healthcare-management-software' as const },
+    { title: 'Telemedicine Platforms', page: 'telemedicine-platforms' as const },
+    { title: 'Patient Engagement', page: 'patient-engagement' as const },
+    { title: 'Medical AI Solutions', page: 'medical-ai-solutions' as const },
+    { title: 'Healthcare Analytics', page: 'healthcare-analytics' as const },
+    { title: 'Healthcare Automation', page: 'healthcare-automation' as const },
   ];
 
   return (
@@ -224,33 +257,39 @@ export const Header: React.FC<HeaderProps> = ({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          paddingTop: 'clamp(14px, 1.8vw, 20px)',
-          paddingInline: '16px',
+          paddingTop: isScrolled ? '12px' : '0px',
+          paddingInline: isScrolled ? '16px' : '0px',
           boxSizing: 'border-box',
+          transition: 'padding-top 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-inline 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
         {/* ========================================================
-            REFINED FLOATING NAVBAR PILL (Pulled Down & Sleek Size)
+            SHRINKING ON SCROLL FLOATING NAVBAR PILL
+            Starts full-width edge-to-edge (100% width, 60px height).
+            When scrolled, smoothly shrinks by ~30% in total width (~70% width, 48px height)!
             ======================================================== */}
         <div
           style={{
-            width: isScrolled ? 'min(90%, 780px)' : 'min(92%, 840px)',
-            maxWidth: isScrolled ? '780px' : '840px',
-            height: isScrolled ? '46px' : '50px',
-            borderRadius: '9px',
-            backgroundColor: isScrolled ? 'rgba(12, 14, 18, 0.95)' : 'rgba(10, 12, 16, 0.90)',
-            backdropFilter: 'blur(20px)',
-            WebkitBackdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
+            width: isScrolled ? 'min(70%, 820px)' : '100%',
+            maxWidth: isScrolled ? '820px' : '100%',
+            height: isScrolled ? '46px' : '62px',
+            borderRadius: isScrolled ? '10px' : '0px',
+            backgroundColor: isScrolled ? 'rgba(12, 14, 18, 0.96)' : 'rgba(8, 10, 14, 0.92)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            borderTop: 'none',
+            borderLeft: isScrolled ? '1px solid rgba(255, 255, 255, 0.14)' : 'none',
+            borderRight: isScrolled ? '1px solid rgba(255, 255, 255, 0.14)' : 'none',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.10)',
             boxShadow: isScrolled
-              ? '0 12px 30px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.05)'
-              : '0 8px 24px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.04)',
+              ? '0 16px 36px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05)'
+              : '0 4px 20px rgba(0, 0, 0, 0.4)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingInline: isScrolled ? '16px' : '18px',
+            paddingInline: isScrolled ? '20px' : 'clamp(24px, 4vw, 56px)',
             pointerEvents: 'auto',
-            transition: 'all 0.35s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
+            transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
           }}
         >
           {/* Left Brand Logo */}
@@ -259,14 +298,14 @@ export const Header: React.FC<HeaderProps> = ({
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '8px',
+              gap: isScrolled ? '7px' : '9px',
               cursor: 'pointer',
               userSelect: 'none',
-              transition: 'all 0.3s ease',
+              transition: 'gap 0.3s ease',
             }}
           >
             {/* 5-Bar Logo SVG matching EffectiveSoft */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', width: '16px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', width: isScrolled ? '15px' : '17px', transition: 'width 0.3s ease' }}>
               <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
               <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
               <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
@@ -277,7 +316,7 @@ export const Header: React.FC<HeaderProps> = ({
             <span
               style={{
                 fontFamily: 'var(--font-heading)',
-                fontSize: '17px',
+                fontSize: isScrolled ? '16px' : '18px',
                 fontWeight: 700,
                 letterSpacing: '-0.02em',
                 color: '#ffffff',
@@ -293,7 +332,7 @@ export const Header: React.FC<HeaderProps> = ({
             style={{
               display: 'none',
               alignItems: 'center',
-              gap: isScrolled ? '18px' : '22px',
+              gap: isScrolled ? '16px' : '22px',
               height: '100%',
               transition: 'gap 0.3s ease',
             }}
@@ -308,13 +347,13 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => handleMenuToggle(e, 'what-we-do')}
                 style={{
                   color: activeMenu === 'what-we-do' ? '#ffffff' : 'rgba(255, 255, 255, 0.85)',
-                  fontSize: '13.5px',
+                  fontSize: isScrolled ? '13px' : '14px',
                   fontWeight: 500,
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
                   padding: '6px 2px',
-                  transition: 'color 0.2s',
+                  transition: 'color 0.2s, font-size 0.3s ease',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -341,13 +380,13 @@ export const Header: React.FC<HeaderProps> = ({
                 onClick={(e) => handleMenuToggle(e, 'who-we-are')}
                 style={{
                   color: activeMenu === 'who-we-are' ? '#ffffff' : 'rgba(255, 255, 255, 0.85)',
-                  fontSize: '13.5px',
+                  fontSize: isScrolled ? '13px' : '14px',
                   fontWeight: 500,
                   display: 'flex',
                   alignItems: 'center',
                   gap: '4px',
                   padding: '6px 2px',
-                  transition: 'color 0.2s',
+                  transition: 'color 0.2s, font-size 0.3s ease',
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
@@ -365,34 +404,51 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
             </div>
 
-            {/* 3. Insights */}
-            <button
-              onClick={() => navigateToPage('insights')}
-              style={{
-                color: currentPage === 'insights' ? '#2258e7' : 'rgba(255, 255, 255, 0.85)',
-                fontSize: '13.5px',
-                fontWeight: 500,
-                padding: '6px 2px',
-                transition: 'color 0.2s',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = '#ffffff')}
-              onMouseLeave={(e) => (e.currentTarget.style.color = currentPage === 'insights' ? '#2258e7' : 'rgba(255, 255, 255, 0.85)')}
+            {/* 3. Insights Dropdown Trigger */}
+            <div
+              style={{ position: 'relative', height: '100%', display: 'flex', alignItems: 'center' }}
+              onMouseEnter={() => handleMouseEnter('insights')}
             >
-              Insights
-            </button>
+              <button
+                onClick={(e) => handleMenuToggle(e, 'insights')}
+                style={{
+                  color:
+                    activeMenu === 'insights' || currentPage === 'insights' || currentPage === 'blog' || currentPage === 'company-updates'
+                      ? '#2258e7'
+                      : 'rgba(255, 255, 255, 0.85)',
+                  fontSize: isScrolled ? '13px' : '14px',
+                  fontWeight: 500,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  padding: '6px 2px',
+                  transition: 'color 0.2s, font-size 0.3s ease',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <span>Insights</span>
+                <ChevronRight
+                  size={12}
+                  style={{
+                    transform: activeMenu === 'insights' ? 'rotate(90deg)' : 'none',
+                    transition: 'transform 0.2s',
+                    color: activeMenu === 'insights' ? '#2258e7' : 'inherit',
+                  }}
+                />
+              </button>
+            </div>
 
             {/* 4. Case studies */}
             <button
               onClick={() => navigateToPage('portfolio')}
               style={{
                 color: currentPage === 'portfolio' ? '#2258e7' : 'rgba(255, 255, 255, 0.85)',
-                fontSize: '13.5px',
+                fontSize: isScrolled ? '13px' : '14px',
                 fontWeight: 500,
                 padding: '6px 2px',
-                transition: 'color 0.2s',
+                transition: 'color 0.2s, font-size 0.3s ease',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
@@ -410,9 +466,9 @@ export const Header: React.FC<HeaderProps> = ({
               onClick={() => navigateToPage('contacts')}
               className="desktop-send-btn"
               style={{
-                height: isScrolled ? '32px' : '34px',
-                paddingInline: isScrolled ? '14px' : '16px',
-                fontSize: '12.5px',
+                height: isScrolled ? '32px' : '36px',
+                paddingInline: isScrolled ? '14px' : '18px',
+                fontSize: isScrolled ? '12.5px' : '13px',
                 fontWeight: 600,
                 letterSpacing: '-0.01em',
                 lineHeight: 1,
@@ -421,7 +477,7 @@ export const Header: React.FC<HeaderProps> = ({
                 color: '#ffffff',
                 border: '1px solid rgba(255, 255, 255, 0.15)',
                 boxShadow: '0 2px 8px rgba(34, 88, 231, 0.35)',
-                transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
+                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -440,8 +496,8 @@ export const Header: React.FC<HeaderProps> = ({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                width: '32px',
-                height: '32px',
+                width: isScrolled ? '32px' : '36px',
+                height: isScrolled ? '32px' : '36px',
                 color: '#ffffff',
                 background: 'rgba(255, 255, 255, 0.04)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -451,24 +507,207 @@ export const Header: React.FC<HeaderProps> = ({
               }}
               aria-label="Open Mobile Menu"
             >
-              <Menu size={17} />
+              <Menu size={isScrolled ? 16 : 18} />
             </button>
           </div>
         </div>
 
         {/* ========================================================
-            PURE TEXT-ONLY DROPDOWNS (MATCHES NAVBAR WIDTH & CORNERS)
+            DROPDOWN 1: WHAT WE DO (EXACT 4-COLUMN MATCHING USER IMAGE 2)
+            Columns: Our services | Artificial intelligence | Fintech | Healthcare
             ======================================================== */}
         {activeMenu === 'what-we-do' && (
           <div
             style={{
-              width: isScrolled ? 'min(90%, 780px)' : 'min(92%, 840px)',
-              maxWidth: isScrolled ? '780px' : '840px',
+              width: 'min(94%, 1020px)',
+              maxWidth: '1020px',
               marginTop: '8px',
               borderRadius: '10px',
               border: '1px solid rgba(255, 255, 255, 0.12)',
               backgroundColor: 'rgba(12, 14, 18, 0.97)',
-              backdropFilter: 'blur(24px)',
+              backdropFilter: 'blur(26px)',
+              boxShadow: '0 24px 50px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05)',
+              zIndex: 1001,
+              animation: 'megaDropdownFadeIn 0.22s ease-out',
+              pointerEvents: 'auto',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                width: '100%',
+                padding: '24px 32px 28px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(4, 1fr)',
+                gap: '24px',
+                boxSizing: 'border-box',
+              }}
+            >
+              {/* Column 1: Our services */}
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)', marginBottom: '16px', letterSpacing: '0.02em' }}>
+                  Our services
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {ourServicesList.map((item) => (
+                    <div
+                      key={item.page}
+                      onClick={() => navigateToPage(item.page)}
+                      style={{
+                        cursor: 'pointer',
+                        color: 'rgba(255, 255, 255, 0.88)',
+                        fontSize: '13.5px',
+                        fontWeight: 400,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '3px 0',
+                        transition: 'color 0.2s, transform 0.2s',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#2258e7';
+                        e.currentTarget.style.transform = 'translateX(2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.88)';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                      }}
+                    >
+                      <span>{item.title}</span>
+                      {item.hasExternalArrow && (
+                        <span style={{ fontSize: '11px', opacity: 0.8, color: 'inherit' }}>↗</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Column 2: Artificial intelligence */}
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)', marginBottom: '16px', letterSpacing: '0.02em' }}>
+                  Artificial intelligence
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {artificialIntelligenceList.map((item) => (
+                    <div
+                      key={item.page}
+                      onClick={() => navigateToPage(item.page)}
+                      style={{
+                        cursor: 'pointer',
+                        color: 'rgba(255, 255, 255, 0.88)',
+                        fontSize: '13.5px',
+                        fontWeight: 400,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '3px 0',
+                        transition: 'color 0.2s, transform 0.2s',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#2258e7';
+                        e.currentTarget.style.transform = 'translateX(2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.88)';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                      }}
+                    >
+                      <span>{item.title}</span>
+                      {item.hasExternalArrow && (
+                        <span style={{ fontSize: '11px', opacity: 0.8, color: 'inherit' }}>↗</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Column 3: Fintech */}
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)', marginBottom: '16px', letterSpacing: '0.02em' }}>
+                  Fintech
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {fintechList.map((item) => (
+                    <div
+                      key={item.page}
+                      onClick={() => navigateToPage(item.page)}
+                      style={{
+                        cursor: 'pointer',
+                        color: 'rgba(255, 255, 255, 0.88)',
+                        fontSize: '13.5px',
+                        fontWeight: 400,
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '3px 0',
+                        transition: 'color 0.2s, transform 0.2s',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#2258e7';
+                        e.currentTarget.style.transform = 'translateX(2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.88)';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                      }}
+                    >
+                      <span>{item.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Column 4: Healthcare */}
+              <div>
+                <div style={{ fontSize: '12px', fontWeight: 600, color: 'rgba(255, 255, 255, 0.5)', marginBottom: '16px', letterSpacing: '0.02em' }}>
+                  Healthcare
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  {healthcareList.map((item) => (
+                    <div
+                      key={item.page}
+                      onClick={() => navigateToPage(item.page)}
+                      style={{
+                        cursor: 'pointer',
+                        color: 'rgba(255, 255, 255, 0.88)',
+                        fontSize: '13.5px',
+                        fontWeight: 400,
+                        display: 'flex',
+                        alignItems: 'center',
+                        padding: '3px 0',
+                        transition: 'color 0.2s, transform 0.2s',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.color = '#2258e7';
+                        e.currentTarget.style.transform = 'translateX(2px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.color = 'rgba(255, 255, 255, 0.88)';
+                        e.currentTarget.style.transform = 'translateX(0)';
+                      }}
+                    >
+                      <span>{item.title}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ========================================================
+            DROPDOWN 2: INSIGHTS (EXACT MATCH TO USER IMAGE 1)
+            Left: Blog, Company updates | Center: Blog card | Right: Company update card
+            ======================================================== */}
+        {activeMenu === 'insights' && (
+          <div
+            style={{
+              width: 'min(94%, 880px)',
+              maxWidth: '880px',
+              marginTop: '8px',
+              borderRadius: '10px',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              backgroundColor: 'rgba(12, 14, 18, 0.97)',
+              backdropFilter: 'blur(26px)',
               boxShadow: '0 24px 50px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05)',
               zIndex: 1001,
               animation: 'megaDropdownFadeIn 0.22s ease-out',
@@ -481,171 +720,167 @@ export const Header: React.FC<HeaderProps> = ({
                 width: '100%',
                 padding: '24px 28px',
                 display: 'grid',
-                gridTemplateColumns: '190px 1fr',
-                gap: '28px',
+                gridTemplateColumns: '170px 1fr 1fr',
+                gap: '24px',
+                boxSizing: 'border-box',
+                alignItems: 'start',
               }}
             >
-              {/* Left Column: Pure Text Categories */}
-              <div style={{ borderRight: '1px solid rgba(255, 255, 255, 0.08)', paddingRight: '20px', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: '#5f85ed', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '10px' }}>
-                  What we do
+              {/* Left Column: Blog & Company updates links */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px', paddingTop: '6px' }}>
+                <div
+                  onClick={() => navigateToPage('blog')}
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'color 0.2s',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#2258e7')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)')}
+                >
+                  Blog
                 </div>
 
-                {categories.map((cat) => (
-                  <div
-                    key={cat.id}
-                    onMouseEnter={() => setActiveCategory(cat.id)}
-                    onClick={() => {
-                      if (cat.directPage) {
-                        navigateToPage(cat.directPage);
-                      } else {
-                        setActiveCategory(cat.id);
-                      }
-                    }}
-                    style={{
-                      padding: '8px 0',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      color: activeCategory === cat.id ? '#2258e7' : 'rgba(255, 255, 255, 0.85)',
-                      fontWeight: activeCategory === cat.id ? 600 : 400,
-                      fontSize: '15px',
-                      transition: 'color 0.2s',
-                    }}
-                  >
-                    <span>{cat.title}</span>
-                    <ChevronRight size={14} style={{ opacity: activeCategory === cat.id ? 1 : 0.4, color: activeCategory === cat.id ? '#2258e7' : 'inherit' }} />
-                  </div>
-                ))}
+                <div
+                  onClick={() => navigateToPage('company-updates')}
+                  style={{
+                    color: 'rgba(255, 255, 255, 0.9)',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    cursor: 'pointer',
+                    transition: 'color 0.2s',
+                  }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = '#2258e7')}
+                  onMouseLeave={(e) => (e.currentTarget.style.color = 'rgba(255, 255, 255, 0.9)')}
+                >
+                  Company updates
+                </div>
+
+                <div
+                  onClick={() => navigateToPage('insights')}
+                  style={{
+                    color: '#2258e7',
+                    fontSize: '12px',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                    marginTop: '8px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                  }}
+                >
+                  <span>All Insights</span>
+                  <ArrowUpRight size={12} />
+                </div>
               </div>
 
-              {/* Right Column: Pure Text Services List (2 Clean Columns, NO Cards) */}
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '10px' }}>
-                  <span style={{ fontSize: '12px', fontWeight: 700, color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-                    {activeCategory === 'product-discovery'
-                      ? 'Product Discovery'
-                      : activeCategory === 'business-analysis'
-                      ? 'Business Analysis'
-                      : activeCategory === 'it-consulting'
-                      ? 'IT Consulting'
-                      : activeCategory === 'ui-ux-design'
-                      ? 'UX/UI Design'
-                      : 'Services & Offerings'}
-                  </span>
-
-                  <button
-                    onClick={() => navigateToPage('portfolio')}
-                    className="btn-text"
-                    style={{
-                      fontSize: '12px',
-                      color: '#94a3b8',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '4px',
-                      background: 'none',
-                      border: 'none',
-                      cursor: 'pointer',
-                    }}
-                  >
-                    <span>Explore All Case Studies</span>
-                    <ArrowUpRight size={13} />
-                  </button>
+              {/* Center Column: Card 1 - Why AI projects fail in enterprises */}
+              <div
+                onClick={() => navigateToPage('blog')}
+                style={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  borderRadius: '6px',
+                  overflow: 'hidden',
+                  transition: 'transform 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+              >
+                {/* Thumbnail Graphic (Blue AI schematic) */}
+                <div
+                  style={{
+                    height: '130px',
+                    width: '100%',
+                    borderRadius: '6px',
+                    background: 'linear-gradient(135deg, #091326 0%, #0c204c 50%, #1e3a8a 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                  }}
+                >
+                  {/* Schematic Icon Graphics matching reference image */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    <div style={{ width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#2563eb', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '13px', fontWeight: 700 }}>
+                      🤖
+                    </div>
+                    <span style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '16px', fontWeight: 300 }}>≠</span>
+                    <div style={{ width: '30px', height: '30px', borderRadius: '6px', backgroundColor: '#1d4ed8', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '13px' }}>
+                      ⚙️
+                    </div>
+                  </div>
                 </div>
 
-                {/* 2-Column Pure Text Services List */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '8px 24px' }}>
-                  {/* Column 1 */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {neomindsServicesCol1.map((srv) => (
-                      <div
-                        key={srv.page}
-                        onClick={() => navigateToPage(srv.page)}
-                        style={{
-                          cursor: 'pointer',
-                          color: 'rgba(255, 255, 255, 0.85)',
-                          fontSize: '14px',
-                          fontWeight: 400,
-                          padding: '4px 0',
-                          transition: 'color 0.2s, transform 0.2s',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.color = '#2258e7';
-                          e.currentTarget.style.transform = 'translateX(3px)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)';
-                          e.currentTarget.style.transform = 'translateX(0)';
-                        }}
-                      >
-                        <span>{srv.title}</span>
-                      </div>
-                    ))}
-                  </div>
+                <div
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    lineHeight: 1.45,
+                    color: 'rgba(255, 255, 255, 0.9)',
+                  }}
+                >
+                  Why AI projects fail in enterprises: the implementation gap between pilots and production
+                </div>
+              </div>
 
-                  {/* Column 2 */}
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                    {neomindsServicesCol2.map((srv) => (
-                      <div
-                        key={srv.page}
-                        onClick={() => navigateToPage(srv.page)}
-                        style={{
-                          cursor: 'pointer',
-                          color: 'rgba(255, 255, 255, 0.85)',
-                          fontSize: '14px',
-                          fontWeight: 400,
-                          padding: '4px 0',
-                          transition: 'color 0.2s, transform 0.2s',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'space-between',
-                          gap: '6px',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.color = '#2258e7';
-                          e.currentTarget.style.transform = 'translateX(3px)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.color = 'rgba(255, 255, 255, 0.85)';
-                          e.currentTarget.style.transform = 'translateX(0)';
-                        }}
-                      >
-                        <span>{srv.title}</span>
-                        {srv.isNew && (
-                          <span
-                            style={{
-                              fontSize: '9px',
-                              fontWeight: 700,
-                              backgroundColor: '#2258e7',
-                              color: '#ffffff',
-                              padding: '1px 5px',
-                              borderRadius: '2px',
-                              textTransform: 'uppercase',
-                              letterSpacing: '0.04em',
-                            }}
-                          >
-                            NEW
-                          </span>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+              {/* Right Column: Card 2 - Notes from Data AI Conf 2026 */}
+              <div
+                onClick={() => navigateToPage('company-updates')}
+                style={{
+                  cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px',
+                  borderRadius: '6px',
+                  overflow: 'hidden',
+                  transition: 'transform 0.2s',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.transform = 'translateY(-2px)')}
+                onMouseLeave={(e) => (e.currentTarget.style.transform = 'translateY(0)')}
+              >
+                {/* Thumbnail Photo (Conference hall photo collage) */}
+                <div
+                  style={{
+                    height: '130px',
+                    width: '100%',
+                    borderRadius: '6px',
+                    backgroundImage: 'url(https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                  }}
+                />
+
+                <div
+                  style={{
+                    fontSize: '13px',
+                    fontWeight: 500,
+                    lineHeight: 1.45,
+                    color: 'rgba(255, 255, 255, 0.9)',
+                  }}
+                >
+                  From AI hype to engineering discipline: notes from Data AI Conf 2026
                 </div>
               </div>
             </div>
           </div>
         )}
 
-        {/* Who We Are Pure Text Dropdown */}
+        {/* ========================================================
+            DROPDOWN 3: WHO WE ARE
+            ======================================================== */}
         {activeMenu === 'who-we-are' && (
           <div
             style={{
-              width: isScrolled ? 'min(90%, 600px)' : 'min(92%, 640px)',
-              maxWidth: isScrolled ? '600px' : '640px',
+              width: 'min(90%, 580px)',
+              maxWidth: '580px',
               marginTop: '8px',
               borderRadius: '10px',
               border: '1px solid rgba(255, 255, 255, 0.12)',
@@ -661,10 +896,10 @@ export const Header: React.FC<HeaderProps> = ({
             <div
               style={{
                 width: '100%',
-                padding: '22px 28px',
+                padding: '20px 24px',
                 display: 'grid',
                 gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '20px',
+                gap: '16px',
               }}
             >
               <div
@@ -672,7 +907,7 @@ export const Header: React.FC<HeaderProps> = ({
                 style={{
                   cursor: 'pointer',
                   color: 'rgba(255, 255, 255, 0.85)',
-                  fontSize: '14px',
+                  fontSize: '13.5px',
                   fontWeight: 500,
                   transition: 'color 0.2s',
                   padding: '6px 0',
@@ -688,7 +923,7 @@ export const Header: React.FC<HeaderProps> = ({
                 style={{
                   cursor: 'pointer',
                   color: 'rgba(255, 255, 255, 0.85)',
-                  fontSize: '14px',
+                  fontSize: '13.5px',
                   fontWeight: 500,
                   transition: 'color 0.2s',
                   padding: '6px 0',
@@ -704,7 +939,7 @@ export const Header: React.FC<HeaderProps> = ({
                 style={{
                   cursor: 'pointer',
                   color: 'rgba(255, 255, 255, 0.85)',
-                  fontSize: '14px',
+                  fontSize: '13.5px',
                   fontWeight: 500,
                   transition: 'color 0.2s',
                   padding: '6px 0',
@@ -720,7 +955,7 @@ export const Header: React.FC<HeaderProps> = ({
       </header>
 
       {/* ========================================================
-          MOBILE NAVIGATION DRAWER (Full-Screen Immersive Menu)
+          MOBILE NAVIGATION DRAWER
           ======================================================== */}
       {mobileMenuOpen && (
         <div
@@ -742,7 +977,7 @@ export const Header: React.FC<HeaderProps> = ({
           }}
         >
           {/* Mobile Header Top */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
             <span style={{ fontSize: '20px', fontWeight: 800, color: '#ffffff', fontFamily: 'var(--font-heading)' }}>
               Neominds<span style={{ color: '#2258e7' }}>.</span>
             </span>
@@ -755,9 +990,9 @@ export const Header: React.FC<HeaderProps> = ({
             </button>
           </div>
 
-          {/* Mobile Navigation Links */}
+          {/* Mobile Navigation Accordions */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-            {/* Section 1: What we do (Accordion) */}
+            {/* Section 1: What we do */}
             <div>
               <button
                 onClick={() => setMobileExpandedSection(mobileExpandedSection === 'what-we-do' ? null : 'what-we-do')}
@@ -768,7 +1003,7 @@ export const Header: React.FC<HeaderProps> = ({
                   alignItems: 'center',
                   padding: '14px 0',
                   color: '#ffffff',
-                  fontSize: '18px',
+                  fontSize: '17px',
                   fontWeight: 600,
                   borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
                   background: 'none',
@@ -778,7 +1013,7 @@ export const Header: React.FC<HeaderProps> = ({
               >
                 <span>What we do</span>
                 <ChevronRight
-                  size={18}
+                  size={16}
                   style={{
                     transform: mobileExpandedSection === 'what-we-do' ? 'rotate(90deg)' : 'none',
                     transition: 'transform 0.2s',
@@ -788,33 +1023,60 @@ export const Header: React.FC<HeaderProps> = ({
               </button>
 
               {mobileExpandedSection === 'what-we-do' && (
-                <div style={{ padding: '12px 0 16px 12px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                  {[...neomindsServicesCol1, ...neomindsServicesCol2].map((srv) => (
-                    <button
-                      key={srv.page}
-                      onClick={() => navigateToPage(srv.page)}
-                      style={{
-                        textAlign: 'left',
-                        color: currentPage === srv.page ? '#2258e7' : 'rgba(255, 255, 255, 0.8)',
-                        fontSize: '15px',
-                        fontWeight: 500,
-                        padding: '8px 0',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        background: 'none',
-                        border: 'none',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      <span>{srv.title}</span>
-                      {('isNew' in srv) && srv.isNew && (
-                        <span style={{ fontSize: '9px', backgroundColor: '#2258e7', color: '#fff', padding: '2px 6px', borderRadius: '2px', fontWeight: 700 }}>
-                          NEW
-                        </span>
-                      )}
-                    </button>
-                  ))}
+                <div style={{ padding: '12px 0 16px 12px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                  {/* Sub-block: Artificial Intelligence */}
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#5f85ed', textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Artificial Intelligence
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {artificialIntelligenceList.map((srv) => (
+                        <div
+                          key={srv.page}
+                          onClick={() => navigateToPage(srv.page)}
+                          style={{ color: currentPage === srv.page ? '#2258e7' : 'rgba(255,255,255,0.8)', fontSize: '14px', cursor: 'pointer' }}
+                        >
+                          {srv.title}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sub-block: Fintech */}
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#5f85ed', textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Fintech
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {fintechList.map((srv) => (
+                        <div
+                          key={srv.page}
+                          onClick={() => navigateToPage(srv.page)}
+                          style={{ color: currentPage === srv.page ? '#2258e7' : 'rgba(255,255,255,0.8)', fontSize: '14px', cursor: 'pointer' }}
+                        >
+                          {srv.title}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Sub-block: Healthcare */}
+                  <div>
+                    <div style={{ fontSize: '12px', fontWeight: 700, color: '#5f85ed', textTransform: 'uppercase', marginBottom: '8px' }}>
+                      Healthcare
+                    </div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                      {healthcareList.map((srv) => (
+                        <div
+                          key={srv.page}
+                          onClick={() => navigateToPage(srv.page)}
+                          style={{ color: currentPage === srv.page ? '#2258e7' : 'rgba(255,255,255,0.8)', fontSize: '14px', cursor: 'pointer' }}
+                        >
+                          {srv.title}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
@@ -829,7 +1091,7 @@ export const Header: React.FC<HeaderProps> = ({
                 alignItems: 'center',
                 padding: '14px 0',
                 color: currentPage === 'about-us' ? '#2258e7' : '#ffffff',
-                fontSize: '18px',
+                fontSize: '17px',
                 fontWeight: 600,
                 borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
                 background: 'none',
@@ -838,30 +1100,62 @@ export const Header: React.FC<HeaderProps> = ({
               }}
             >
               <span>Who we are</span>
-              <ChevronRight size={18} opacity={0.6} />
+              <ChevronRight size={16} opacity={0.6} />
             </button>
 
-            {/* Section 3: Insights */}
-            <button
-              onClick={() => navigateToPage('insights')}
-              style={{
-                width: '100%',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '14px 0',
-                color: currentPage === 'insights' ? '#2258e7' : '#ffffff',
-                fontSize: '18px',
-                fontWeight: 600,
-                borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-              }}
-            >
-              <span>Insights & Blogs</span>
-              <ChevronRight size={18} opacity={0.6} />
-            </button>
+            {/* Section 3: Insights Accordion */}
+            <div>
+              <button
+                onClick={() => setMobileExpandedSection(mobileExpandedSection === 'insights' ? null : 'insights')}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '14px 0',
+                  color: '#ffffff',
+                  fontSize: '17px',
+                  fontWeight: 600,
+                  borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                <span>Insights & Publications</span>
+                <ChevronRight
+                  size={16}
+                  style={{
+                    transform: mobileExpandedSection === 'insights' ? 'rotate(90deg)' : 'none',
+                    transition: 'transform 0.2s',
+                    color: mobileExpandedSection === 'insights' ? '#2258e7' : 'inherit',
+                  }}
+                />
+              </button>
+
+              {mobileExpandedSection === 'insights' && (
+                <div style={{ padding: '12px 0 16px 12px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <div
+                    onClick={() => navigateToPage('blog')}
+                    style={{ color: currentPage === 'blog' ? '#2258e7' : 'rgba(255,255,255,0.8)', fontSize: '15px', cursor: 'pointer' }}
+                  >
+                    Blog
+                  </div>
+                  <div
+                    onClick={() => navigateToPage('company-updates')}
+                    style={{ color: currentPage === 'company-updates' ? '#2258e7' : 'rgba(255,255,255,0.8)', fontSize: '15px', cursor: 'pointer' }}
+                  >
+                    Company Updates
+                  </div>
+                  <div
+                    onClick={() => navigateToPage('insights')}
+                    style={{ color: currentPage === 'insights' ? '#2258e7' : 'rgba(255,255,255,0.8)', fontSize: '15px', cursor: 'pointer' }}
+                  >
+                    All Insights Hub
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Section 4: Case studies */}
             <button
@@ -873,7 +1167,7 @@ export const Header: React.FC<HeaderProps> = ({
                 alignItems: 'center',
                 padding: '14px 0',
                 color: currentPage === 'portfolio' ? '#2258e7' : '#ffffff',
-                fontSize: '18px',
+                fontSize: '17px',
                 fontWeight: 600,
                 borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
                 background: 'none',
@@ -882,12 +1176,12 @@ export const Header: React.FC<HeaderProps> = ({
               }}
             >
               <span>Case studies</span>
-              <ChevronRight size={18} opacity={0.6} />
+              <ChevronRight size={16} opacity={0.6} />
             </button>
           </div>
 
           {/* Mobile Footer Send Request Button */}
-          <div style={{ marginTop: 'auto', paddingTop: '32px' }}>
+          <div style={{ marginTop: 'auto', paddingTop: '28px' }}>
             <button
               onClick={() => navigateToPage('contacts')}
               className="btn btn-primary btn-lg"
@@ -899,7 +1193,7 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       )}
 
-      {/* Global CSS Media Queries & Animations */}
+      {/* Global CSS Animations & Breakpoints */}
       <style>{`
         @keyframes megaDropdownFadeIn {
           from {
