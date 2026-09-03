@@ -5,6 +5,7 @@ import {
   Menu,
   X,
   ArrowUpRight,
+  Mail,
 } from 'lucide-react';
 
 export type PageType =
@@ -265,74 +266,96 @@ export const Header: React.FC<HeaderProps> = ({
       >
         {/* ========================================================
             SHRINKING ON SCROLL FLOATING NAVBAR PILL
-            Starts full-width edge-to-edge (100% width, 60px height).
+            Starts full-width edge-to-edge (100% width, 64px height).
             When scrolled, smoothly shrinks by ~30% in total width (~70% width, 48px height)!
             ======================================================== */}
         <div
           style={{
-            width: isScrolled ? 'min(70%, 820px)' : '100%',
-            maxWidth: isScrolled ? '820px' : '100%',
-            height: isScrolled ? '46px' : '62px',
-            borderRadius: isScrolled ? '10px' : '0px',
-            backgroundColor: isScrolled ? 'rgba(12, 14, 18, 0.96)' : 'rgba(8, 10, 14, 0.92)',
-            backdropFilter: 'blur(24px)',
-            WebkitBackdropFilter: 'blur(24px)',
+            width: isScrolled ? 'min(72%, 840px)' : '100%',
+            maxWidth: isScrolled ? '840px' : '100%',
+            height: isScrolled ? '46px' : '64px',
+            borderRadius: isScrolled ? '6px' : '0px',
+            backgroundColor: isScrolled ? '#0b0e14' : '#080a0f',
             borderTop: 'none',
-            borderLeft: isScrolled ? '1px solid rgba(255, 255, 255, 0.14)' : 'none',
-            borderRight: isScrolled ? '1px solid rgba(255, 255, 255, 0.14)' : 'none',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.10)',
+            borderLeft: isScrolled ? '1px solid #1e2430' : 'none',
+            borderRight: isScrolled ? '1px solid #1e2430' : 'none',
+            borderBottom: '1px solid #1e2430',
             boxShadow: isScrolled
-              ? '0 16px 36px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05)'
-              : '0 4px 20px rgba(0, 0, 0, 0.4)',
+              ? '0 16px 36px rgba(0, 0, 0, 0.75)'
+              : '0 2px 10px rgba(0, 0, 0, 0.3)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingInline: isScrolled ? '20px' : 'clamp(24px, 4vw, 56px)',
+            paddingInline: isScrolled ? '12px' : 'clamp(24px, 4vw, 56px)',
             pointerEvents: 'auto',
             transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
           }}
         >
-          {/* Left Brand Logo */}
+          {/* Left Brand Logo: Matches Screenshot 1 & 2 */}
           <div
             onClick={handleLogoClick}
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: isScrolled ? '7px' : '9px',
               cursor: 'pointer',
               userSelect: 'none',
-              transition: 'gap 0.3s ease',
+              transition: 'all 0.3s ease',
             }}
           >
-            {/* 5-Bar Logo SVG matching EffectiveSoft */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', width: isScrolled ? '15px' : '17px', transition: 'width 0.3s ease' }}>
-              <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
-              <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
-              <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
-              <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
-              <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
-            </div>
-
-            <span
-              style={{
-                fontFamily: 'var(--font-heading)',
-                fontSize: isScrolled ? '16px' : '18px',
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
-                color: '#ffffff',
-                transition: 'font-size 0.3s ease',
-              }}
-            >
-              Neominds
-            </span>
+            {isScrolled ? (
+              /* Shrunk Scrolled State: Blue Square Icon with 5 white horizontal lines */
+              <div
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  backgroundColor: '#2258e7',
+                  borderRadius: '4px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: '2.5px',
+                  boxShadow: '0 2px 6px rgba(34, 88, 231, 0.4)',
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                <span style={{ height: '2px', backgroundColor: '#ffffff', width: '16px', borderRadius: '1px' }} />
+                <span style={{ height: '2px', backgroundColor: '#ffffff', width: '16px', borderRadius: '1px' }} />
+                <span style={{ height: '2px', backgroundColor: '#ffffff', width: '16px', borderRadius: '1px' }} />
+                <span style={{ height: '2px', backgroundColor: '#ffffff', width: '16px', borderRadius: '1px' }} />
+                <span style={{ height: '2px', backgroundColor: '#ffffff', width: '16px', borderRadius: '1px' }} />
+              </div>
+            ) : (
+              /* Unscrolled Full-Width State: White 5-bar icon + "Neominds" text */
+              <div style={{ display: 'flex', alignItems: 'center', gap: '9px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5px', width: '17px' }}>
+                  <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
+                  <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
+                  <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
+                  <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
+                  <span style={{ height: '2px', backgroundColor: '#ffffff', width: '100%', borderRadius: '1px' }} />
+                </div>
+                <span
+                  style={{
+                    fontFamily: 'var(--font-heading)',
+                    fontSize: '18px',
+                    fontWeight: 700,
+                    letterSpacing: '-0.02em',
+                    color: '#ffffff',
+                  }}
+                >
+                  Neominds
+                </span>
+              </div>
+            )}
           </div>
 
-          {/* Center Navigation Links (Pure Text) */}
+          {/* Center Navigation Links (Pure Text with subtle arrow indicators) */}
           <nav
             style={{
               display: 'none',
               alignItems: 'center',
-              gap: isScrolled ? '16px' : '22px',
+              gap: isScrolled ? '18px' : '28px',
               height: '100%',
               transition: 'gap 0.3s ease',
             }}
@@ -462,31 +485,59 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Right CTA Button & Mobile Trigger */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            <button
-              onClick={() => navigateToPage('contacts')}
-              className="desktop-send-btn"
-              style={{
-                height: isScrolled ? '32px' : '36px',
-                paddingInline: isScrolled ? '14px' : '18px',
-                fontSize: isScrolled ? '12.5px' : '13px',
-                fontWeight: 600,
-                letterSpacing: '-0.01em',
-                lineHeight: 1,
-                borderRadius: '6px',
-                backgroundColor: '#2258e7',
-                color: '#ffffff',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                boxShadow: '0 2px 8px rgba(34, 88, 231, 0.35)',
-                transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
-                display: 'inline-flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                whiteSpace: 'nowrap',
-                cursor: 'pointer',
-              }}
-            >
-              Send request
-            </button>
+            {isScrolled ? (
+              /* Shrunk Scrolled State: Blue Square Envelope Icon button */
+              <button
+                onClick={() => navigateToPage('contacts')}
+                className="desktop-send-btn"
+                title="Send request"
+                aria-label="Send request"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '4px',
+                  backgroundColor: '#2258e7',
+                  color: '#ffffff',
+                  border: 'none',
+                  boxShadow: '0 2px 6px rgba(34, 88, 231, 0.4)',
+                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  padding: 0,
+                }}
+              >
+                <Mail size={16} color="#ffffff" />
+              </button>
+            ) : (
+              /* Unscrolled Full-Width State: Full Blue "Send request" pill button */
+              <button
+                onClick={() => navigateToPage('contacts')}
+                className="desktop-send-btn"
+                style={{
+                  height: '36px',
+                  paddingInline: '18px',
+                  fontSize: '13px',
+                  fontWeight: 600,
+                  letterSpacing: '-0.01em',
+                  lineHeight: 1,
+                  borderRadius: '4px',
+                  backgroundColor: '#2258e7',
+                  color: '#ffffff',
+                  border: 'none',
+                  boxShadow: '0 2px 8px rgba(34, 88, 231, 0.35)',
+                  transition: 'all 0.25s cubic-bezier(0.16, 1, 0.3, 1)',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  whiteSpace: 'nowrap',
+                  cursor: 'pointer',
+                }}
+              >
+                Send request
+              </button>
+            )}
 
             {/* Mobile Menu Hamburger */}
             <button
@@ -501,7 +552,7 @@ export const Header: React.FC<HeaderProps> = ({
                 color: '#ffffff',
                 background: 'rgba(255, 255, 255, 0.04)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
-                borderRadius: '6px',
+                borderRadius: '4px',
                 cursor: 'pointer',
                 transition: 'all 0.2s ease',
               }}
