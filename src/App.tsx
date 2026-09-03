@@ -14,8 +14,9 @@ import { ContactSection } from './components/ContactSection';
 import { LocationsSection } from './components/LocationsSection';
 import { Footer } from './components/Footer';
 
-// Universal Service Page Template & 11 Services Data
-import { ServicePageTemplate } from './components/ServicePageTemplate';
+// Universal Service Page System & 28 Services Registry
+import { ServicePage } from './components/service/ServicePage';
+import { UNIVERSAL_SERVICES_MAP } from './data/universalServicesRegistry';
 import { SERVICES_DATA } from './data/servicesData';
 
 // Content & Legacy Strategy Pages
@@ -226,11 +227,12 @@ export const App: React.FC = () => {
             VIEW ROUTER: RENDER BASED ON ACTIVE SELECTION
             ======================================================== */}
 
-        {/* 1. Universal White-Background Template for All 11 Official Services */}
-        {isOfficialServicePage && (
+        {/* 1. Universal Canonical Service Page System for All 28 Services */}
+        {isOfficialServicePage && UNIVERSAL_SERVICES_MAP[currentPage] && (
           <main id="main-content">
-            <ServicePageTemplate
-              data={SERVICES_DATA[currentPage]}
+            <ServicePage
+              data={UNIVERSAL_SERVICES_MAP[currentPage]}
+              allServices={UNIVERSAL_SERVICES_MAP}
               onNavigateHome={() => handleSelectPage('home')}
               onNavigatePage={(p) => handleSelectPage(p as PageType)}
               onSuccessToast={(msg) => addToast('Success', msg, 'success')}
