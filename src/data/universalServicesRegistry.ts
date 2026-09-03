@@ -1,6 +1,7 @@
 import { UniversalServiceData, ServiceCategory, ServiceSignatureData } from '../types/service';
 import { getCaseStudiesForFamily } from './caseStudiesData';
 import { SERVICES_DATA, ServiceData } from './servicesData';
+import { getCapabilityStyleForService } from './capabilityStyles';
 
 // Map signature modules based on the prompt's exact 28 service mapping rules
 export const getSignatureForService = (slug: string, title: string): ServiceSignatureData => {
@@ -644,6 +645,7 @@ export const buildUniversalService = (baseData: ServiceData): UniversalServiceDa
 
     // 5. Capabilities
     capabilities: baseData.capabilities,
+    capabilityStyle: getCapabilityStyleForService(baseData.slug),
 
     // 6. Signature Section
     signature,

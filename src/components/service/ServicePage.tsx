@@ -173,11 +173,12 @@ export const ServicePage: React.FC<ServicePageProps> = ({
         keyTakeaway={data.overview.keyTakeaway}
       />
 
-      {/* 05. Core Capabilities (6-8 Modular Cards) */}
+      {/* 05. Core Capabilities (Styled with 1 of 7 distinct bespoke design methods) */}
       <ServiceCapabilities
         title={data.title}
         capabilities={data.capabilities}
         icon={ServiceIcon}
+        styleVariant={data.capabilityStyle || 'bento-grid'}
       />
 
       {/* 06. Service-Specific Signature Section */}

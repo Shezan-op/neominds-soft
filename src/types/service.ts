@@ -124,6 +124,14 @@ export interface UniversalServiceData {
 
   // 5. Capabilities (6-8 items)
   capabilities: ServiceCapability[];
+  capabilityStyle?:
+    | 'bento-grid'
+    | 'interactive-tabs'
+    | 'numbered-editorial'
+    | 'split-showcase'
+    | 'dark-cyber'
+    | 'timeline-flow'
+    | 'minimal-pills';
 
   // 6. Signature Section (Service-Specific)
   signature: ServiceSignatureData;
