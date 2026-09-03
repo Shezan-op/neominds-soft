@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
+import { Plus, Minus, HelpCircle } from 'lucide-react';
 import { ServiceFaq } from '../../types/service';
 import { ScrollReveal, RevealElement } from '../scroll-reveal';
 
@@ -15,13 +15,16 @@ export const ServiceFAQ: React.FC<ServiceFAQProps> = ({ title, faqs }) => {
     <section
       style={{
         padding: 'clamp(64px, 7vw, 96px) 24px',
-        maxWidth: '860px',
+        maxWidth: '960px',
         margin: '0 auto',
       }}
     >
       <div style={{ textAlign: 'center', marginBottom: '48px' }}>
         <div
           style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '6px',
             fontSize: '12px',
             fontWeight: 700,
             color: '#2258e7',
@@ -30,7 +33,8 @@ export const ServiceFAQ: React.FC<ServiceFAQProps> = ({ title, faqs }) => {
             marginBottom: '10px',
           }}
         >
-          Common Questions
+          <HelpCircle size={14} />
+          <span>Technical Due Diligence</span>
         </div>
         <ScrollReveal
           as="h2"
@@ -48,19 +52,17 @@ export const ServiceFAQ: React.FC<ServiceFAQProps> = ({ title, faqs }) => {
         </ScrollReveal>
       </div>
 
+      {/* Editorial Minimal Rule Accordion (NOT boxed rounded cards!) */}
       <RevealElement variant="card">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', borderTop: '2px solid #0f172a' }}>
           {faqs.map((faq, idx) => {
             const isExpanded = expandedIndex === idx;
             return (
               <div
                 key={idx}
                 style={{
-                  backgroundColor: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '4px',
-                  overflow: 'hidden',
-                  transition: 'border-color 0.2s',
+                  borderBottom: '1px solid #e2e8f0',
+                  transition: 'background-color 0.2s',
                 }}
               >
                 <button
@@ -68,7 +70,7 @@ export const ServiceFAQ: React.FC<ServiceFAQProps> = ({ title, faqs }) => {
                   aria-expanded={isExpanded}
                   style={{
                     width: '100%',
-                    padding: '20px 24px',
+                    padding: '24px 8px',
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
@@ -78,25 +80,39 @@ export const ServiceFAQ: React.FC<ServiceFAQProps> = ({ title, faqs }) => {
                     cursor: 'pointer',
                   }}
                 >
-                  <span style={{ fontSize: '15.5px', fontWeight: 700, color: '#0f172a', paddingRight: '16px' }}>
-                    {faq.question}
-                  </span>
-                  {isExpanded ? (
-                    <ChevronUp size={18} color="#2258e7" />
-                  ) : (
-                    <ChevronDown size={18} color="#64748b" />
-                  )}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '16px', paddingRight: '16px' }}>
+                    <span style={{ fontSize: '13px', fontWeight: 800, color: isExpanded ? '#2258e7' : '#94a3b8', fontFamily: 'monospace' }}>
+                      Q0{idx + 1}
+                    </span>
+                    <span style={{ fontSize: '16.5px', fontWeight: 700, color: isExpanded ? '#2258e7' : '#0f172a', transition: 'color 0.2s' }}>
+                      {faq.question}
+                    </span>
+                  </div>
+
+                  <div
+                    style={{
+                      width: '28px',
+                      height: '28px',
+                      borderRadius: '50%',
+                      border: isExpanded ? '1px solid #2258e7' : '1px solid #cbd5e1',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: isExpanded ? '#2258e7' : '#64748b',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {isExpanded ? <Minus size={14} /> : <Plus size={14} />}
+                  </div>
                 </button>
 
                 {isExpanded && (
                   <div
                     style={{
-                      padding: '0 24px 22px 24px',
-                      fontSize: '14.5px',
-                      lineHeight: 1.65,
+                      padding: '0 8px 24px 44px',
+                      fontSize: '15px',
+                      lineHeight: 1.7,
                       color: '#475569',
-                      borderTop: '1px solid #edf2f7',
-                      marginTop: '2px',
                     }}
                   >
                     {faq.answer}

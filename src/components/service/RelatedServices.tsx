@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { ScrollReveal, RevealElement } from '../scroll-reveal';
 
 interface RelatedServiceItem {
@@ -41,7 +41,7 @@ export const RelatedServices: React.FC<RelatedServicesProps> = ({
               marginBottom: '10px',
             }}
           >
-            Connected Capabilities
+            Interconnected Capabilities
           </div>
           <ScrollReveal
             as="h2"
@@ -56,7 +56,7 @@ export const RelatedServices: React.FC<RelatedServicesProps> = ({
             }}
             blurStrength={6}
           >
-            Complementary Ecosystem Services
+            Ecosystem Directory
           </ScrollReveal>
           <RevealElement variant="text" delay={0.06}>
             <p style={{ fontSize: '16px', color: '#64748b', lineHeight: 1.6, margin: 0 }}>
@@ -65,40 +65,33 @@ export const RelatedServices: React.FC<RelatedServicesProps> = ({
           </RevealElement>
         </div>
 
-        {/* 3-4 Connected Service Cards */}
+        {/* Directory Row Table (NOT generic cards) */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            borderTop: '2px solid #0f172a',
           }}
         >
-          {relatedItems.map((item) => (
+          {relatedItems.map((item, idx) => (
             <div
               key={item.slug}
               onClick={() => onNavigatePage(item.slug)}
               style={{
-                backgroundColor: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '6px',
-                padding: '28px',
+                padding: '24px 0',
+                borderBottom: '1px solid #e2e8f0',
+                display: 'grid',
+                gridTemplateColumns: 'minmax(140px, 200px) 1fr auto',
+                gap: '24px',
+                alignItems: 'center',
                 cursor: 'pointer',
-                transition: 'all 0.2s',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
+                transition: 'background-color 0.2s, padding-left 0.2s',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-                e.currentTarget.style.borderColor = '#2258e7';
-                e.currentTarget.style.transform = 'translateY(-3px)';
-                e.currentTarget.style.boxShadow = '0 10px 24px rgba(34, 88, 231, 0.08)';
+                e.currentTarget.style.paddingLeft = '12px';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#f8fafc';
-                e.currentTarget.style.borderColor = '#e2e8f0';
-                e.currentTarget.style.transform = 'translateY(0)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.paddingLeft = '0px';
               }}
             >
               <div>
@@ -108,40 +101,47 @@ export const RelatedServices: React.FC<RelatedServicesProps> = ({
                     fontWeight: 700,
                     color: '#2258e7',
                     textTransform: 'uppercase',
-                    letterSpacing: '0.04em',
+                    letterSpacing: '0.05em',
                   }}
                 >
                   {item.category}
                 </span>
+                <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px', fontFamily: 'monospace' }}>
+                  REF_0{idx + 1}
+                </div>
+              </div>
+
+              <div>
                 <h3
                   style={{
                     fontSize: '18px',
                     fontWeight: 700,
                     color: '#0f172a',
                     fontFamily: 'var(--font-heading)',
-                    margin: '8px 0 10px 0',
+                    margin: '0 0 4px 0',
                   }}
                 >
                   {item.title}
                 </h3>
-                <p style={{ fontSize: '13.5px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>
+                <p style={{ fontSize: '13.5px', color: '#64748b', margin: 0 }}>
                   {item.tagline}
                 </p>
               </div>
 
               <div
                 style={{
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  border: '1px solid #cbd5e1',
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '6px',
-                  color: '#2258e7',
-                  fontSize: '13px',
-                  fontWeight: 700,
-                  marginTop: '20px',
+                  justifyContent: 'center',
+                  color: '#0f172a',
+                  transition: 'all 0.2s',
                 }}
               >
-                <span>Explore Service</span>
-                <ArrowRight size={14} />
+                <ArrowUpRight size={16} />
               </div>
             </div>
           ))}

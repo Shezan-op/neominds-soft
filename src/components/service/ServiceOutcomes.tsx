@@ -1,7 +1,6 @@
-import React from 'react';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, Award } from 'lucide-react';
 import { ServiceOutcome } from '../../types/service';
-import { ScrollReveal, RevealElement } from '../scroll-reveal';
+import { ScrollReveal } from '../scroll-reveal';
 
 interface ServiceOutcomesProps {
   title: string;
@@ -13,90 +12,111 @@ export const ServiceOutcomes: React.FC<ServiceOutcomesProps> = ({ title, outcome
     <section
       style={{
         padding: 'clamp(64px, 7vw, 96px) 24px',
-        backgroundColor: '#0f172a',
-        color: '#ffffff',
+        backgroundColor: '#ffffff',
+        borderTop: '1px solid #e2e8f0',
+        borderBottom: '1px solid #e2e8f0',
       }}
     >
       <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto 56px' }}>
-          <div
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              fontSize: '12px',
-              fontWeight: 700,
-              color: '#60a5fa',
-              textTransform: 'uppercase',
-              letterSpacing: '0.06em',
-              marginBottom: '10px',
-            }}
-          >
-            <TrendingUp size={14} />
-            <span>Measurable Impact</span>
-          </div>
-          <ScrollReveal
-            as="h2"
-            style={{
-              fontSize: 'clamp(28px, 3.4vw, 42px)',
-              fontWeight: 800,
-              color: '#ffffff',
-              fontFamily: 'var(--font-heading)',
-              lineHeight: 1.15,
-              marginBottom: '16px',
-              display: 'block',
-            }}
-            blurStrength={6}
-          >
-            Business Outcomes Delivered by {title}
-          </ScrollReveal>
-          <RevealElement variant="text" delay={0.06}>
-            <p style={{ fontSize: '16px', color: '#94a3b8', lineHeight: 1.6, margin: 0 }}>
-              Tangible efficiency gains, cost reductions, and operational acceleration achieved through our engineered solutions.
-            </p>
-          </RevealElement>
-        </div>
-
+        {/* Editorial 2-Column Split: Big Headline & Context Left, Monolithic Statistic Strip Right */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '24px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+            gap: 'clamp(36px, 6vw, 64px)',
+            alignItems: 'center',
           }}
         >
-          {outcomes.map((item, idx) => (
-            <RevealElement key={idx} variant="card" delay={idx * 0.05}>
+          {/* Left Column: Value Vector Context */}
+          <div>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontSize: '12px',
+                fontWeight: 700,
+                color: '#2258e7',
+                textTransform: 'uppercase',
+                letterSpacing: '0.06em',
+                marginBottom: '12px',
+              }}
+            >
+              <TrendingUp size={14} />
+              <span>Measurable Business ROI</span>
+            </div>
+
+            <ScrollReveal
+              as="h2"
+              style={{
+                fontSize: 'clamp(28px, 3.4vw, 44px)',
+                fontWeight: 800,
+                color: '#0f172a',
+                fontFamily: 'var(--font-heading)',
+                lineHeight: 1.15,
+                marginBottom: '18px',
+                display: 'block',
+              }}
+              blurStrength={6}
+            >
+              Quantified Impact Delivered in {title}
+            </ScrollReveal>
+
+            <p style={{ fontSize: '16px', color: '#475569', lineHeight: 1.65, margin: '0 0 24px 0' }}>
+              We tie every architectural deliverable directly to bottom-line enterprise results. By engineering out latency, failure points, and operational friction, our partners experience sustained efficiency gains.
+            </p>
+
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 14px', backgroundColor: '#f1f5f9', borderRadius: '4px', fontSize: '13px', fontWeight: 600, color: '#334155' }}>
+              <Award size={15} color="#2258e7" />
+              <span>Verified against real-world client production benchmarks</span>
+            </div>
+          </div>
+
+          {/* Right Column: Monolithic Monospace Metric Ledger (NOT rectangular cards) */}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              borderTop: '2px solid #0f172a',
+            }}
+          >
+            {outcomes.map((item, idx) => (
               <div
+                key={idx}
                 style={{
-                  backgroundColor: '#1e293b',
-                  border: '1px solid rgba(255, 255, 255, 0.08)',
-                  borderRadius: '6px',
-                  padding: '28px',
-                  height: '100%',
-                  boxSizing: 'border-box',
+                  padding: '28px 0',
+                  borderBottom: '1px solid #e2e8f0',
+                  display: 'flex',
+                  alignItems: 'baseline',
+                  justifyContent: 'space-between',
+                  gap: '24px',
                 }}
               >
+                <div style={{ maxWidth: '360px' }}>
+                  <div style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px' }}>
+                    {item.label}
+                  </div>
+                  <p style={{ fontSize: '13.5px', color: '#64748b', lineHeight: 1.5, margin: 0 }}>
+                    {item.description}
+                  </p>
+                </div>
+
                 <div
                   style={{
-                    fontSize: '36px',
+                    fontSize: 'clamp(32px, 3.5vw, 46px)',
                     fontWeight: 800,
-                    color: '#38bdf8',
+                    color: '#2258e7',
                     fontFamily: 'var(--font-heading)',
-                    marginBottom: '8px',
                     lineHeight: 1,
+                    textAlign: 'right',
+                    flexShrink: 0,
                   }}
                 >
                   {item.metric}
                 </div>
-                <div style={{ fontSize: '15px', fontWeight: 700, color: '#ffffff', marginBottom: '8px' }}>
-                  {item.label}
-                </div>
-                <p style={{ fontSize: '13.5px', color: '#94a3b8', lineHeight: 1.6, margin: 0 }}>
-                  {item.description}
-                </p>
               </div>
-            </RevealElement>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
