@@ -185,9 +185,9 @@ export const Header: React.FC<HeaderProps> = ({
             ======================================================== */}
         <div
           style={{
-            width: isScrolled ? 'min(72%, 840px)' : '100%',
-            maxWidth: isScrolled ? '840px' : '100%',
-            height: isScrolled ? '46px' : '64px',
+            width: isScrolled ? 'min(56%, 620px)' : '100%',
+            maxWidth: isScrolled ? '620px' : '100%',
+            height: isScrolled ? '44px' : '64px',
             borderRadius: isScrolled ? '6px' : '0px',
             backgroundColor: isScrolled ? '#0b0e14' : '#080a0f',
             borderTop: 'none',
@@ -200,7 +200,7 @@ export const Header: React.FC<HeaderProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingInline: isScrolled ? '12px' : 'clamp(24px, 4vw, 56px)',
+            paddingInline: isScrolled ? '10px' : 'clamp(24px, 4vw, 56px)',
             pointerEvents: 'auto',
             transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
           }}
