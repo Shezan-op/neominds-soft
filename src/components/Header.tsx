@@ -1,5 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
-import gsap from 'gsap';
+import React, { useEffect, useState } from 'react';
 import {
   ChevronRight,
   Menu,
@@ -68,110 +67,26 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectPage,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
   const [activeMenu, setActiveMenu] = useState<'what-we-do' | 'who-we-are' | 'insights' | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>('what-we-do');
 
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const headerRef = useRef<HTMLDivElement>(null);
-
-  // When switching pages, always ensure navbar is visible at the top
+  // Continuous on-scroll shrink: directly connects to user scroll position without disappearing!
   useEffect(() => {
-    setIsVisible(true);
-    setIsScrolled(window.scrollY > 40);
-  }, [currentPage]);
-
-  // Scroll dynamics & timer-based auto-reappearance (1.5s after user stops scrolling)
-  useEffect(() => {
-    let lastWheelTime = 0;
-    let isTouching = false;
-
-    const hideAndStartTimer = (delay = 1500) => {
-      if (activeMenu || mobileMenuOpen) return;
-
-      setIsScrolled(window.scrollY > 40);
-      setIsVisible(false);
-
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-
-      // Exactly 1.5s after user stops scrolling, smoothly slide navbar back in
-      scrollTimeoutRef.current = setTimeout(() => {
-        setIsVisible(true);
-      }, delay);
+    const handleScroll = () => {
+      // Direct threshold: as soon as user scrolls past 30px, navbar smoothly contracts
+      const scrolled = window.scrollY > 30;
+      setIsScrolled(scrolled);
     };
 
-    // 1. Mouse wheel / trackpad (Desktop)
-    const onWheel = () => {
-      lastWheelTime = Date.now();
-      hideAndStartTimer(1500);
-    };
+    // Initial check on mount
+    handleScroll();
 
-    // 2. Touch interactions (Smartphones & Tablets)
-    const onTouchStart = () => {
-      isTouching = true;
-    };
-
-    const onTouchMove = () => {
-      hideAndStartTimer(1500);
-    };
-
-    const onTouchEnd = () => {
-      isTouching = false;
-      hideAndStartTimer(1500);
-    };
-
-    // 3. Native scroll (Scrollbar dragging or continuous page scroll)
-    const onNativeScroll = () => {
-      setIsScrolled(window.scrollY > 40);
-
-      if (Date.now() - lastWheelTime < 1000 || isTouching) {
-        return;
-      }
-      hideAndStartTimer(1500);
-    };
-
-    window.addEventListener('wheel', onWheel, { passive: true });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-    window.addEventListener('touchend', onTouchEnd, { passive: true });
-    window.addEventListener('scroll', onNativeScroll, { passive: true });
-
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('touchend', onTouchEnd);
-      window.removeEventListener('scroll', onNativeScroll);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, [activeMenu, mobileMenuOpen]);
-
-  // GSAP animation for smooth header reveal/hide
-  useEffect(() => {
-    if (!headerRef.current) return;
-    if (isVisible) {
-      gsap.to(headerRef.current, {
-        y: 0,
-        opacity: 1,
-        duration: 0.35,
-        ease: 'power2.out',
-        overwrite: 'auto',
-      });
-    } else {
-      gsap.to(headerRef.current, {
-        y: -120,
-        opacity: 0,
-        duration: 0.2,
-        ease: 'power2.in',
-        overwrite: 'auto',
-      });
-    }
-  }, [isVisible]);
+  }, []);
 
   const handleMouseEnter = (menu: 'what-we-do' | 'who-we-are' | 'insights') => {
     setActiveMenu(menu);
@@ -245,8 +160,6 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <>
       <header
-        ref={headerRef}
-        data-visible={isVisible}
         onMouseLeave={handleMouseLeave}
         style={{
           position: 'fixed',
@@ -254,7 +167,7 @@ export const Header: React.FC<HeaderProps> = ({
           left: 0,
           width: '100%',
           zIndex: 1000,
-          pointerEvents: isVisible ? 'auto' : 'none',
+          pointerEvents: 'auto',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
