@@ -87,8 +87,12 @@ export const App: React.FC = () => {
       const rawHash = window.location.hash;
       const cleanHash = rawHash.replace('#', '');
 
-      if (cleanHash in SERVICES_DATA) {
+      if (cleanHash in UNIVERSAL_SERVICES_MAP) {
         setCurrentPage(cleanHash as PageType);
+      } else if (cleanHash in SERVICES_DATA) {
+        setCurrentPage(cleanHash as PageType);
+      } else if (cleanHash === 'chatbot-video-bot-development') {
+        setCurrentPage('chatbot-videobot');
       } else if (cleanHash === 'insights') {
         setCurrentPage('insights');
       } else if (cleanHash === 'blog') {

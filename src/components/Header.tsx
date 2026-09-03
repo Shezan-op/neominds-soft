@@ -27,6 +27,7 @@ export type PageType =
   | 'ai-agents'
   | 'ai-automations'
   | 'chatbot-videobot'
+  | 'chatbot-video-bot-development'
   | 'analytics-dashboard'
   | 'technical-support'
   | 'product-discovery'

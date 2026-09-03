@@ -705,3 +705,12 @@ export const UNIVERSAL_SERVICES_MAP: Record<string, UniversalServiceData> = {};
 for (const slug in SERVICES_DATA) {
   UNIVERSAL_SERVICES_MAP[slug] = buildUniversalService(SERVICES_DATA[slug]);
 }
+
+// Ensure both slug forms for chatbot and video bot resolve cleanly
+if (UNIVERSAL_SERVICES_MAP['chatbot-videobot']) {
+  UNIVERSAL_SERVICES_MAP['chatbot-video-bot-development'] = {
+    ...UNIVERSAL_SERVICES_MAP['chatbot-videobot'],
+    slug: 'chatbot-video-bot-development',
+  };
+}
+
