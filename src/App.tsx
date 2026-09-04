@@ -177,7 +177,8 @@ export const App: React.FC = () => {
     } else {
       window.history.pushState(null, '', `#${page}`);
     }
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    scrollTo(0, { immediate: true });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const addToast = (title: string, description?: string, type: 'success' | 'error' | 'info' = 'success') => {

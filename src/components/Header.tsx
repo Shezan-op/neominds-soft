@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   ChevronRight,
   Menu,
@@ -68,26 +68,57 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectPage,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const [activeMenu, setActiveMenu] = useState<'what-we-do' | 'who-we-are' | 'insights' | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedSection, setMobileExpandedSection] = useState<string | null>('what-we-do');
 
-  // Continuous on-scroll shrink: directly connects to user scroll position without disappearing!
+  const scrollStopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Cinematic on-scroll disappearing effect with 1.5s smooth reappearance
   useEffect(() => {
     const handleScroll = () => {
-      // Direct threshold: as soon as user scrolls past 30px, navbar smoothly contracts
-      const scrolled = window.scrollY > 30;
+      // Keep navbar pinned and visible if the mobile drawer is actively open
+      if (mobileMenuOpen) {
+        setIsVisible(true);
+        return;
+      }
+
+      const currentScrollY = window.scrollY || document.documentElement.scrollTop;
+      const scrolled = currentScrollY > 30;
       setIsScrolled(scrolled);
+
+      // Disappear smoothly while actively scrolling and close open dropdowns
+      setIsVisible(false);
+      setActiveMenu(null);
+
+      // Clear previous timer
+      if (scrollStopTimerRef.current) {
+        clearTimeout(scrollStopTimerRef.current);
+      }
+
+      // Reappear smoothly after scrolling has stopped for 1.5 seconds (1500ms)
+      scrollStopTimerRef.current = setTimeout(() => {
+        setIsVisible(true);
+      }, 1500);
     };
 
     // Initial check on mount
-    handleScroll();
+    const initialScrollY = window.scrollY || document.documentElement.scrollTop;
+    setIsScrolled(initialScrollY > 30);
+    setIsVisible(true);
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('lenis-scroll', handleScroll, { passive: true });
+
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('lenis-scroll', handleScroll);
+      if (scrollStopTimerRef.current) {
+        clearTimeout(scrollStopTimerRef.current);
+      }
     };
-  }, []);
+  }, [mobileMenuOpen]);
 
   const handleMouseEnter = (menu: 'what-we-do' | 'who-we-are' | 'insights') => {
     setActiveMenu(menu);
@@ -168,14 +199,17 @@ export const Header: React.FC<HeaderProps> = ({
           left: 0,
           width: '100%',
           zIndex: 1000,
-          pointerEvents: 'auto',
+          pointerEvents: isVisible ? 'auto' : 'none',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           paddingTop: isScrolled ? '12px' : '0px',
           paddingInline: isScrolled ? '16px' : '0px',
           boxSizing: 'border-box',
-          transition: 'padding-top 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-inline 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          transform: isVisible ? 'translate3d(0, 0, 0)' : 'translate3d(0, -140%, 0)',
+          opacity: isVisible ? 1 : 0,
+          willChange: 'transform, opacity',
+          transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), padding-top 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-inline 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
         }}
       >
         {/* ========================================================

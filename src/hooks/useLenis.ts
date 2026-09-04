@@ -16,11 +16,14 @@ export function useLenis() {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    const reduceMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     // 1. Initialize Lenis with exact Ballance math and physics
     // Decouples visual render from DOM scroll via Lerp inside RAF/GSAP ticker
     const lenis = new Lenis({
       lerp: 0.1, // Exact Ballance linear interpolation rate (10% distance per frame)
-      smoothWheel: true, // Hijacks mouse wheel for desktop smoothing
+      duration: 1.2, // Buttery momentum deceleration
+      smoothWheel: !reduceMotion, // Hijacks mouse wheel for desktop smoothing
       syncTouch: false, // MANDATORY: Never hijack touch on mobile for 120Hz native momentum
       wheelMultiplier: 1.0, // Natural 1:1 hardware scroll multiplier
       touchMultiplier: 1.0, // Natural touch scrolling on devices
