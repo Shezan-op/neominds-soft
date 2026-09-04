@@ -18,7 +18,7 @@ export const ContactsPage: React.FC<ContactsPageProps> = ({
   onNavigatePage,
   onSuccessToast,
 }) => {
-  const [activeRegion, setActiveRegion] = useState<'Americas' | 'Europe'>('Americas');
+  const [activeRegion, setActiveRegion] = useState<'Headquarters' | 'Americas' | 'Europe'>('Headquarters');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -53,8 +53,12 @@ export const ContactsPage: React.FC<ContactsPageProps> = ({
     }, 600);
   };
 
+  const hqLocations = [
+    { title: 'Hyderabad, India (Global HQ)', address: 'Moguls Court 7th Floor, Basheer Bagh, Hyderabad, Telangana, India', phone: '+91 40 4000 0000' },
+  ];
+
   const americasLocations = [
-    { title: 'San Diego, California (HQ)', address: '4445 Eastgate Mall, Suite 200, 92121', phone: '1-800-288-9659' },
+    { title: 'San Diego, California', address: '4445 Eastgate Mall, Suite 200, 92121', phone: '1-800-288-9659' },
     { title: 'San Francisco, California', address: '50 California St #1500, 94111', phone: '1-800-288-9659' },
     { title: 'Pittsburgh, Pennsylvania', address: 'One Oxford Centre, 500 Grant St Suite 2900, 15219', phone: '1-800-288-9659' },
     { title: 'Durham, North Carolina', address: 'RTP Meridian, 2530 Meridian Pkwy Suite 300, 27713', phone: '1-800-288-9659' },
@@ -410,7 +414,7 @@ export const ContactsPage: React.FC<ContactsPageProps> = ({
             </div>
 
             <div className="btn-group">
-              {(['Americas', 'Europe'] as const).map((region) => (
+              {(['Headquarters', 'Americas', 'Europe'] as const).map((region) => (
                 <button
                   key={region}
                   onClick={() => setActiveRegion(region)}
@@ -424,7 +428,7 @@ export const ContactsPage: React.FC<ContactsPageProps> = ({
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-            {(activeRegion === 'Americas' ? americasLocations : europeLocations).map((loc, idx) => (
+            {(activeRegion === 'Headquarters' ? hqLocations : activeRegion === 'Americas' ? americasLocations : europeLocations).map((loc, idx) => (
               <RevealElement key={loc.title} variant="card" delay={(idx % 3) * 0.08} start="top 92%" end="top 65%">
                 <div
                   style={{

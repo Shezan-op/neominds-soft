@@ -212,8 +212,8 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
           <RevealElement variant="card" start="top 90%" end="top 65%">
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
               <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '6px', borderLeft: '3px solid #2258e7', border: '1px solid #e2e8f0', borderLeftWidth: '3px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>San Diego, California (HQ)</h4>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>4445 Eastgate Mall, Suite 200, 92121</p>
+                <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>Hyderabad, India (HQ)</h4>
+                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Moguls Court 7th Floor, Basheer Bagh, Hyderabad, Telangana, India</p>
               </div>
               <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '6px', borderLeft: '3px solid #2258e7', border: '1px solid #e2e8f0', borderLeftWidth: '3px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
                 <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>San Francisco, California</h4>

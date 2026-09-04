@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowUpRight, Sparkles, Server, Cpu, Database, Cloud, ShieldCheck, Zap, Activity } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface ServicePill {
@@ -16,7 +16,8 @@ interface ServiceStackCard {
   description: string;
   links: { label: string; slug: string }[];
   servicePills: ServicePill[];
-  visualType: 'ai' | 'design' | 'product' | 'devops' | 'analytics' | 'mobile';
+  image: string;
+  imageAlt: string;
   bgGradient: string;
 }
 
@@ -41,7 +42,8 @@ const stackCards: ServiceStackCard[] = [
       { label: 'Workflow Automations', slug: 'ai-automations' },
       { label: 'Chatbot & Video Bots', slug: 'chatbot-videobot' },
     ],
-    visualType: 'ai',
+    image: '/services/ai-development.png',
+    imageAlt: 'Artificial Intelligence and Autonomous Multi-Agent Topology',
     bgGradient: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%)',
   },
   {
@@ -64,7 +66,8 @@ const stackCards: ServiceStackCard[] = [
       { label: 'Ecommerce Development', slug: 'ecommerce-development' },
       { label: 'Product Engineering', slug: 'product-engineering' },
     ],
-    visualType: 'product',
+    image: '/services/software-development.png',
+    imageAlt: 'Custom Enterprise Software Development Architecture',
     bgGradient: 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 50%, #bfdbfe 100%)',
   },
   {
@@ -86,7 +89,8 @@ const stackCards: ServiceStackCard[] = [
       { label: '24/7 Technical Support', slug: 'technical-support' },
       { label: 'IT Consulting', slug: 'it-consulting' },
     ],
-    visualType: 'devops',
+    image: '/services/devops.png',
+    imageAlt: 'Cloud Infrastructure and Zero-Downtime DevOps GitOps Pipeline',
     bgGradient: 'linear-gradient(135deg, #e0f2fe 0%, #bae6fd 50%, #7dd3fc 100%)',
   },
   {
@@ -108,7 +112,8 @@ const stackCards: ServiceStackCard[] = [
       { label: 'Business Analysis', slug: 'business-analysis' },
       { label: 'Real-Time Pipelines', slug: 'analytics-dashboard' },
     ],
-    visualType: 'analytics',
+    image: '/services/analytics-dashboard.png',
+    imageAlt: 'Real-Time Enterprise Analytics Dashboard and Data Architecture',
     bgGradient: 'linear-gradient(135deg, #ecfdf5 0%, #d1fae5 50%, #a7f3d0 100%)',
   },
   {
@@ -130,7 +135,8 @@ const stackCards: ServiceStackCard[] = [
       { label: 'Web & CMS Development', slug: 'web-cms-development' },
       { label: 'Ecommerce Platforms', slug: 'ecommerce-development' },
     ],
-    visualType: 'mobile',
+    image: '/services/mobile-app-development.png',
+    imageAlt: 'Native Mobile App Development and Responsive Web Experience',
     bgGradient: 'linear-gradient(135deg, #fdf2f8 0%, #fce7f3 50%, #fbcfe8 100%)',
   },
   {
@@ -153,7 +159,8 @@ const stackCards: ServiceStackCard[] = [
       { label: 'Business Analysis', slug: 'business-analysis' },
       { label: 'IT Consulting', slug: 'it-consulting' },
     ],
-    visualType: 'design',
+    image: '/services/ui-ux-design.png',
+    imageAlt: 'UX/UI Design Systems and Strategic Product Discovery Interface',
     bgGradient: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #cbd5e1 100%)',
   },
 ];
@@ -192,6 +199,68 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
         backgroundColor: '#ffffff',
       }}
     >
+      {/* Embedded Responsive Styles for Smooth Performance on Any Viewport */}
+      <style>{`
+        @media (max-width: 999px) {
+          .services-stack-section {
+            position: relative !important;
+            top: auto !important;
+            min-height: auto !important;
+            height: auto !important;
+            box-shadow: none !important;
+            border-top: 1px solid #e2e8f0 !important;
+          }
+          .services-stack-grid {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+          }
+          .services-stack-visual {
+            width: 100% !important;
+            height: 320px !important;
+            min-height: 320px !important;
+            padding: 0 !important;
+          }
+          .services-stack-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+          }
+          .services-stack-content {
+            padding: 36px 22px 50px !important;
+          }
+        }
+        @media (min-width: 1000px) {
+          .services-stack-section {
+            position: sticky !important;
+            top: 0 !important;
+            height: 100vh !important;
+            min-height: 100vh !important;
+            box-shadow: 0 -12px 36px rgba(0, 0, 0, 0.04) !important;
+          }
+          .services-stack-grid {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            height: 100% !important;
+            width: 100% !important;
+          }
+          .services-stack-visual {
+            width: 100% !important;
+            height: 100% !important;
+            min-height: 100% !important;
+            padding: 0 !important;
+          }
+          .services-stack-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+          }
+          .services-stack-content {
+            padding: clamp(48px, 5vw, 84px) clamp(40px, 4.5vw, 76px) !important;
+          }
+        }
+      `}</style>
+
       {/* Section Introduction Header */}
       <div
         className="container"
@@ -244,6 +313,7 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
         return (
           <section
             key={card.id}
+            className="services-stack-section"
             style={{
               position: isMobile ? 'relative' : 'sticky',
               top: 0,
@@ -260,113 +330,73 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
             }}
           >
             <div
+              className="services-stack-grid"
               style={{
                 width: '100%',
                 height: '100%',
-                display: 'grid',
-                gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+                display: isMobile ? 'flex' : 'grid',
+                flexDirection: isMobile ? 'column' : undefined,
+                gridTemplateColumns: isMobile ? undefined : '1fr 1fr',
                 alignItems: 'stretch',
               }}
             >
-              {/* Left Visual Column */}
+              {/* Left Visual Column - Full Screen / Edge-to-Edge Image */}
               <div
                 onClick={() => handleCardClick(card.slug)}
                 onMouseEnter={() => setHoveredCard(card.id)}
                 onMouseLeave={() => setHoveredCard(null)}
+                className="services-stack-visual"
                 style={{
                   position: 'relative',
-                  backgroundColor: '#f1f5f9',
-                  background: card.bgGradient,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: isMobile ? '48px 24px' : '64px',
-                  minHeight: isMobile ? '380px' : 'auto',
+                  width: '100%',
+                  height: '100%',
+                  minHeight: isMobile ? '320px' : '100%',
+                  backgroundColor: '#0f172a',
                   overflow: 'hidden',
                   cursor: 'pointer',
                   userSelect: 'none',
                 }}
               >
+                <img
+                  src={card.image}
+                  alt={card.imageAlt}
+                  loading="lazy"
+                  className="services-stack-img"
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    minHeight: isMobile ? '320px' : '100%',
+                    objectFit: 'cover',
+                    objectPosition: 'center',
+                    display: 'block',
+                    transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+                    transform: isHovered ? 'scale(1.05)' : 'scale(1)',
+                  }}
+                />
+
+                {/* Subtle dark gradient overlay for visual depth */}
                 <div
                   style={{
-                    position: 'relative',
-                    width: '100%',
-                    maxWidth: '460px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
-                    transform: isHovered ? 'scale(1.02) translateY(-4px)' : 'scale(1)',
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to right, rgba(0, 0, 0, 0.18) 0%, transparent 45%), linear-gradient(to top, rgba(0, 0, 0, 0.25) 0%, transparent 35%)',
+                    pointerEvents: 'none',
                   }}
-                >
-                  {card.visualType === 'ai' && <AiPhoneMockup />}
-                  {card.visualType === 'design' && <DesignLaptopMockup />}
-                  {card.visualType === 'product' && <ProductEngineMockup />}
-                  {card.visualType === 'devops' && <DevOpsClusterMockup />}
-                  {card.visualType === 'analytics' && <AnalyticsDashboardMockup />}
-                  {card.visualType === 'mobile' && <MobileWebSuiteMockup />}
-
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: isHovered
-                        ? 'translate(-50%, -50%) scale(1.1)'
-                        : 'translate(-50%, -50%) scale(1)',
-                      width: '84px',
-                      height: '84px',
-                      borderRadius: '50%',
-                      backgroundColor: '#2258e7',
-                      color: '#ffffff',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '12px',
-                      fontWeight: 700,
-                      lineHeight: 1.15,
-                      textAlign: 'center',
-                      boxShadow: '0 8px 24px rgba(34, 88, 231, 0.4), 0 2px 6px rgba(0, 0, 0, 0.15)',
-                      zIndex: 30,
-                      transition: 'transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s',
-                      pointerEvents: 'none',
-                    }}
-                  >
-                    <span>View</span>
-                    <span>Service</span>
-                  </div>
-                </div>
+                />
               </div>
 
               {/* Right Content Column */}
               <div
+                className="services-stack-content"
                 style={{
                   backgroundColor: '#ffffff',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  padding: isMobile ? '40px 24px 60px' : 'clamp(48px, 5vw, 84px) clamp(36px, 4.5vw, 72px)',
+                  padding: isMobile ? '36px 22px 50px' : 'clamp(48px, 5vw, 84px) clamp(40px, 4.5vw, 76px)',
                 }}
               >
                 <div style={{ maxWidth: '620px' }}>
-                  {/* Service Badge Header */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '14px' }}>
-                    <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#2258e7' }} />
-                    <span
-                      style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: '11px',
-                        fontWeight: 700,
-                        letterSpacing: '0.14em',
-                        color: '#2258e7',
-                        textTransform: 'uppercase',
-                      }}
-                    >
-                      NEOMINDS SERVICE 0{card.id} // {card.category}
-                    </span>
-                  </div>
-
                   <div
                     onClick={() => handleCardClick(card.slug)}
                     onMouseEnter={() => setHoveredCard(card.id)}
@@ -375,18 +405,18 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                       display: 'flex',
                       alignItems: 'flex-start',
                       justifyContent: 'space-between',
-                      gap: '20px',
+                      gap: '16px',
                       cursor: 'pointer',
-                      marginBottom: '10px',
+                      marginBottom: '12px',
                     }}
                   >
                     <h2
                       style={{
                         fontFamily: 'var(--font-heading)',
-                        fontSize: 'clamp(24px, 2.8vw, 38px)',
+                        fontSize: 'clamp(22px, 2.6vw, 36px)',
                         fontWeight: 800,
                         letterSpacing: '-0.02em',
-                        lineHeight: 1.15,
+                        lineHeight: 1.18,
                         color: isHovered ? '#2258e7' : '#0f172a',
                         textTransform: 'uppercase',
                         margin: 0,
@@ -398,8 +428,8 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
 
                     <div
                       style={{
-                        width: '40px',
-                        height: '40px',
+                        width: '38px',
+                        height: '38px',
                         borderRadius: '50%',
                         backgroundColor: isHovered ? 'rgba(34, 88, 231, 0.1)' : 'transparent',
                         display: 'flex',
@@ -411,7 +441,7 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                       }}
                     >
                       <ArrowUpRight
-                        size={28}
+                        size={26}
                         style={{
                           color: isHovered ? '#2258e7' : '#0f172a',
                           transition: 'color 0.2s ease',
@@ -423,10 +453,10 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                   {/* Tagline */}
                   <p
                     style={{
-                      fontSize: '14px',
+                      fontSize: isMobile ? '13px' : '14px',
                       fontWeight: 600,
                       color: '#334155',
-                      margin: '0 0 18px 0',
+                      margin: '0 0 16px 0',
                       lineHeight: 1.5,
                     }}
                   >
@@ -436,10 +466,10 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                   {/* Detailed Description with Embedded Keyword Links */}
                   <p
                     style={{
-                      fontSize: 'clamp(14px, 1.1vw, 16px)',
-                      lineHeight: 1.7,
+                      fontSize: 'clamp(14px, 1.05vw, 15.5px)',
+                      lineHeight: 1.65,
                       color: '#475569',
-                      margin: '0 0 24px 0',
+                      margin: '0 0 22px 0',
                       fontWeight: 400,
                     }}
                   >
@@ -447,7 +477,7 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                   </p>
 
                   {/* Connected Neominds Services Pills */}
-                  <div style={{ marginBottom: '28px' }}>
+                  <div style={{ marginBottom: isMobile ? '20px' : '26px' }}>
                     <div
                       style={{
                         fontSize: '11px',
@@ -471,12 +501,12 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
-                            gap: '6px',
-                            padding: '6px 14px',
+                            gap: '5px',
+                            padding: isMobile ? '5px 12px' : '6px 14px',
                             borderRadius: '20px',
                             backgroundColor: '#f8fafc',
                             border: '1px solid #cbd5e1',
-                            fontSize: '12px',
+                            fontSize: isMobile ? '11px' : '12px',
                             fontWeight: 600,
                             color: '#1e293b',
                             cursor: 'pointer',
@@ -496,7 +526,7 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                           }}
                         >
                           <span>{pill.label}</span>
-                          <ArrowUpRight size={13} />
+                          <ArrowUpRight size={12} />
                         </button>
                       ))}
                     </div>
@@ -508,7 +538,7 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
                       onClick={() => handleCardClick(card.slug)}
                       className="btn btn-primary"
                       style={{
-                        padding: '11px 22px',
+                        padding: isMobile ? '10px 18px' : '11px 22px',
                         fontSize: '13px',
                         fontWeight: 700,
                         display: 'inline-flex',
@@ -593,466 +623,3 @@ function renderDescriptionWithLinks(
 
   return <>{parts}</>;
 }
-
-const AiPhoneMockup: React.FC = () => {
-  return (
-    <div
-      style={{
-        position: 'relative',
-        width: '310px',
-        height: '460px',
-        perspective: '1000px',
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundColor: '#ffffff',
-          borderRadius: '36px',
-          border: '8px solid #0f172a',
-          boxShadow:
-            '0 30px 60px rgba(15, 23, 42, 0.25), 0 12px 24px rgba(34, 88, 231, 0.15), inset 0 0 0 2px rgba(255, 255, 255, 0.2)',
-          transform: 'rotate(-12deg) rotateY(12deg) rotateX(10deg)',
-          transformOrigin: 'center center',
-          display: 'flex',
-          flexDirection: 'column',
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            height: '38px',
-            padding: '8px 20px 0',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            fontSize: '11px',
-            fontWeight: 700,
-            color: '#0f172a',
-            backgroundColor: '#ffffff',
-          }}
-        >
-          <span>13:44</span>
-          <div
-            style={{
-              width: '74px',
-              height: '18px',
-              backgroundColor: '#000000',
-              borderRadius: '12px',
-            }}
-          />
-          <div style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
-            <Activity size={12} color="#0f172a" />
-          </div>
-        </div>
-
-        <div
-          style={{
-            padding: '8px 16px 10px',
-            borderBottom: '1px solid #f1f5f9',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <div
-            style={{
-              width: '28px',
-              height: '28px',
-              borderRadius: '50%',
-              backgroundColor: '#2258e7',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Sparkles size={14} color="#ffffff" />
-          </div>
-          <div>
-            <div style={{ fontSize: '12px', fontWeight: 700, color: '#0f172a' }}>Neominds AI Bot</div>
-            <div style={{ fontSize: '9px', color: '#16a34a', fontWeight: 600 }}>● Online & Active</div>
-          </div>
-        </div>
-
-        <div
-          style={{
-            flex: 1,
-            padding: '14px',
-            display: 'flex',
-            flexDirection: 'column',
-            gap: '10px',
-            fontSize: '11px',
-            backgroundColor: '#f8fafc',
-          }}
-        >
-          <div
-            style={{
-              alignSelf: 'flex-start',
-              backgroundColor: '#ffffff',
-              border: '1px solid #e2e8f0',
-              padding: '8px 12px',
-              borderRadius: '12px 12px 12px 2px',
-              color: '#334155',
-              lineHeight: 1.4,
-              maxWidth: '85%',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-            }}
-          >
-            <strong>Holiday Schedule:</strong> New Year&#8217;s Day off for our American, Polish, and UK engineering squads.
-          </div>
-
-          <div
-            style={{
-              alignSelf: 'flex-start',
-              backgroundColor: '#ffffff',
-              border: '1px solid #e2e8f0',
-              padding: '8px 12px',
-              borderRadius: '12px 12px 12px 2px',
-              color: '#334155',
-              lineHeight: 1.4,
-              maxWidth: '85%',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-            }}
-          >
-            Please plan your sprint capacity accordingly.
-          </div>
-
-          <div
-            style={{
-              alignSelf: 'flex-end',
-              backgroundColor: '#2258e7',
-              color: '#ffffff',
-              padding: '8px 12px',
-              borderRadius: '12px 12px 2px 12px',
-              maxWidth: '80%',
-              fontSize: '11px',
-              lineHeight: 1.4,
-              boxShadow: '0 4px 12px rgba(34, 88, 231, 0.25)',
-            }}
-          >
-            Hello! I need access to Design Department wiki space.
-          </div>
-
-          <div
-            style={{
-              alignSelf: 'flex-start',
-              backgroundColor: '#ffffff',
-              border: '1px solid #e2e8f0',
-              padding: '8px 12px',
-              borderRadius: '12px 12px 12px 2px',
-              color: '#334155',
-              lineHeight: 1.4,
-              maxWidth: '85%',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.03)',
-            }}
-          >
-            Granted! Here is your token key for the design space.
-          </div>
-        </div>
-
-        <div
-          style={{
-            padding: '10px 14px',
-            backgroundColor: '#ffffff',
-            borderTop: '1px solid #e2e8f0',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
-          <div
-            style={{
-              flex: 1,
-              height: '28px',
-              backgroundColor: '#f1f5f9',
-              borderRadius: '14px',
-              padding: '0 12px',
-              fontSize: '10px',
-              color: '#94a3b8',
-              display: 'flex',
-              alignItems: 'center',
-            }}
-          >
-            Type a message...
-          </div>
-          <div
-            style={{
-              width: '24px',
-              height: '24px',
-              borderRadius: '50%',
-              backgroundColor: '#2258e7',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <Zap size={11} color="#ffffff" />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const DesignLaptopMockup: React.FC = () => {
-  return (
-    <div
-      style={{
-        width: '380px',
-        backgroundColor: '#0f172a',
-        borderRadius: '14px',
-        padding: '10px',
-        boxShadow: '0 28px 60px rgba(15, 23, 42, 0.25)',
-        transform: 'rotate(4deg) rotateY(-8deg)',
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: '#1e293b',
-          borderRadius: '8px',
-          overflow: 'hidden',
-          border: '1px solid rgba(255, 255, 255, 0.1)',
-        }}
-      >
-        <div
-          style={{
-            height: '32px',
-            backgroundColor: '#0f172a',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            padding: '0 12px',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-          }}
-        >
-          <div style={{ display: 'flex', gap: '5px' }}>
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#f59e0b' }} />
-            <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981' }} />
-          </div>
-          <span style={{ fontSize: '10px', color: '#94a3b8', fontFamily: 'monospace' }}>
-            Design System 2026.fig
-          </span>
-          <span style={{ fontSize: '10px', color: '#38bdf8', fontWeight: 600 }}>100% Flow</span>
-        </div>
-
-        <div style={{ padding: '16px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
-            <div style={{ height: '36px', backgroundColor: '#2258e7', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: '10px', fontWeight: 700 }}>
-              Primary #2258E7
-            </div>
-            <div style={{ height: '36px', backgroundColor: '#3b82f6', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: '10px', fontWeight: 700 }}>
-              Secondary #3B82F6
-            </div>
-            <div style={{ height: '36px', backgroundColor: '#10b981', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontSize: '10px', fontWeight: 700 }}>
-              Success #10B981
-            </div>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '8px' }}>
-            <div style={{ backgroundColor: '#0f172a', padding: '10px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.06)' }}>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: '#ffffff', marginBottom: '4px' }}>Component Specs</div>
-              <div style={{ fontSize: '9px', color: '#94a3b8' }}>180+ auto-layout components mapped directly to React / CSS tokens.</div>
-            </div>
-            <div style={{ backgroundColor: '#0f172a', padding: '10px', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.06)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <div style={{ fontSize: '9px', color: '#38bdf8', fontWeight: 600 }}>WCAG 2.1 AAA</div>
-              <div style={{ fontSize: '11px', fontWeight: 700, color: '#ffffff', marginTop: '2px' }}>Verified High-Contrast</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const ProductEngineMockup: React.FC = () => {
-  return (
-    <div
-      style={{
-        width: '380px',
-        backgroundColor: '#0f172a',
-        borderRadius: '12px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '20px',
-        boxShadow: '0 28px 60px rgba(15, 23, 42, 0.25)',
-        transform: 'rotate(-4deg)',
-      }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '10px', marginBottom: '14px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Server size={14} color="#38bdf8" />
-          <span style={{ fontSize: '11px', fontWeight: 700, color: '#ffffff' }}>Microservices Mesh</span>
-        </div>
-        <span style={{ fontSize: '10px', color: '#10b981', fontWeight: 600 }}>● 99.99% Up</span>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginBottom: '14px' }}>
-        <div style={{ backgroundColor: 'rgba(34, 88, 231, 0.15)', border: '1px solid rgba(34, 88, 231, 0.3)', borderRadius: '4px', padding: '10px 8px', textAlign: 'center' }}>
-          <Cpu size={16} color="#2258e7" style={{ margin: '0 auto 4px' }} />
-          <div style={{ fontSize: '10px', fontWeight: 600, color: '#ffffff' }}>API Gateway</div>
-          <div style={{ fontSize: '8px', color: '#94a3b8' }}>14ms Latency</div>
-        </div>
-        <div style={{ backgroundColor: 'rgba(34, 88, 231, 0.25)', border: '1px solid #2258e7', borderRadius: '4px', padding: '10px 8px', textAlign: 'center' }}>
-          <Zap size={16} color="#38bdf8" style={{ margin: '0 auto 4px' }} />
-          <div style={{ fontSize: '10px', fontWeight: 700, color: '#ffffff' }}>Event Engine</div>
-          <div style={{ fontSize: '8px', color: '#38bdf8' }}>Kafka Cluster</div>
-        </div>
-        <div style={{ backgroundColor: 'rgba(34, 88, 231, 0.15)', border: '1px solid rgba(34, 88, 231, 0.3)', borderRadius: '4px', padding: '10px 8px', textAlign: 'center' }}>
-          <Database size={16} color="#2258e7" style={{ margin: '0 auto 4px' }} />
-          <div style={{ fontSize: '10px', fontWeight: 600, color: '#ffffff' }}>Postgres/Redis</div>
-          <div style={{ fontSize: '8px', color: '#94a3b8' }}>Multi-Region</div>
-        </div>
-      </div>
-
-      <div style={{ backgroundColor: '#1e293b', padding: '10px 12px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '11px', color: '#e2e8f0', fontWeight: 500 }}>Zero-Downtime Releases</span>
-        <span style={{ fontSize: '10px', color: '#10b981', fontWeight: 700 }}>SOC 2 Certified</span>
-      </div>
-    </div>
-  );
-};
-
-const DevOpsClusterMockup: React.FC = () => {
-  return (
-    <div
-      style={{
-        width: '380px',
-        backgroundColor: '#0f172a',
-        borderRadius: '12px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '20px',
-        boxShadow: '0 28px 60px rgba(15, 23, 42, 0.25)',
-        transform: 'rotate(3deg)',
-      }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '10px', marginBottom: '14px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Cloud size={14} color="#0284c7" />
-          <span style={{ fontSize: '11px', fontWeight: 700, color: '#ffffff' }}>Kubernetes EKS // Production</span>
-        </div>
-        <span style={{ fontSize: '10px', color: '#0284c7', fontWeight: 600 }}>ArgoCD Sync</span>
-      </div>
-
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '14px' }}>
-        <div style={{ backgroundColor: '#1e293b', padding: '8px 12px', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: '10px', color: '#e2e8f0', fontFamily: 'monospace' }}>deploy/payments-v2.14</span>
-          <span style={{ fontSize: '10px', color: '#10b981', fontWeight: 600 }}>Synced & Healthy</span>
-        </div>
-        <div style={{ backgroundColor: '#1e293b', padding: '8px 12px', borderRadius: '4px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: '10px', color: '#e2e8f0', fontFamily: 'monospace' }}>deploy/ai-agents-worker</span>
-          <span style={{ fontSize: '10px', color: '#10b981', fontWeight: 600 }}>Auto-Scaling (12 pods)</span>
-        </div>
-      </div>
-
-      <div style={{ backgroundColor: 'rgba(2, 132, 199, 0.15)', border: '1px solid rgba(2, 132, 199, 0.3)', padding: '10px 12px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <ShieldCheck size={14} color="#38bdf8" />
-          <span style={{ fontSize: '11px', color: '#38bdf8', fontWeight: 600 }}>FinOps Compute Reduction</span>
-        </div>
-        <span style={{ fontSize: '12px', color: '#ffffff', fontWeight: 800 }}>-35% Costs</span>
-      </div>
-    </div>
-  );
-};
-
-const AnalyticsDashboardMockup: React.FC = () => {
-  return (
-    <div
-      style={{
-        width: '380px',
-        backgroundColor: '#0f172a',
-        borderRadius: '12px',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        padding: '20px',
-        boxShadow: '0 28px 60px rgba(15, 23, 42, 0.25)',
-        transform: 'rotate(-3deg)',
-      }}
-    >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255, 255, 255, 0.08)', paddingBottom: '10px', marginBottom: '14px' }}>
-        <span style={{ fontSize: '11px', fontWeight: 700, color: '#ffffff' }}>Real-Time Data Lakehouse</span>
-        <span style={{ fontSize: '10px', color: '#10b981', fontWeight: 600 }}>ClickHouse 12ms</span>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px', marginBottom: '14px' }}>
-        <div style={{ backgroundColor: '#1e293b', padding: '12px', borderRadius: '4px' }}>
-          <div style={{ fontSize: '9px', color: '#94a3b8', textTransform: 'uppercase' }}>Daily Transactions</div>
-          <div style={{ fontSize: '18px', fontWeight: 800, color: '#10b981', marginTop: '2px' }}>$4.82M</div>
-        </div>
-        <div style={{ backgroundColor: '#1e293b', padding: '12px', borderRadius: '4px' }}>
-          <div style={{ fontSize: '9px', color: '#94a3b8', textTransform: 'uppercase' }}>Ingested Events</div>
-          <div style={{ fontSize: '18px', fontWeight: 800, color: '#38bdf8', marginTop: '2px' }}>1.2B / day</div>
-        </div>
-      </div>
-
-      <div style={{ backgroundColor: 'rgba(16, 185, 129, 0.12)', border: '1px solid rgba(16, 185, 129, 0.3)', padding: '10px 12px', borderRadius: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <span style={{ fontSize: '11px', color: '#34d399', fontWeight: 600 }}>Multi-Tenant Row-Level Security</span>
-        <span style={{ fontSize: '10px', color: '#ffffff', fontWeight: 700 }}>100% Isolation</span>
-      </div>
-    </div>
-  );
-};
-
-const MobileWebSuiteMockup: React.FC = () => {
-  return (
-    <div
-      style={{
-        width: '380px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '12px',
-      }}
-    >
-      <div
-        style={{
-          width: '130px',
-          height: '240px',
-          backgroundColor: '#ffffff',
-          borderRadius: '20px',
-          border: '4px solid #0f172a',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
-          padding: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ height: '8px', width: '36px', backgroundColor: '#000', borderRadius: '4px', margin: '0 auto 6px' }} />
-        <div style={{ height: '40px', backgroundColor: '#ec4899', borderRadius: '6px', opacity: 0.8 }} />
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-          <div style={{ height: '12px', backgroundColor: '#f1f5f9', borderRadius: '2px' }} />
-          <div style={{ height: '12px', backgroundColor: '#f1f5f9', borderRadius: '2px' }} />
-          <div style={{ height: '12px', backgroundColor: '#f1f5f9', borderRadius: '2px' }} />
-        </div>
-        <div style={{ fontSize: '8px', fontWeight: 700, color: '#0f172a', textAlign: 'center' }}>iOS 26 / Swift 6</div>
-      </div>
-
-      <div
-        style={{
-          width: '210px',
-          height: '220px',
-          backgroundColor: '#0f172a',
-          borderRadius: '10px',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 20px 40px rgba(0,0,0,0.25)',
-          padding: '8px',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div style={{ display: 'flex', gap: '4px', paddingBottom: '6px', borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#ef4444' }} />
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#f59e0b' }} />
-          <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#10b981' }} />
-        </div>
-        <div style={{ backgroundColor: '#1e293b', padding: '10px', borderRadius: '4px' }}>
-          <div style={{ fontSize: '10px', fontWeight: 700, color: '#ffffff' }}>Next.js 15 Edge SSR</div>
-          <div style={{ fontSize: '8px', color: '#10b981', marginTop: '2px' }}>100/100 Core Web Vitals</div>
-        </div>
-        <div style={{ fontSize: '9px', color: '#94a3b8', textAlign: 'center' }}>Headless Sanity CMS</div>
-      </div>
-    </div>
-  );
-};

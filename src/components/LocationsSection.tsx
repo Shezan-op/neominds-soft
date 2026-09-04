@@ -116,7 +116,7 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
                     borderRadius: '0px',
                   }}
                 >
-                  Americas
+                  Global Headquarters
                 </button>
               </div>
 
@@ -140,14 +140,14 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
                     marginBottom: '12px',
                   }}
                 >
-                  San Francisco, California
+                  Hyderabad, India
                 </h3>
 
                 <p style={{ color: '#475067', fontSize: '15px', lineHeight: 1.6, marginBottom: '4px', fontFamily: 'var(--font-body)' }}>
-                  50 California St #1500
+                  Moguls Court 7th Floor, Basheer Bagh
                 </p>
                 <p style={{ color: '#475067', fontSize: '15px', lineHeight: 1.6, marginBottom: '20px', fontFamily: 'var(--font-body)' }}>
-                  San Francisco, CA 94111, United States
+                  Hyderabad, Telangana, India
                 </p>
 
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
