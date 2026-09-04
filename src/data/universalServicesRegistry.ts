@@ -428,7 +428,7 @@ export const getSignatureForService = (slug: string, title: string): ServiceSign
         type: 'workflowDiagram',
         badge: 'Human + AI Workflow',
         title: 'Collaborative Human-in-the-Loop Automation',
-        description: 'Combining high-speed autonomous AI task execution with seamless human review thresholds for regulated decisions.',
+        description: 'Combining high-speed autonomous AI task execution with structured human review thresholds for regulated decisions.',
         steps: [
           { number: '01', title: 'Continuous Task Ingestion', desc: 'Aggregating requests from customer forms, ERP records, and email queues into centralized prioritization pools.', badge: 'Task Queue', color: '#0ea5e9', details: ['Dynamic priority queue', 'SLA timers'] },
           { number: '02', title: 'Autonomous AI Processing', desc: 'AI models executing 90% of routine categorization, calculations, and draft generation in < 5 seconds.', badge: 'Autonomous Tier', color: '#10b981', details: ['Confidence scoring', 'Instant draft creation'] },
@@ -619,12 +619,12 @@ export const buildUniversalService = (baseData: ServiceData): UniversalServiceDa
           ? 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop'
           : 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop'),
       heroImageCaption: baseData.heroImageCaption || `${baseData.title} Production Architecture`,
-      primaryCtaText: 'Book Free Consultation',
-      secondaryCtaText: 'View Case Studies',
+      primaryCtaText: baseData.primaryCtaText || 'Book Free Consultation',
+      secondaryCtaText: baseData.secondaryCtaText || 'View Case Studies',
     },
 
     // 3. Trust Strip
-    trustPoints: [
+    trustPoints: baseData.trustPoints || [
       'Enterprise-grade 99.99% SLA',
       'SOC 2 Type II & ISO 27001 Aligned',
       'Cloud-Native & Highly Scalable',
@@ -633,12 +633,12 @@ export const buildUniversalService = (baseData: ServiceData): UniversalServiceDa
     metrics: baseData.metrics,
 
     // 4. Overview
-    overview: {
-      statement: `Accelerate your competitive advantage with custom ${baseData.title} solutions built for resilience, compliance, and velocity.`,
+    overview: baseData.overview || {
+      statement: `Production-grade ${baseData.title} engineering designed for high availability, compliance, and sustained transaction volume.`,
       paragraphs: [
         baseData.heroDescription,
         `Our senior engineering squads partner directly with your technical leadership to architect, build, and deploy production-hardened solutions tailored to your operational realities. We eliminate technical debt upfront by adhering to strict domain-driven design, clean architecture patterns, and continuous integration protocols.`,
-        `From early architecture blueprints to 24/7 global hypercare, every deliverable is verified against verified industry benchmarks and backed by 100% intellectual property ownership transfer.`,
+        `From early architecture blueprints to 24/7 global hypercare, every deliverable is verified against industry benchmarks and backed by 100% intellectual property ownership transfer.`,
       ],
       keyTakeaway: `Delivers measurable operational efficiency, sub-second latency, and institutional security controls without vendor lock-in.`,
     },
@@ -661,7 +661,7 @@ export const buildUniversalService = (baseData: ServiceData): UniversalServiceDa
     deliverables: baseData.deliverables,
 
     // 10. Business Outcomes
-    outcomes: [
+    outcomes: baseData.outcomes || [
       {
         metric: baseData.metrics[0]?.value || '99.99%',
         label: baseData.metrics[0]?.label || 'System Uptime SLA',
@@ -670,7 +670,7 @@ export const buildUniversalService = (baseData: ServiceData): UniversalServiceDa
       {
         metric: baseData.metrics[1]?.value || '40%',
         label: baseData.metrics[1]?.label || 'Efficiency Gain',
-        description: `Streamlines critical operational workflows, cutting redundant steps and manual human overhead.`,
+        description: `Automates operational workflows, eliminating redundant manual steps and human entry errors.`,
       },
       {
         metric: '100%',
@@ -687,9 +687,9 @@ export const buildUniversalService = (baseData: ServiceData): UniversalServiceDa
 
     // 13. Final CTA
     cta: {
-      headline: `Ready to Build Your Next ${baseData.title} Solution?`,
-      description: `Schedule a discovery session with a Principal Architect in ${baseData.title}. Receive an actionable architectural roadmap and proposal in 24 hours.`,
-      buttonText: `Request Technical Proposal`,
+      headline: baseData.ctaHeadline || `Ready to Build Your Next ${baseData.title} Solution?`,
+      description: baseData.ctaDescription || `Schedule a discovery session with a Principal Architect in ${baseData.title}. Receive an actionable architectural roadmap and proposal in 24 hours.`,
+      buttonText: baseData.ctaButtonText || `Request Technical Proposal`,
     },
 
     // SEO

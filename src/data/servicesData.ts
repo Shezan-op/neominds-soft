@@ -1,3 +1,5 @@
+import { ServiceOutcome } from '../types/service';
+
 export interface ServiceCapability {
   title: string;
   description: string;
@@ -35,6 +37,18 @@ export interface ServiceData {
   heroDescription: string;
   heroImage?: string;
   heroImageCaption?: string;
+  primaryCtaText?: string;
+  secondaryCtaText?: string;
+  trustPoints?: string[];
+  overview?: {
+    statement: string;
+    paragraphs: string[];
+    keyTakeaway: string;
+  };
+  outcomes?: ServiceOutcome[];
+  ctaHeadline?: string;
+  ctaDescription?: string;
+  ctaButtonText?: string;
   architectureMap?: {
     layer: string;
     title: string;
@@ -67,82 +81,127 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     heroHeadline: 'Custom Enterprise',
     heroHeadlineHighlight: 'Software Development',
     heroDescription:
-      'We engineer resilient, high-throughput enterprise software architectures tailored to your core business processes. From mission-critical transactional backends to distributed cloud microservices, we build scalable software designed to perform under extreme load.',
+      'We architect and ship production-hardened software systems engineered to withstand extreme concurrency, eliminate architectural bottlenecks, and scale with your business. Clean architecture, zero tech-debt shortcuts, and 100% intellectual property transfer.',
+    heroImage: '/services/software-development.png',
+    heroImageCaption: 'Software Development Production Architecture',
+    primaryCtaText: 'Architect Your System',
+    secondaryCtaText: 'View Production Systems',
+    trustPoints: [
+      'Multi-region active-active cloud failover',
+      'SOC 2 Type II & ISO 27001 secure SDLC',
+      'Zero-downtime blue/green deployment pipelines',
+      'Complete source code, CI/CD, and IP handover',
+    ],
     metrics: [
       { value: '99.99%', label: 'System Uptime SLA' },
-      { value: '40%', label: 'Faster Time-to-Market' },
-      { value: '1,000+', label: 'Delivered Systems' },
-      { value: '100%', label: 'IP Transfer & Ownership' },
+      { value: '< 15ms', label: 'P99 API Latency' },
+      { value: '10M+', label: 'Daily Transactions Handled' },
+      { value: '100%', label: 'Direct IP Ownership' },
     ],
+    overview: {
+      statement:
+        'Modern enterprise software must survive high concurrency, sudden traffic spikes, and relentless operational pressure without human babysitting.',
+      paragraphs: [
+        'Off-the-shelf SaaS and bloated legacy architectures collapse when transaction volumes surge. When systems lock up under load, revenue evaporates and engineering teams burn out fighting fires. We engineer decoupled, high-performance backends and mission-critical application architectures built for uncompromised resilience.',
+        'Our engineering squads apply domain-driven design, stateless microservices, and event-driven streaming pipelines in Go, TypeScript, Python, and Java. We enforce strict boundary encapsulation, transactional outbox patterns, and distributed tracing across every microservice.',
+        'From initial schema modeling to production deployment on multi-zone Kubernetes, every deliverable is verified against strict performance benchmarks and backed by 100% intellectual property ownership transfer.',
+      ],
+      keyTakeaway:
+        'Battle-tested microservices and distributed databases engineered for sub-second execution, zero data drift, and absolute architectural transparency.',
+    },
     capabilities: [
       {
-        title: 'Custom Backend & Microservices Architecture',
+        title: 'Decoupled Microservices & Event-Driven Topology',
         description:
-          'Decoupled, event-driven microservices engineered with Go, Node.js, Python, and Java. We build high-throughput APIs, gRPC services, and Kafka messaging streams that scale effortlessly.',
-        tags: ['Go / Node.js / Java', 'Kafka / RabbitMQ', 'gRPC & REST', 'Docker & K8s'],
+          'High-throughput distributed systems built with Go, Node.js, and Java. We decouple business domains with Apache Kafka and RabbitMQ streams to eliminate database lock contention.',
+        tags: ['Go / Node.js / Java', 'Kafka & RabbitMQ', 'gRPC & REST', 'Docker & Kubernetes'],
       },
       {
-        title: 'Legacy Modernization & Monolith Migration',
+        title: 'Monolithic Modernization & Strangler Migrations',
         description:
-          'Systematic monolithic strangler migrations into modern cloud architectures without downtime. We audit technical debt, extract modular domains, and upgrade legacy databases.',
+          'Systematic monolithic migrations using the Martin Fowler strangler fig pattern. We extract bounded contexts, refactor databases, and reroute live traffic with zero downtime.',
         tags: ['Strangler Pattern', 'Zero-Downtime Cutover', 'Database Refactoring', 'API Facades'],
       },
       {
-        title: 'Enterprise ERP & Core Workflow Engines',
+        title: 'Enterprise Workflow Engines & ERP Core',
         description:
-          'Tailor-made internal business tooling, multi-tenant SaaS backends, automated approval workflows, and deep integrations with SAP, Salesforce, and custom SQL/NoSQL databases.',
-        tags: ['Multi-Tenant SaaS', 'BPMN Engines', 'Enterprise Integrations', 'Role-Based Access'],
+          'Custom internal business operating systems, multi-tenant SaaS backends, automated approval pipelines, and deep enterprise integrations with SAP, Salesforce, and NetSuite.',
+        tags: ['Multi-Tenant SaaS', 'BPMN State Machines', 'Enterprise Connectors', 'RBAC / ABAC Security'],
       },
       {
-        title: 'High-Performance API Design & Gateways',
+        title: 'High-Performance API Design & Service Meshes',
         description:
-          'Sub-millisecond rate-limited API gateways with OAuth2/OIDC authentication, automated OpenAPI documentation, caching layers, and real-time observability telemetry.',
-        tags: ['Kong / Envoy', 'OpenAPI 3.0 Specs', 'Redis Caching', 'Rate Limiting'],
+          'Sub-millisecond rate-limited API gateways with OAuth2/OIDC authentication, mutual TLS, automated OpenAPI specifications, distributed caching, and OpenTelemetry instrumentation.',
+        tags: ['Kong / Envoy', 'OpenAPI 3.1 Specs', 'Redis Caching', 'Token-Bucket Rate Limiting'],
       },
       {
-        title: 'Mission-Critical Database Engineering',
+        title: 'Distributed Persistence & Sharded Databases',
         description:
-          'High-availability relational and distributed databases, read-replica clusters, sharding architectures, vector databases, and automated schema migration pipelines.',
+          'High-availability relational and distributed databases, read-replica clusters, horizontal sharding, vector stores, and automated schema migration pipelines.',
         tags: ['PostgreSQL & TimescaleDB', 'MongoDB & Cassandra', 'Pinecone & pgvector', 'Flyway Migrations'],
       },
       {
         title: 'Security-Hardened SDLC & QA Automation',
         description:
-          'Automated regression suites, integration testing, vulnerability scans, static code analysis, and ISO/IEC 27001 compliant secure development lifecycles.',
-        tags: ['Jest / PyTest / Cypress', 'SAST & DAST Scans', 'ISO 27001 SDLC', 'CI/CD Pipelines'],
+          'Automated regression testing, end-to-end integration suites, static code analysis (SAST/DAST), and ISO 27001-compliant development lifecycles with continuous verification.',
+        tags: ['Jest / PyTest / Playwright', 'SAST & DAST Scans', 'ISO 27001 SDLC', 'Chaos Engineering'],
       },
     ],
     processSteps: [
       {
         step: '01',
         title: 'Discovery & Architecture Scoping',
-        description: 'Deep architectural workshops, domain-driven design modeling, data flow diagrams, and non-functional requirements definition.',
+        description:
+          'Domain-driven design workshops, event-storming sessions, data flow modeling, and non-functional requirements definition.',
         deliverables: ['System Architecture Document (SAD)', 'Domain Entity Models', 'Technical Risk Matrix'],
       },
       {
         step: '02',
         title: 'Core Engine & API Prototyping',
-        description: 'Iterative sprint development of core business logic, schema migrations, and REST/gRPC endpoints with automated unit test coverage.',
+        description:
+          'Iterative sprint development of core business logic, schema migrations, and REST/gRPC endpoints with automated unit test coverage.',
         deliverables: ['Working API Sandbox', 'Database Schema DDL', 'Automated Test Suites'],
       },
       {
         step: '03',
-        title: 'Integration & Performance Hardening',
-        description: 'Connecting third-party systems, stress-testing under simulated concurrency, and optimizing memory allocation and database query plans.',
+        title: 'Concurrency & Security Hardening',
+        description:
+          'Connecting third-party systems, stress-testing under simulated concurrency, and optimizing memory allocation and database query execution plans.',
         deliverables: ['Load Testing Benchmarks', 'Integration Test Reports', 'Security Penetration Audit'],
       },
       {
         step: '04',
         title: 'Production Deployment & SLA Handover',
-        description: 'Zero-downtime blue/green deployment to cloud infrastructure with Prometheus/Grafana monitoring, runbooks, and 24/7 hypercare support.',
+        description:
+          'Zero-downtime blue/green deployment to cloud infrastructure with Prometheus/Grafana monitoring, runbooks, and 24/7 hypercare support.',
         deliverables: ['Production Release Pipeline', 'Infrastructure Runbooks', 'SLA Support Governance'],
       },
     ],
     deliverables: [
-      { title: 'Full Source Code & Git Repositories', category: 'Codebase', description: 'Clean, documented, TypeScript/Python/Go source code with 100% intellectual property ownership.', format: 'GitHub / GitLab / Bitbucket' },
-      { title: 'System Architecture Blueprint', category: 'Architecture', description: 'Cloud topology, network boundary diagrams, data dictionaries, and sequence workflows.', format: 'PDF & Interactive Diagrams' },
-      { title: 'CI/CD Automated Deployment Pipeline', category: 'DevOps', description: 'GitHub Actions / GitLab CI workflows for automated linting, testing, and multi-stage deployments.', format: 'YAML Scripts & Dockerfiles' },
-      { title: 'Comprehensive API Documentation', category: 'Docs', description: 'Interactive Swagger/OpenAPI specifications with sample requests, responses, and webhook payloads.', format: 'OpenAPI 3.1 & Postman Collection' },
+      {
+        title: 'Full Source Code & Git Repositories',
+        category: 'Codebase',
+        description: 'Clean, documented TypeScript, Python, and Go source code with 100% intellectual property ownership transfer.',
+        format: 'GitHub / GitLab / Bitbucket',
+      },
+      {
+        title: 'System Architecture Blueprint',
+        category: 'Architecture',
+        description: 'Cloud topology, network boundary diagrams, data dictionaries, and sequence workflows.',
+        format: 'PDF & Interactive Diagrams',
+      },
+      {
+        title: 'CI/CD Automated Deployment Pipeline',
+        category: 'DevOps',
+        description: 'GitHub Actions and GitLab CI workflows for automated linting, security scanning, and multi-stage deployments.',
+        format: 'YAML Scripts & Dockerfiles',
+      },
+      {
+        title: 'OpenAPI 3.1 & gRPC Specifications',
+        category: 'Docs',
+        description: 'Interactive OpenAPI specifications with request contracts, error schemas, and Postman collections.',
+        format: 'OpenAPI 3.1 & Postman Collection',
+      },
     ],
     techStack: [
       { category: 'Languages', items: ['TypeScript', 'Python', 'Go', 'Java', 'C# / .NET', 'Rust'] },
@@ -151,882 +210,1584 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       { category: 'Cloud & Infrastructure', items: ['AWS', 'Google Cloud', 'Microsoft Azure', 'Kubernetes', 'Docker', 'Terraform'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds engineered our distributed data processing platform from the ground up, reducing batch latency from 4 hours to 12 minutes while maintaining 99.99% uptime across 12M daily transactions.',
+      quote:
+        'Neominds engineered our distributed data processing platform from the ground up, reducing batch latency from 4 hours to 12 minutes while maintaining 99.99% uptime across 12M daily transactions.',
       author: 'Thomas Golden',
       role: 'VP of Engineering',
       company: 'TruBridge',
       metric: '95% Latency Reduction',
     },
-    faqs: [
-      { question: 'Do we own 100% of the software source code and IP?', answer: 'Yes, absolutely. All code, architecture specifications, database schemas, and intellectual property developed during the engagement belong entirely to your company from day one.' },
-      { question: 'How do you ensure zero downtime during legacy system modernization?', answer: 'We employ the Martin Fowler Strangler Fig pattern, routing traffic incrementally through modern microservices while keeping legacy databases synchronized with bi-directional event queues until full cutover is certified.' },
-      { question: 'What engagement models do you offer for software development?', answer: 'We provide Dedicated Engineering Squads (cross-functional teams managed end-to-end), Staff Augmentation (senior engineers integrated into your team), and Fixed-Price Project Delivery for defined scopes.' },
-      { question: 'How do you handle software maintenance after launch?', answer: 'We offer SLA-backed technical maintenance packages covering 24/7 incident monitoring, security patch management, framework upgrades, and feature enhancements.' },
+    outcomes: [
+      {
+        metric: '99.99%',
+        label: 'Production Uptime SLA',
+        description: 'Guaranteed high availability through multi-zone failover, circuit-breaking proxies, and zero single points of failure.',
+      },
+      {
+        metric: '70%',
+        label: 'Batch Latency Reduction',
+        description: 'Optimized distributed queries and event queues slashing end-of-day transaction reconciliation from hours to minutes.',
+      },
+      {
+        metric: '100%',
+        label: 'Codebase & IP Ownership',
+        description: 'Complete source code, deployment scripts, and architectural documentation handed directly to your engineering team with zero lock-in.',
+      },
     ],
+    faqs: [
+      {
+        question: 'Do we own 100% of the software source code and IP?',
+        answer:
+          'Yes, absolutely. All code, architecture specifications, database schemas, and intellectual property developed during the engagement belong entirely to your company from day one.',
+      },
+      {
+        question: 'How do you ensure zero downtime during legacy system modernization?',
+        answer:
+          'We employ the Martin Fowler Strangler Fig pattern, routing traffic incrementally through modern microservices while keeping legacy databases synchronized with bi-directional event queues until full cutover is certified.',
+      },
+      {
+        question: 'What engagement models do you offer for software development?',
+        answer:
+          'We provide Dedicated Engineering Squads (cross-functional teams managed end-to-end), Staff Augmentation (senior engineers integrated into your team), and Fixed-Price Project Delivery for defined scopes.',
+      },
+      {
+        question: 'How do you handle software maintenance after launch?',
+        answer:
+          'We offer SLA-backed technical maintenance packages covering 24/7 incident monitoring, security patch management, framework upgrades, and continuous feature enhancements.',
+      },
+    ],
+    ctaHeadline: 'Ready to Build Software That Doesn’t Break Under Scale?',
+    ctaDescription:
+      'Speak directly with a Principal Solutions Architect. We review your architecture, diagnose bottlenecks, and deliver an actionable execution plan within 24 hours.',
+    ctaButtonText: 'Request Technical Proposal',
   },
 
   'ai-development': {
     id: 'ai-development',
     slug: 'ai-development',
     title: 'AI Development',
-    tagline: 'Custom Artificial Intelligence & Machine Learning Systems',
+    tagline: 'Production ML, Custom LLMs & Foundation Model Engineering',
     category: 'AI & Intelligence',
-    heroBadge: 'Applied AI & Cognitive Systems',
-    heroHeadline: 'Custom Artificial',
-    heroHeadlineHighlight: 'Intelligence & ML',
+    heroBadge: 'Production AI & LLM Systems',
+    heroHeadline: 'Production-Grade AI',
+    heroHeadlineHighlight: 'Models & Engineering',
     heroDescription:
-      'Turn proprietary enterprise data into competitive intelligence. We design, train, fine-tune, and deploy custom machine learning models, Retrieval-Augmented Generation (RAG) pipelines, computer vision systems, and predictive algorithms.',
-    metrics: [
-      { value: '3.8x', label: 'ROI in Operational Efficiency' },
-      { value: '< 200ms', label: 'Inference Latency' },
-      { value: '99.2%', label: 'Model Accuracy Score' },
-      { value: '100%', label: 'Private & Air-Gapped Compliant' },
+      'We engineer private, production-grade AI systems that run on your infrastructure with deterministic accuracy. From vector-grounded RAG architectures to private open-source model fine-tuning, we eliminate hallucinations and protect your proprietary IP.',
+    heroImage: '/services/ai-development.png',
+    heroImageCaption: 'AI Development Production Architecture',
+    primaryCtaText: 'Build Your AI System',
+    secondaryCtaText: 'Review AI Architectures',
+    trustPoints: [
+      'Zero training on your proprietary data by public models',
+      'Strict NeMo guardrails blocking prompt injections & PII leaks',
+      'Self-hosted vLLM inference on AWS, GCP, or on-prem GPUs',
+      'Continuous evaluation with Ragas & automated benchmark suites',
     ],
+    metrics: [
+      { value: '98.4%', label: 'Context Grounding Accuracy' },
+      { value: '< 180ms', label: 'Time to First Token (TTFT)' },
+      { value: '100%', label: 'Air-Gapped Data Privacy' },
+      { value: '65%', label: 'Compute Cost Reduction' },
+    ],
+    overview: {
+      statement:
+        'Commercial AI wrappers break down in production when accuracy, data security, and unit economics actually matter.',
+      paragraphs: [
+        'Generic API wrappers fail enterprise requirements because they leak proprietary IP, suffer uncontrolled latency spikes, and hallucinate under real-world ambiguity. Enterprise AI requires deterministic grounding, strict boundary validation, and private inference infrastructure.',
+        'We build production AI systems around private open-source foundation models (Llama, Mistral, DeepSeek) and enterprise vector databases. We implement semantic hybrid chunking, reranking pipelines, and multi-stage guardrails that mathematically ground model responses in your verified company data.',
+        'By quantizing models (AWQ, GPTQ) and orchestrating high-throughput vLLM clusters, we slash inference costs by up to 65% compared to commercial API pay-per-token models while maintaining enterprise data privacy.',
+      ],
+      keyTakeaway:
+        'Private, low-latency AI architectures built for zero hallucinations, strict regulatory compliance, and predictable unit economics.',
+    },
     capabilities: [
       {
-        title: 'Enterprise RAG & Knowledge Retrieval Systems',
+        title: 'Vector-Grounded Hybrid RAG Pipelines',
         description:
-          'Grounding large language models in your proprietary internal documents, knowledge bases, and live databases with high-accuracy vector embeddings and semantic search.',
-        tags: ['pgvector / Pinecone', 'LangChain & LlamaIndex', 'Hybrid Keyword/Vector', 'Source Citations'],
+          'Dense semantic vector retrieval combined with sparse BM25 keyword matching and cross-encoder rerankers, guaranteeing accurate context retrieval from millions of enterprise documents.',
+        tags: ['pgvector & Qdrant', 'Hybrid Retrieval', 'Cross-Encoder Rerankers', 'Context Compression'],
       },
       {
-        title: 'Custom Model Fine-Tuning & Quantization',
+        title: 'Private Foundation Model Fine-Tuning',
         description:
-          'Adapting open-weights models (Llama 3, Mistral, DeepSeek) to your domain vocabulary and compliance rules with LoRA/QLoRA for cost-effective private deployment.',
-        tags: ['LoRA / QLoRA', 'vLLM & Ollama', 'Model Quantization', 'Private Inference'],
+          'Domain adaptation of open-source weights (Llama 3, Mistral, DeepSeek) using LoRA and QLoRA on private enterprise datasets without leaking intellectual property.',
+        tags: ['LoRA / QLoRA', 'Synthetic Data Generation', 'Domain Adaptation', 'PEFT Workflows'],
       },
       {
-        title: 'Predictive Analytics & Forecasters',
+        title: 'High-Throughput vLLM & Quantization',
         description:
-          'Time-series forecasting, churn prediction, anomaly detection in financial transactions, and demand optimization using XGBoost, Prophet, and PyTorch deep neural networks.',
-        tags: ['Time-Series Models', 'XGBoost / LightGBM', 'Fraud Anomaly Detection', 'Demand Forecasting'],
+          'Deploying models with 4-bit/8-bit AWQ and GPTQ quantization using vLLM and TensorRT-LLM, maximizing token throughput per GPU and slashing cloud infrastructure costs.',
+        tags: ['vLLM Acceleration', 'AWQ / GPTQ 4-Bit', 'TensorRT-LLM', 'PagedAttention'],
       },
       {
-        title: 'Computer Vision & OCR Document Parsing',
+        title: 'Prompt Injection Defense & NeMo Guardrails',
         description:
-          'High-speed visual defect inspection, biometric identity verification, and multi-lingual layout-aware OCR for invoices, clinical forms, and legal contracts.',
-        tags: ['YOLOv10 / OpenCV', 'LayoutLM Document OCR', 'Defect Inspection', 'Visual Embeddings'],
+          'Multi-layered security boundaries blocking jailbreaks, adversarial prompt injections, toxic content, and automated PII data redaction before inference.',
+        tags: ['NeMo Guardrails', 'PII Redaction', 'Adversarial Defense', 'Factuality Scoring'],
       },
       {
-        title: 'LLMOps & Continuous Model Evaluation',
+        title: 'Multimodal Vision & Document Intelligence',
         description:
-          'Automated evaluation harnesses (Ragas, TruLens) measuring hallucination rates, context relevance, prompt drift, token costs, and safety guardrails.',
-        tags: ['Ragas / TruLens', 'Prompt Engineering', 'LangSmith Telemetry', 'Cost Optimization'],
+          'Vision-language models extracting dense tabular data, complex PDF layouts, architectural diagrams, and handwritten documents into verified structured JSON schemas.',
+        tags: ['Vision LLMs', 'LayoutLM', 'Table Extraction', 'Structured JSON Output'],
       },
       {
-        title: 'Multi-Modal Voice & Vision AI Systems',
+        title: 'Continuous Evaluation & Drift Telemetry',
         description:
-          'Real-time speech-to-text, audio sentiment analysis, synthetic voice generation, and multi-modal image-understanding systems embedded into web and mobile clients.',
-        tags: ['Whisper STT', 'ElevenLabs TTS', 'Multi-Modal Vision', 'WebRTC Audio Streams'],
+          'Automated Ragas benchmarking, faithfulness scoring, token latency monitoring, and continuous regression suites so models maintain verified accuracy across releases.',
+        tags: ['Ragas Benchmarking', 'Drift Detection', 'Weights & Biases', 'Continuous Eval CI'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Data Audit & Feasibility Benchmark',
-        description: 'Evaluating training datasets, synthetic data generation pipelines, baseline model selection, and accuracy success criteria.',
-        deliverables: ['Data Readiness Audit', 'Model Benchmark Report', 'Ethical AI Compliance Spec'],
+        title: 'Data Audit & Semantic Taxonomy',
+        description:
+          'Auditing enterprise knowledge assets, designing semantic chunking strategies, and establishing baseline accuracy evaluation benchmarks.',
+        deliverables: ['Data Ingestion Pipeline', 'Semantic Chunking Spec', 'Baseline Evaluation Benchmark'],
       },
       {
         step: '02',
-        title: 'Embedding Pipeline & Model Training',
-        description: 'Chunking data, generating dense vector embeddings, training fine-tuned weights, and configuring semantic cache layers.',
-        deliverables: ['Vector Database Schema', 'Fine-Tuned Model Weights', 'Evaluation Scorecard'],
+        title: 'Model Adaptation & RAG Scaffolding',
+        description:
+          'Setting up vector stores, fine-tuning foundation weights, and implementing hybrid retrieval pipelines with cross-encoder reranking.',
+        deliverables: ['Fine-Tuned Model Weights', 'Vector Store Schema', 'Interactive Test Console'],
       },
       {
         step: '03',
-        title: 'Guardrails, Safety & API Integration',
-        description: 'Implementing NeMo guardrails, PII redaction filters, hallucination evaluators, and low-latency REST/WebSocket inference APIs.',
-        deliverables: ['Inference Server Endpoints', 'Guardrail Safety Config', 'Hallucination Metrics'],
+        title: 'Guardrail Enforcement & Latency Tuning',
+        description:
+          'Enforcing NeMo guardrails, PII sanitization filters, and optimizing vLLM GPU inference runtimes for sub-200ms token generation.',
+        deliverables: ['Guardrail Policy Matrix', 'vLLM Latency Benchmark', 'Security Penetration Report'],
       },
       {
         step: '04',
-        title: 'Production LLMOps & Cost Optimization',
-        description: 'Deploying to private GPU clusters or serverless AI runtimes with dynamic token caching and automated retraining triggers.',
-        deliverables: ['Production Cluster Setup', 'Token Cost Dashboard', 'Continuous Evaluation Loop'],
+        title: 'Production GPU Orchestration & Monitoring',
+        description:
+          'Deploying auto-scaling GPU clusters on Kubernetes with Ragas continuous evaluation suites and live telemetry dashboards.',
+        deliverables: ['Kubernetes GPU Manifests', 'Telemetry Dashboard', 'Model Governance Runbook'],
       },
     ],
     deliverables: [
-      { title: 'Trained & Fine-Tuned Model Artifacts', category: 'Model Weights', description: 'Optimized GGUF/Safetensors model checkpoints ready for private on-premise or cloud hosting.', format: 'Safetensors / GGUF / ONNX' },
-      { title: 'Vector Index & RAG Ingestion Pipeline', category: 'Data Pipeline', description: 'Automated data chunking, metadata tagging, and vector database synchronization scripts.', format: 'Python / LangChain' },
-      { title: 'Production Inference API & SDK', category: 'API Service', description: 'High-throughput streaming API endpoints with rate limiting, telemetry, and client SDKs.', format: 'FastAPI / WebSocket' },
-      { title: 'Model Performance & Evaluation Matrix', category: 'Evaluation', description: 'Comprehensive benchmark reports detailing accuracy, hallucination rates, and latency under load.', format: 'Interactive HTML & Markdown' },
+      {
+        title: 'Containerized Inference Engine & Model Weights',
+        category: 'AI Core',
+        description: 'Quantized, fine-tuned model artifacts and containerized vLLM inference services ready for private cloud deployment.',
+        format: 'Docker Containers & SafeTensors',
+      },
+      {
+        title: 'Hybrid Vector Retrieval & Semantic Search Core',
+        category: 'Data Architecture',
+        description: 'High-performance vector database schema with automated chunking, embedding, and reranking pipelines.',
+        format: 'pgvector / Qdrant DDL & Code',
+      },
+      {
+        title: 'Automated Ragas Evaluation Suite',
+        category: 'QA / Eval',
+        description: 'Test harness verifying context precision, answer relevance, and factual grounding across model updates.',
+        format: 'Python Test Harness & CI Suite',
+      },
+      {
+        title: 'Enterprise Security & PII Redaction Guardrail Config',
+        category: 'Security',
+        description: 'NeMo guardrails configuration preventing prompt injection attacks and redacting sensitive PII data.',
+        format: 'Colang Scripts & Python Runtimes',
+      },
     ],
     techStack: [
-      { category: 'AI Models', items: ['OpenAI GPT-4o', 'Claude 3.5 Sonnet', 'Llama 3.3', 'Mistral Large', 'DeepSeek V3', 'Whisper'] },
-      { category: 'AI Frameworks', items: ['PyTorch', 'LangChain', 'LlamaIndex', 'vLLM', 'HuggingFace', 'Ollama'] },
-      { category: 'Vector Databases', items: ['pgvector', 'Pinecone', 'Qdrant', 'Milvus', 'ChromaDB', 'Weaviate'] },
-      { category: 'AI Infrastructure', items: ['NVIDIA TensorRT', 'AWS Bedrock', 'Azure OpenAI', 'RunPod / Lambda', 'Modal'] },
+      { category: 'Foundation Models', items: ['Llama 3.3', 'Mistral Large', 'DeepSeek R1', 'Claude API', 'OpenAI API'] },
+      { category: 'Frameworks & Runtimes', items: ['vLLM', 'LangChain', 'LlamaIndex', 'TensorRT-LLM', 'HuggingFace', 'PyTorch'] },
+      { category: 'Vector Databases', items: ['pgvector', 'Qdrant', 'Pinecone', 'Milvus', 'ChromaDB'] },
+      { category: 'Guardrails & Telemetry', items: ['NeMo Guardrails', 'Ragas', 'Weights & Biases', 'Trulens', 'OpenTelemetry'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds built our proprietary clinical document analysis RAG system. It processes 50-page patient medical records in under 3 seconds with zero hallucinations, saving our physicians over 2 hours daily.',
-      author: 'Dr. Sarah Lin',
-      role: 'Chief Medical Information Officer',
-      company: 'HealthVantage Systems',
-      metric: '2+ Hours Saved / Physician',
+      quote:
+        'Neominds engineered a private RAG pipeline indexing 400,000 internal engineering documents. Our technical support engineers now resolve tier-3 escalations 60% faster with zero hallucinations.',
+      author: 'Dr. Michael Chen',
+      role: 'Chief AI Officer',
+      company: 'Aetheria Systems',
+      metric: '98.4% Factuality Grounding',
     },
-    faqs: [
-      { question: 'Will our proprietary data be used to train public models?', answer: 'Never. We build enterprise AI systems that run in your dedicated private cloud or on-premise environment. We enforce zero-data-retention agreements and air-gapped deployments.' },
-      { question: 'How do you prevent hallucinations in generative AI systems?', answer: 'We implement multi-layered verification: semantic search grounding with strict similarity thresholds, Ragas automated citation checkers, structured JSON schema outputs, and fallback guardrails.' },
-      { question: 'What GPU infrastructure is required to run custom AI models?', answer: 'Depending on model size, we optimize architectures using 4-bit/8-bit quantization (QLoRA) allowing 70B parameter models to run on affordable enterprise GPUs or serverless inference runtimes like vLLM.' },
-      { question: 'Can you integrate AI into our existing web or mobile app?', answer: 'Yes. We provide clean REST, GraphQL, and streaming WebSocket APIs that integrate smoothly with React, iOS, Android, and backend microservices.' },
+    outcomes: [
+      {
+        metric: '98.4%',
+        label: 'Factuality Grounding Rate',
+        description: 'Eliminates hallucinations across technical documentation through dense semantic embeddings and cross-encoder rerankers.',
+      },
+      {
+        metric: '65%',
+        label: 'Inference Cost Reduction',
+        description: 'Self-hosted quantized models replace expensive commercial per-token API subscriptions at scale.',
+      },
+      {
+        metric: '100%',
+        label: 'Data Isolation Guarantee',
+        description: 'Proprietary training data, embeddings, and user queries remain strictly within your private VPC boundary.',
+      },
     ],
+    faqs: [
+      {
+        question: 'Will our proprietary data be used to train external public models?',
+        answer:
+          'Never. We deploy private models inside your own AWS, GCP, or on-premise infrastructure. No prompts, embeddings, or training datasets ever leave your isolated network perimeter.',
+      },
+      {
+        question: 'How do you prevent hallucinations in technical or regulated domains?',
+        answer:
+          'We implement strict context grounding using hybrid search (BM25 + dense vectors), cross-encoder rerankers, and NeMo guardrails that mathematically require every answer to cite exact source chunks.',
+      },
+      {
+        question: 'What hardware or GPU infrastructure is required to host private LLMs?',
+        answer:
+          'Through modern 4-bit and 8-bit quantization (AWQ/GPTQ) and vLLM acceleration, models like Llama 3 70B run efficiently on a single or dual NVIDIA A10G/L40S instance, drastically reducing hosting costs.',
+      },
+      {
+        question: 'How do you measure and maintain model accuracy over time?',
+        answer:
+          'We implement automated evaluation suites using the Ragas framework, continuously scoring context recall, answer relevance, and faithfulness against curated gold-standard test sets.',
+      },
+    ],
+    ctaHeadline: 'Ready to Deploy AI That Solves Real Enterprise Problems?',
+    ctaDescription:
+      'Consult with our Principal AI Engineers. We evaluate your dataset, map your inference architecture, and outline a concrete deployment roadmap.',
+    ctaButtonText: 'Request AI Architecture Review',
   },
 
   'mobile-app-development': {
     id: 'mobile-app-development',
     slug: 'mobile-app-development',
     title: 'Mobile App Development',
-    tagline: 'High-Performance iOS & Android Mobile Experiences',
+    tagline: 'Native iOS, Android & High-Performance Cross-Platform Apps',
     category: 'Core Engineering',
-    heroBadge: 'Native & Cross-Platform Mobile',
-    heroHeadline: 'Intuitive & Scalable',
-    heroHeadlineHighlight: 'Mobile App Development',
+    heroBadge: 'Native Mobile Engineering',
+    heroHeadline: 'High-Performance Mobile',
+    heroHeadlineHighlight: 'App Development',
     heroDescription:
-      'Create polished, top-rated mobile apps that users love. We build native iOS (Swift/SwiftUI), native Android (Kotlin/Jetpack Compose), and cross-platform (Flutter/React Native) mobile experiences with offline-first synchronization and 60fps animations.',
-    metrics: [
-      { value: '4.9 ★', label: 'Average App Store Rating' },
-      { value: '60 FPS', label: 'Buttery Smooth Animations' },
-      { value: '10M+', label: 'Combined Active Users' },
-      { value: '100%', label: 'Offline-First Ready' },
+      'We design and build buttery-smooth 60fps mobile applications engineered for offline-first reliability, instant cold starts, and intuitive ergonomics. Trusted across financial services, logistics, and high-growth consumer apps.',
+    heroImage: '/services/mobile-app-development.png',
+    heroImageCaption: 'Mobile App Development Production Architecture',
+    primaryCtaText: 'Launch Your Mobile App',
+    secondaryCtaText: 'Inspect Mobile Architecture',
+    trustPoints: [
+      'Offline-first sync using conflict-free CRDT data structures',
+      'Biometric hardware encryption via Secure Enclave & KeyStore',
+      'Automated Fastlane pipelines with TestFlight & Play Console distribution',
+      'WCAG 2.1 AA accessibility & pixel-perfect mobile ergonomics',
     ],
+    metrics: [
+      { value: '60 FPS', label: 'Sustained UI Rendering Rate' },
+      { value: '< 100ms', label: 'Cold Start Launch Speed' },
+      { value: '99.9%', label: 'Crash-Free Session Rate' },
+      { value: '4.9 ★', label: 'Average App Store Rating' },
+    ],
+    overview: {
+      statement:
+        'Mobile users abandon clunky apps in three seconds. High-retention mobile software requires native-grade speed, tactile responsiveness, and flawless offline state management.',
+      paragraphs: [
+        'Users do not forgive laggy animations, drained batteries, or screens that lock up when cellular signal drops in an elevator. Modern mobile apps must feel weightless, respond instantly to touch, and maintain local state without waiting on the network.',
+        'We engineer native iOS (Swift/SwiftUI), native Android (Kotlin/Jetpack Compose), and high-performance React Native / Flutter apps with offline-first synchronization engines. We use SQLite and WatermelonDB with optimistic UI updates, background sync workers, and biometric authentication.',
+        'Our release engineering uses Fastlane and automated cloud test devices to run end-to-end user journeys before any build hits TestFlight or Google Play. Zero regressions, zero unexpected crash spikes.',
+      ],
+      keyTakeaway:
+        'Fluid 60fps mobile experiences with sub-100ms launch times, rock-solid offline sync, and automated app store release pipelines.',
+    },
     capabilities: [
       {
-        title: 'Native iOS Development (Swift & SwiftUI)',
+        title: 'Native iOS Engineering (Swift & SwiftUI)',
         description:
-          'Tailored to Apple’s Human Interface Guidelines. We leverage WidgetKit, Metal, CoreML on-device machine learning, Apple Pay, and biometric authentication.',
-        tags: ['Swift 6', 'SwiftUI', 'WidgetKit', 'CoreML & Metal'],
+          'Crafted with Swift 6 and SwiftUI. We use Metal hardware acceleration, Secure Enclave cryptography, WidgetKit, Live Activities, and CoreBluetooth for platform-native speed.',
+        tags: ['Swift / SwiftUI', 'Metal Acceleration', 'Secure Enclave', 'Live Activities'],
       },
       {
-        title: 'Native Android Development (Kotlin & Jetpack Compose)',
+        title: 'Native Android Engineering (Kotlin & Compose)',
         description:
-          'Modern declarative Android apps following Material You design principles, Background WorkManager synchronization, CameraX, and Google Play Billing.',
-        tags: ['Kotlin', 'Jetpack Compose', 'Coroutines / Flow', 'Google Play In-App'],
+          'Engineered with modern Kotlin, Jetpack Compose, Coroutines, Flow, and Room DB. Built for multi-device responsiveness, battery efficiency, and Android Keystore encryption.',
+        tags: ['Kotlin / Jetpack Compose', 'Coroutines & Flow', 'Room Database', 'Android Keystore'],
       },
       {
-        title: 'Cross-Platform Mobile (React Native & Flutter)',
+        title: 'Cross-Platform React Native & Expo Core',
         description:
-          'Single-codebase mobile applications sharing 90%+ of business logic while delivering 100% native performance and identical pixel precision on iOS and Android.',
-        tags: ['React Native Expo', 'Flutter / Dart', 'Shared State Engines', 'Fast Over-The-Air Updates'],
+          'High-performance cross-platform apps using the React Native New Architecture (TurboModules & Fabric). Single codebase efficiency with native-grade frame rates.',
+        tags: ['React Native', 'Expo EAS', 'Fabric Architecture', 'TurboModules'],
       },
       {
-        title: 'Offline-First Data Sync & Local Databases',
+        title: 'Offline-First Sync & Conflict Resolution',
         description:
-          'Seamless background replication using SQLite, WatermelonDB, and CRDT conflict resolution so apps function reliably in zero-connectivity environments.',
-        tags: ['SQLite / Room', 'WatermelonDB', 'CRDT Sync', 'Background Tasks'],
+          'Local-first architectures with WatermelonDB and SQLite. Background CRDT synchronization queues guarantee zero data loss and instant optimistic UI responses.',
+        tags: ['WatermelonDB', 'CRDT Sync', 'SQLite', 'Optimistic UI Updates'],
       },
       {
-        title: 'FinTech & HIPAA-Compliant Mobile Security',
+        title: 'Biometric Security & Mobile Encryption',
         description:
-          'Encrypted local keystores, biometric FaceID/TouchID gates, certificate pinning, jailbreak/root detection, and dynamic token encryption.',
-        tags: ['Keychain / KeyStore', 'Biometric Auth', 'SSL Pinning', 'PCI-DSS Compliance'],
+          'FIDO2 biometric authentication (FaceID, TouchID, BiometricPrompt), hardware-backed certificate pinning, anti-tamper jailbreak detection, and encrypted local storage.',
+        tags: ['FaceID / TouchID', 'Certificate Pinning', 'Anti-Tamper & Root Check', 'FIDO2 Auth'],
       },
       {
-        title: 'App Store Submission & Live Telemetry',
+        title: 'Automated CI/CD & Fastlane Release Ops',
         description:
-          'Complete lifecycle management including Apple App Store and Google Play submissions, compliance approvals, crash reporting, and PostHog analytics.',
-        tags: ['Fastlane CI/CD', 'App Store Optimization', 'Sentry Crashlytics', 'PostHog Telemetry'],
+          'Continuous integration pipelines that compile, run automated device test suites, generate app store screenshots, and deploy release builds to TestFlight and Play Store.',
+        tags: ['Fastlane', 'TestFlight / Play Console', 'App Store Optimization', 'Automated Screenshots'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'UX Flow & Interactive Mobile Prototype',
-        description: 'Creating mobile-first gesture wireframes, Apple HIG / Material component libraries, and clickable Figma prototypes for usability tests.',
-        deliverables: ['Clickable Figma Prototype', 'Mobile Design System', 'Information Architecture'],
+        title: 'Mobile UX & Tactile Prototyping',
+        description:
+          'User flow mapping, interactive Figma prototypes, mobile design tokens, and tactile ergonomics testing across iOS and Android form factors.',
+        deliverables: ['Interactive Mobile Prototypes', 'Mobile Design System Kit', 'Navigation Architecture'],
       },
       {
         step: '02',
-        title: 'Core Engine & Offline Architecture',
-        description: 'Setting up local SQLite databases, reactive state management, background sync tasks, and authentication flows.',
-        deliverables: ['Core Mobile Scaffolding', 'Local SQLite Schema', 'Authentication Modules'],
+        title: 'Core Engine & Offline Database Setup',
+        description:
+          'Building the local-first database, establishing offline sync protocols, and implementing API integration clients with mock sandboxes.',
+        deliverables: ['Local Database Schema', 'State Machine Architecture', 'API Client SDK'],
       },
       {
         step: '03',
-        title: 'API Integration & Hardware Sensors',
-        description: 'Connecting camera, Bluetooth LE, push notifications, payment wallets, and streaming WebSocket endpoints.',
-        deliverables: ['Sensor Integration Modules', 'Push Notification Service', 'Payment Gateway Integration'],
+        title: 'Sensor Integration & 60fps Profiling',
+        description:
+          'Integrating native hardware sensors, biometric auth, push notification queues, and profiling memory allocations for sustained 60fps rendering.',
+        deliverables: ['Hardware Sensor Integration', '60fps Profiling Report', 'Security Audit Certificate'],
       },
       {
         step: '04',
-        title: 'App Store Submission & Over-the-Air Setup',
-        description: 'Submitting to Apple App Store & Google Play, configuring Fastlane automated deployments and Sentry crash diagnostics.',
-        deliverables: ['Published App Store Builds', 'Fastlane Automation Scripts', 'Crash Reporting Telemetry'],
+        title: 'Automated Testing & App Store Deployment',
+        description:
+          'Configuring Fastlane build pipelines, running automated device tests, and submitting production releases to Apple App Store and Google Play.',
+        deliverables: ['Fastlane Deployment Workflows', 'TestFlight Beta Release', 'App Store / Play Store Approvals'],
       },
     ],
     deliverables: [
-      { title: 'Production App Store & Play Store Binaries', category: 'Build Artifacts', description: 'Signed IPA and AAB binaries compliant with all 2026 Apple and Google store guidelines.', format: 'IPA / AAB / APK' },
-      { title: 'Full Native / Cross-Platform Source Code', category: 'Codebase', description: 'Clean Swift/Kotlin/React Native source code with automated unit and UI test suites.', format: 'Git Repository' },
-      { title: 'Fastlane CI/CD Automated Pipelines', category: 'DevOps', description: 'Automated screenshot generation, test flight distribution, and production deployment scripts.', format: 'Fastfile & GitHub Actions' },
-      { title: 'Mobile Analytics & Crash Telemetry Setup', category: 'Monitoring', description: 'Pre-configured Sentry, Firebase, and telemetry dashboards for tracking real-world user metrics.', format: 'Live Dashboards' },
+      {
+        title: 'Production Mobile Codebases (iOS & Android)',
+        category: 'Mobile Core',
+        description: 'Complete native Swift/Kotlin or React Native source code with full IP ownership and clean architecture patterns.',
+        format: 'Xcode / Android Studio Repositories',
+      },
+      {
+        title: 'Automated Fastlane Deployment Workflows',
+        category: 'DevOps',
+        description: 'Configured Fastlane scripts managing app signing, certificates, metadata, screenshots, and store submissions.',
+        format: 'Fastlane Ruby / YAML Scripts',
+      },
+      {
+        title: 'Tactile Mobile Design System & UI Kit',
+        category: 'Design',
+        description: 'Complete Figma design system with components, dark/light themes, and tactile motion tokens.',
+        format: 'Figma Library & Asset Packages',
+      },
+      {
+        title: 'App Store Optimization & Compliance Pack',
+        category: 'Compliance',
+        description: 'Privacy declarations, App Store compliance documentation, Apple HIG audit, and Google Play Data Safety forms.',
+        format: 'Compliance Dossier & Assets',
+      },
     ],
     techStack: [
-      { category: 'iOS', items: ['Swift 6', 'SwiftUI', 'Combine', 'CoreData', 'WidgetKit'] },
-      { category: 'Android', items: ['Kotlin', 'Jetpack Compose', 'Coroutines', 'Room', 'Hilt'] },
-      { category: 'Cross-Platform', items: ['React Native', 'Expo', 'Flutter', 'Dart', 'Capacitor'] },
-      { category: 'Tooling & CI/CD', items: ['Fastlane', 'Xcode Cloud', 'Firebase Test Lab', 'Sentry'] },
+      { category: 'Platforms', items: ['iOS', 'Android', 'iPadOS', 'watchOS', 'macOS Catalyst'] },
+      { category: 'Languages & Frameworks', items: ['Swift / SwiftUI', 'Kotlin / Jetpack Compose', 'React Native / Expo', 'Flutter', 'TypeScript'] },
+      { category: 'Local Storage & Sync', items: ['SQLite', 'WatermelonDB', 'MMKV', 'Realm', 'Room DB'] },
+      { category: 'DevOps & Testing', items: ['Fastlane', 'GitHub Actions', 'TestFlight', 'Google Play Console', 'Detox / Maestro'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds delivered our telemedicine iOS and Android app in just 14 weeks. We achieved a 4.9-star rating on the App Store with over 200,000 consults completed in year one.',
+      quote:
+        'Neominds rebuilt our mobile app from scratch. We went from a 3.1-star rating with constant offline crashes to a 4.9-star rating across 250,000 active monthly users.',
       author: 'Marcus Vance',
-      role: 'VP of Product',
-      company: 'Plato Medical',
-      metric: '4.9 ★ Rating & 200k Consults',
+      role: 'Head of Mobile Product',
+      company: 'Kinetic Financial',
+      metric: '4.9 ★ Rating & 60 FPS',
     },
-    faqs: [
-      { question: 'Should we choose Native (Swift/Kotlin) or Cross-Platform (React Native/Flutter)?', answer: 'For apps requiring heavy device hardware access, complex 3D graphics, or specialized widgets, Native is ideal. For content, commerce, and SaaS apps seeking fast cross-platform parity and budget efficiency, React Native or Flutter is exceptionally performant.' },
-      { question: 'Do you assist with Apple App Store and Google Play approval guidelines?', answer: 'Yes. We handle 100% of the submission process, privacy nutrition labels, in-app purchase compliance, and guideline reviews to ensure guaranteed store approval.' },
-      { question: 'Can the mobile app work when users have no internet connection?', answer: 'Yes. We specialize in offline-first architectures using local SQLite databases and automatic background data synchronization as soon as connectivity resumes.' },
-      { question: 'How do you test across hundreds of different Android screen sizes?', answer: 'We utilize automated device matrix testing in Firebase Test Lab and real physical devices covering major Samsung, Google Pixel, and iOS device dimensions.' },
+    outcomes: [
+      {
+        metric: '99.9%',
+        label: 'Crash-Free Session Rate',
+        description: 'Eliminates unexpected app crashes through memory profiling, strict type checking, and automated device lab testing.',
+      },
+      {
+        metric: '< 100ms',
+        label: 'Cold Start Velocity',
+        description: 'Sub-100ms startup launch eliminates user drop-off and maintains top search engine store rankings.',
+      },
+      {
+        metric: '100%',
+        label: 'Offline Functionality',
+        description: 'Core mobile workflows continue executing smoothly without active cellular connection, syncing when connectivity resumes.',
+      },
     ],
+    faqs: [
+      {
+        question: 'Should we build Native (Swift/Kotlin) or Cross-Platform (React Native)?',
+        answer:
+          'If your app requires heavy hardware sensor integration, complex 3D graphics, or audio/video processing, pure native Swift and Kotlin are optimal. For most enterprise and consumer apps, React Native with the New Architecture delivers identical 60fps performance while reducing development costs by 40%.',
+      },
+      {
+        question: 'How do you handle offline functionality and data conflicts?',
+        answer:
+          'We build offline-first using SQLite and WatermelonDB with Conflict-Free Replicated Data Types (CRDTs). Users can create and edit records without internet, and changes synchronize deterministically in the background when connectivity resumes.',
+      },
+      {
+        question: 'Will you manage the App Store and Google Play review process?',
+        answer:
+          'Yes. We handle the complete submission lifecycle, including code signing, provisioning profiles, privacy declarations, App Store guidelines review, and resolving any reviewer inquiries until approved.',
+      },
+      {
+        question: 'How do you keep user biometrics and sensitive credentials secure?',
+        answer:
+          'We never store plaintext tokens. All cryptographic keys and authentication tokens are encrypted using the iOS Secure Enclave and Android Keystore, guarded by hardware-enforced biometric authentication.',
+      },
+    ],
+    ctaHeadline: 'Ready to Ship a 5-Star Mobile Experience?',
+    ctaDescription:
+      'Schedule a discovery session with our Lead Mobile Architect. We review your UX flows, offline data requirements, and deliver a detailed technical breakdown.',
+    ctaButtonText: 'Request Mobile Discovery',
   },
 
   'web-cms-development': {
     id: 'web-cms-development',
     slug: 'web-cms-development',
     title: 'Web & CMS Development',
-    tagline: 'High-Performance Web Applications & Headless CMS Portals',
+    tagline: 'Headless CMS, Edge-Rendered Web Applications & Sub-Second Page Loads',
     category: 'Core Engineering',
-    heroBadge: 'Modern Web & Headless CMS',
-    heroHeadline: 'High-Performance Web',
-    heroHeadlineHighlight: '& CMS Development',
+    heroBadge: 'Headless CMS & Web Platforms',
+    heroHeadline: 'Next-Generation Web',
+    heroHeadlineHighlight: '& Headless CMS',
     heroDescription:
-      'Build ultra-fast, SEO-optimized web applications and headless content management systems. We engineer scalable web portals using Next.js, React, Node.js, and headless CMS architectures (Sanity, Strapi, Contentful) with sub-second page loads.',
-    metrics: [
-      { value: '100/100', label: 'Google PageSpeed Score' },
-      { value: '< 0.8s', label: 'Largest Contentful Paint' },
-      { value: '100%', label: 'SEO & Core Web Vitals Ready' },
-      { value: '99.99%', label: 'Edge Availability' },
+      'We engineer lightning-fast headless web architectures and intuitive editorial systems built for global scale. Combining decoupled CMS backends (Sanity, Strapi) with modern edge frontends (Next.js, Vite), we deliver 100 Lighthouse scores so marketing teams publish without waiting on engineering.',
+    heroImage: '/services/web-cms-development.png',
+    heroImageCaption: 'Web & CMS Development Production Architecture',
+    primaryCtaText: 'Build Your Web Platform',
+    secondaryCtaText: 'Explore Headless Architectures',
+    trustPoints: [
+      'Decoupled Sanity / Strapi headless schemas with live previews',
+      'Edge SSR / ISR static pre-rendering across global CDNs',
+      'Automated structured data (JSON-LD) for maximum SEO search rankings',
+      'Enterprise multi-lingual localization with role-based editing permissions',
     ],
+    metrics: [
+      { value: '100', label: 'Core Web Vitals Lighthouse Score' },
+      { value: '< 400ms', label: 'Global Largest Contentful Paint' },
+      { value: '0.00', label: 'Cumulative Layout Shift (CLS)' },
+      { value: '4x', label: 'Faster Editorial Publishing Speed' },
+    ],
+    overview: {
+      statement:
+        'Monolithic WordPress sites and rigid page builders slow down your brand, bloat bundle sizes, and frustrate content editors.',
+      paragraphs: [
+        'Traditional monolithic CMS platforms buckle under high traffic spikes, create security vulnerabilities through unvetted plugins, and render sluggish pages that kill search rankings. Modern digital products demand a headless separation between content storage and frontend rendering.',
+        'We architect modular web applications pairing headless content lakes (Sanity, Strapi, Contentful) with modern edge-rendered frontends (Next.js, Vite, Cloudflare Pages). We design custom drag-and-drop block builders that give non-technical marketing teams total layout freedom within strict brand design tokens.',
+        'Every page is optimized for Google Core Web Vitals: sub-second Largest Contentful Paint, zero cumulative layout shift, dynamic OpenGraph image generation, and programmatic SEO indexing.',
+      ],
+      keyTakeaway:
+        'Lightning-fast edge-rendered websites that let marketing teams publish in minutes while maintaining perfect 100 performance scores.',
+    },
     capabilities: [
       {
-        title: 'Modern Next.js & React Web Applications',
+        title: 'Headless CMS Architecture & Content Modeling',
         description:
-          'Server-Side Rendered (SSR) and Incremental Static Regenerated (ISR) web apps engineered with Next.js 15, React 19, and Tailwind CSS for lightning-fast loads.',
-        tags: ['Next.js 15 / React 19', 'Server Components', 'Edge Rendering', 'Tailwind CSS'],
+          'Structured document schemas in Sanity, Strapi, and Contentful. Custom visual editorial studios with real-time collaborative editing and live side-by-side previews.',
+        tags: ['Sanity.io / Strapi', 'Structured Content', 'Live Previews', 'Contentful'],
       },
       {
-        title: 'Headless CMS Architecture (Sanity, Strapi, Contentful)',
+        title: 'Incremental Edge Rendering (SSG / ISR / SSR)',
         description:
-          'Decoupled content engines giving marketing teams visual editing freedom while developers maintain a modern, secure, and performant frontend.',
-        tags: ['Sanity.io / Strapi', 'Contentful / Payload', 'Live Visual Previews', 'Structured Schemas'],
+          'Next.js App Router and Vite applications pre-rendering static routes at the edge. Instant on-demand cache revalidation via CMS webhooks keeps content fresh in milliseconds.',
+        tags: ['Next.js App Router', 'Incremental Static Regeneration', 'Edge Middleware', 'Cloudflare Pages'],
       },
       {
-        title: 'Enterprise Web Portals & Customer Dashboards',
+        title: 'Modular Visual Block Design Systems',
         description:
-          'Secure client portals featuring role-based access control (RBAC), multi-tenant billing, automated document management, and interactive data grids.',
-        tags: ['B2B Portals', 'Multi-Tenant Auth', 'Data Grids', 'Document Management'],
+          'Reusable editorial building blocks (hero sections, bento grids, comparison tables, interactive carousels) that give marketing teams flexibility while preserving brand consistency.',
+        tags: ['Design Tokens', 'Modular Page Builders', 'Tailwind CSS', 'Accessible Components'],
       },
       {
         title: 'Core Web Vitals & Technical SEO Optimization',
         description:
-          'Structured JSON-LD schema markup, automated XML sitemaps, dynamic OpenGraph meta tags, image format optimization (AVIF/WebP), and 100/100 Lighthouse performance.',
-        tags: ['JSON-LD Schema', 'OpenGraph Meta', 'Image Optimization', '100/100 Lighthouse'],
+          'Sub-second Largest Contentful Paint, zero cumulative layout shift, automated JSON-LD schema markup, dynamic OpenGraph social card generation, and XML sitemaps.',
+        tags: ['100 Lighthouse', 'JSON-LD Schemas', 'Dynamic OpenGraph', 'Sub-Second LCP'],
       },
       {
-        title: 'Global Edge CDN & Serverless Scaling',
+        title: 'Multi-Region Global Localization & i18n',
         description:
-          'Deploying web applications to Cloudflare and AWS CloudFront edge networks for ultra-low latency caching and automated DDoS mitigation worldwide.',
-        tags: ['Cloudflare Workers', 'AWS CloudFront', 'Edge Caching', 'DDoS Protection'],
+          'Multi-lingual publishing workflows with automated translation hooks, geo-distributed edge routing, currency localization, and regional content variations.',
+        tags: ['i18n Localization', 'Geo-Targeted Content', 'Multi-Currency', 'Edge Routing'],
       },
       {
-        title: 'Accessibility (WCAG 2.1 AAA) Compliance',
+        title: 'Role-Based Editorial Governance & Audit Logs',
         description:
-          'Keyboard navigation, ARIA live regions, semantic HTML5 structure, and screen reader testing to guarantee universal accessibility compliance.',
-        tags: ['WCAG 2.1 AAA', 'ARIA Standards', 'Semantic HTML5', 'Screen Reader Audited'],
+          'Multi-stage publishing approvals (Draft, Review, Staging, Production), automated change diffing, role-based permissions, and SOC 2-compliant editorial audit trails.',
+        tags: ['Approval Workflows', 'Change Diffing', 'Role-Based Access', 'Audit Logs'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Information Architecture & CMS Modeling',
-        description: 'Defining content taxonomies, schema relationships, editorial workflows, and technical SEO wireframes.',
-        deliverables: ['CMS Content Model', 'Information Architecture Spec', 'SEO Strategy Document'],
+        title: 'Information Architecture & Content Modeling',
+        description:
+          'Mapping customer journeys, structuring headless schema hierarchies, defining taxonomies, and auditing legacy content for automated migration.',
+        deliverables: ['Information Architecture Map', 'Headless Content Schema Spec', 'Content Migration Plan'],
       },
       {
         step: '02',
-        title: 'Frontend Component System & CMS Sync',
-        description: 'Building atomic React components with Storybook and wiring live preview hooks into the headless CMS backend.',
-        deliverables: ['Storybook Component Library', 'CMS Custom Schema', 'Live Editorial Preview'],
+        title: 'CMS Studio & Component Engineering',
+        description:
+          'Configuring Sanity/Strapi custom studios, engineering accessible React components, and connecting real-time preview drafting hooks.',
+        deliverables: ['Custom CMS Studio', 'React Component Library', 'Live Preview Sandbox'],
       },
       {
         step: '03',
-        title: 'API Integrations & Edge Deployment',
-        description: 'Integrating CRM, analytics, payment gateways, and deploying multi-region edge caches.',
-        deliverables: ['Third-Party Webhooks', 'Edge Cache Rules', 'Security Header Config'],
+        title: 'Edge Optimization & SEO Hardening',
+        description:
+          'Configuring edge CDN caching rules, auditing Core Web Vitals, generating automated schema markups, and validating cross-device responsiveness.',
+        deliverables: ['100 Lighthouse Performance Report', 'Structured Data Validator', 'Security Header Audit'],
       },
       {
         step: '04',
-        title: 'Core Web Vitals Audit & Editorial Handoff',
-        description: 'Lighthouse 100/100 speed optimization, WCAG accessibility validation, and comprehensive CMS training workshops for editorial teams.',
-        deliverables: ['Lighthouse Audit Report', 'WCAG Compliance Certificate', 'Editorial User Manual'],
+        title: 'Content Migration & Production Launch',
+        description:
+          'Migrating legacy content via automated ETL scripts, configuring 301 redirects, training editorial staff, and executing zero-downtime DNS cutover.',
+        deliverables: ['Automated Content Migration Tool', '301 Redirect Mapping', 'Editorial Training Playbook'],
       },
     ],
     deliverables: [
-      { title: 'Full Web App Source Code', category: 'Frontend', description: 'Modular Next.js / TypeScript codebase with 100% test coverage and clean component architecture.', format: 'Git Repository' },
-      { title: 'Configured Headless CMS Engine', category: 'Backend', description: 'Fully structured Sanity/Strapi CMS with custom roles, automated workflows, and visual previews.', format: 'Cloud Instance & Config' },
-      { title: 'Lighthouse 100/100 Performance Report', category: 'SEO', description: 'Validation certificate confirming sub-second load times, minimal CLS, and optimal LCP metrics.', format: 'Lighthouse Audit PDF' },
-      { title: 'Editorial Video Walkthroughs & Documentation', category: 'Training', description: 'Step-by-step video guides and documentation for your marketing team to manage content effortlessly.', format: 'Loom Video & Docs' },
+      {
+        title: 'Next.js / React Edge Web Application',
+        category: 'Frontend Core',
+        description: 'Complete edge-rendered web application source code with optimal Core Web Vitals and full IP ownership.',
+        format: 'Git Repository (Next.js / TypeScript)',
+      },
+      {
+        title: 'Custom Configured Headless CMS Studio',
+        category: 'CMS Architecture',
+        description: 'Customized Sanity or Strapi studio with custom inputs, preview hooks, and role-based permissions.',
+        format: 'Sanity Studio / Strapi Deploy',
+      },
+      {
+        title: 'Automated SEO & Structured Data Suite',
+        category: 'SEO Ops',
+        description: 'Automated JSON-LD schemas, dynamic OpenGraph generation microservice, and dynamic sitemaps.',
+        format: 'Next.js Metadata Pipelines',
+      },
+      {
+        title: 'Content Migration Scripts & Editor Handbook',
+        category: 'Documentation',
+        description: 'Automated migration tools for legacy content plus video manuals and step-by-step guides for marketing teams.',
+        format: 'ETL Scripts & Video Playbooks',
+      },
     ],
     techStack: [
-      { category: 'Frontend', items: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS', 'Framer Motion'] },
-      { category: 'CMS Platforms', items: ['Sanity.io', 'Strapi', 'Contentful', 'Payload CMS', 'WordPress Headless'] },
-      { category: 'Deployment & CDN', items: ['Vercel', 'AWS CloudFront', 'Cloudflare', 'Netlify'] },
-      { category: 'Testing & Quality', items: ['Storybook', 'Playwright', 'Jest', 'Lighthouse CI'] },
+      { category: 'Frontend', items: ['Next.js 15', 'React 19', 'TypeScript', 'Tailwind CSS', 'Vite'] },
+      { category: 'Headless CMS', items: ['Sanity.io', 'Strapi', 'Contentful', 'Payload CMS', 'Ghost'] },
+      { category: 'Edge & Hosting', items: ['Vercel', 'Cloudflare Pages', 'AWS CloudFront', 'Fastly'] },
+      { category: 'Search & Assets', items: ['Algolia', 'Meilisearch', 'Cloudinary', 'Imgix', 'Uploadcare'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds rebuilt our global marketing platform and headless CMS in Next.js. Our organic search traffic tripled in 6 months, and our editorial team can now launch campaigns in minutes instead of weeks.',
-      author: 'Elena Rostova',
-      role: 'Head of Growth',
-      company: 'Authenticom',
-      metric: '300% Organic Traffic Growth',
+      quote:
+        'Migrating our global corporate web presence to Sanity and Next.js doubled our mobile conversion rate and cut our page load times from 4.2 seconds to 380 milliseconds globally.',
+      author: 'Caroline Dubois',
+      role: 'VP of Digital Marketing',
+      company: 'Novatech Global',
+      metric: '380ms Global LCP',
     },
-    faqs: [
-      { question: 'Why should we choose a Headless CMS over traditional WordPress?', answer: 'A headless CMS decouples content from the frontend, delivering 10x faster load times, virtually bulletproof security (no exposed PHP/database endpoints), and the flexibility to publish content simultaneously to web, mobile apps, and smart displays.' },
-      { question: 'Will our marketing team need to write code to update pages?', answer: 'No. We configure intuitive visual page builders inside Sanity or Strapi with drag-and-drop sections, real-time live previews, and automated image resizing so editors have full autonomy.' },
-      { question: 'How do you achieve 100/100 Google PageSpeed scores?', answer: 'We combine server-side static generation (SSG), automatic next-gen image conversion (AVIF/WebP), zero-layout-shift font rendering, critical CSS inlining, and global edge CDN caching.' },
-      { question: 'Can you migrate our existing content from WordPress or Drupal?', answer: 'Yes. We build automated data migration scripts that extract all posts, categories, media assets, and SEO metadata into the new headless CMS structure without losing URL redirects or search rankings.' },
+    outcomes: [
+      {
+        metric: '100',
+        label: 'Lighthouse Performance Score',
+        description: 'Perfect Core Web Vitals scores drive top search rankings and stop mobile bounce rates.',
+      },
+      {
+        metric: '4x',
+        label: 'Editorial Publishing Velocity',
+        description: 'Marketing teams create and launch rich landing pages without waiting for developer sprints.',
+      },
+      {
+        metric: '0.00',
+        label: 'Cumulative Layout Shift',
+        description: 'Zero visual jumpiness or mis-clicks during page rendering, delivering a rock-solid editorial experience.',
+      },
     ],
+    faqs: [
+      {
+        question: 'Why should we switch from WordPress to a Headless CMS?',
+        answer:
+          'Traditional WordPress bundles database queries, PHP rendering, and unvetted plugins on a single server, creating performance bottlenecks and severe security vulnerabilities. A headless architecture decouples content storage from frontend rendering, delivering sub-second edge speeds, 100 Lighthouse scores, and zero server maintenance.',
+      },
+      {
+        question: 'Can non-technical marketing team members update content easily?',
+        answer:
+          'Yes. We build custom editorial studios in Sanity or Strapi with drag-and-drop visual blocks, real-time side-by-side previews, and strict design token boundaries that allow marketers to be creative without ever breaking the site layout.',
+      },
+      {
+        question: 'How do you handle redirects and SEO during a site migration?',
+        answer:
+          'We extract and map 100% of existing URLs, generate automated 301 redirect maps, preserve canonical tags, and implement structured JSON-LD schemas so search engine rankings are preserved and enhanced from day one.',
+      },
+      {
+        question: 'How fast do content updates appear on the live website?',
+        answer:
+          'Through Next.js on-demand Incremental Static Regeneration (ISR) and CMS webhooks, updated content is re-rendered at edge CDN points and visible globally in under 500 milliseconds without requiring full site rebuilds.',
+      },
+    ],
+    ctaHeadline: 'Ready to Replace Sluggish Web Infrastructure with Modern Speed?',
+    ctaDescription:
+      'Talk to our Headless Web Architects. We evaluate your content model, review your Core Web Vitals, and map your migration plan.',
+    ctaButtonText: 'Request Web Architecture Proposal',
   },
 
   'ecommerce-development': {
     id: 'ecommerce-development',
     slug: 'ecommerce-development',
     title: 'Ecommerce Development',
-    tagline: 'High-Conversion Headless & Custom Commerce Platforms',
+    tagline: 'Headless Commerce, Sub-Second Catalog Search & High-Concurrency Checkout',
     category: 'Core Engineering',
-    heroBadge: 'Omnichannel Digital Commerce',
-    heroHeadline: 'High-Conversion Digital',
-    heroHeadlineHighlight: 'Ecommerce Development',
+    heroBadge: 'Omnichannel Enterprise Commerce',
+    heroHeadline: 'High-Volume Omnichannel',
+    heroHeadlineHighlight: 'Ecommerce Platforms',
     heroDescription:
-      'Elevate your digital revenue with scalable ecommerce architectures. We engineer high-converting headless storefronts, custom Shopify Plus implementations, multi-currency checkout engines, and complex ERP/WMS inventory integrations.',
-    metrics: [
-      { value: '+35%', label: 'Average Checkout Conversion' },
-      { value: '< 1.2s', label: 'Instant Headless Checkout' },
-      { value: '$100M+', label: 'Processed GMV Annually' },
-      { value: '100%', label: 'PCI-DSS Level 1 Compliant' },
+      'We build enterprise ecommerce architectures engineered for extreme flash-sale concurrency, sub-second checkout, and automated ERP/WMS synchronization. From custom Shopify Plus storefronts to composable headless commerce with Medusa and commercetools.',
+    heroImage: '/services/ecommerce-development.png',
+    heroImageCaption: 'Ecommerce Development Production Architecture',
+    primaryCtaText: 'Scale Your Storefront',
+    secondaryCtaText: 'View Commerce Systems',
+    trustPoints: [
+      'Distributed Redis inventory locks preventing overselling during flash traffic',
+      'PCI-DSS Level 1 compliant tokenized 1-click payment workflows',
+      'Real-time bidirectional synchronization with NetSuite, SAP & 3PLs',
+      'Multi-currency and multi-language global checkout localization',
     ],
+    metrics: [
+      { value: '+28%', label: 'Average Checkout Conversion Lift' },
+      { value: '< 50ms', label: 'Catalog Faceted Search Latency' },
+      { value: '10,000+', label: 'Concurrent Orders per Minute' },
+      { value: '99.99%', label: 'Peak Flash-Sale Uptime' },
+    ],
+    overview: {
+      statement:
+        'Slow checkout funnels and oversold inventory during flash sales destroy customer trust and bleed gross margin.',
+      paragraphs: [
+        'Traditional off-the-shelf ecommerce stores crash during high-traffic drops, suffer from 5-second product search lag, and force shoppers through clunky, multi-page checkout forms. In modern commerce, every 100ms of latency reduces conversion by 1%.',
+        'We engineer high-speed composable ecommerce platforms using Shopify Plus (Hydrogen/Oxygen), Medusa, and custom microservices. We build instant faceted search with Algolia and Meilisearch, integrate distributed Redis atomic locks to prevent overselling, and deploy 1-click tokenized payment flows.',
+        'Behind the storefront, our integration engines synchronize orders, tax calculations (Avalara), inventory adjustments, and tracking webhooks with your ERP, warehouse management system (WMS), and 3PL fulfillment hubs.',
+      ],
+      keyTakeaway:
+        'Fast shopping funnels built to convert mobile shoppers and handle viral flash-sale traffic without missing an order.',
+    },
     capabilities: [
       {
-        title: 'Headless Ecommerce Storefronts (Shopify & Commercelayer)',
+        title: 'Headless & Composable Storefronts',
         description:
-          'Ultra-fast Next.js commerce frontends powered by Shopify Storefront API or Commercelayer. Instant product page transitions, sub-second search, and zero cart drop-offs.',
-        tags: ['Shopify Plus', 'Storefront API', 'Commercelayer / Medusa', 'Next.js Commerce'],
+          'Blazing-fast storefronts built with Shopify Hydrogen, Medusa, and Next.js Commerce. Instant page transitions, optimistic cart additions, and sub-second mobile navigation.',
+        tags: ['Shopify Hydrogen', 'Medusa.js', 'Next.js Commerce', 'commercetools'],
       },
       {
-        title: 'Custom Multi-Currency & Localized Checkout Engines',
+        title: 'Sub-Second Faceted Catalog Search',
         description:
-          'Localized currency conversions, dynamic international tax calculations (Avalara), localized payment gateways (Stripe, Klarna, Adyen), and seamless 1-click checkouts.',
-        tags: ['Stripe Elements / Adyen', 'Klarna / Affirm', 'Avalara Tax Automation', '1-Click Checkout'],
+          'Instant faceted product discovery powered by Algolia and Meilisearch. Real-time dynamic filtering by size, color, brand, and price with typo tolerance in under 50ms.',
+        tags: ['Algolia / Meilisearch', 'Dynamic Facets', 'Typo-Tolerant Search', 'Redis Caching'],
       },
       {
-        title: 'ERP, WMS & Inventory Synchronizers',
+        title: 'Flash-Sale Concurrency & Inventory Locks',
         description:
-          'Bi-directional real-time inventory synchronization with NetSuite, SAP, Brightpearl, and custom warehouse management systems (WMS) preventing out-of-stock orders.',
-        tags: ['NetSuite / SAP ERP', 'Real-Time WMS Sync', 'Multi-Warehouse Routing', 'Order Webhooks'],
+          'Distributed atomic Redis lock allocations protecting inventory counts during high-volume drops. Eliminates overselling without locking database tables.',
+        tags: ['Redis Distributed Locks', 'High Concurrency', 'Zero Overselling', 'Atomic Transactions'],
       },
       {
-        title: 'B2B Wholesale Portals & Custom Pricing',
+        title: 'Frictionless 1-Click Multi-Gateway Checkout',
         description:
-          'Tiered volume pricing, wholesale company accounts, automated net-30/60 invoice generation, quote-to-order workflows, and punchout catalog integrations.',
-        tags: ['B2B Wholesale', 'Volume Price Tiers', 'Invoice Terms', 'Custom Catalogs'],
+          'Tokenized checkout flows supporting Apple Pay, Google Pay, Stripe, PayPal, and Klarna. Reduces checkout completion time from 90 seconds to under 4 seconds.',
+        tags: ['Stripe / Adyen', 'Apple Pay & Google Pay', 'Klarna Buy-Now-Pay-Later', 'PCI-DSS Level 1'],
       },
       {
-        title: 'AI-Powered Recommendations & Search',
+        title: 'Automated ERP, WMS & 3PL Synchronization',
         description:
-          'Semantic search with instant typo tolerance, predictive visual autocomplete (Algolia), and personalized AI upselling engines boosting Average Order Value (AOV).',
-        tags: ['Algolia / Meilisearch', 'AI Product Recommendations', 'Upsell & Cross-Sell', 'Smart Filters'],
+          'Bi-directional webhooks synchronizing orders, returns, and inventory allocations directly with NetSuite, SAP, ShipStation, and custom warehouse management systems.',
+        tags: ['NetSuite & SAP', 'ShipStation', 'Automated 3PL Routing', 'Order Webhooks'],
       },
       {
-        title: 'Subscription Commerce & Customer Retention',
+        title: 'Dynamic B2B Tiered Pricing & Wholesale Portals',
         description:
-          'Recurring billing engines powered by ReCharge and custom Stripe Billing with self-service customer pause/skip portals and automated churn recovery loops.',
-        tags: ['ReCharge / Stripe Billing', 'Customer Portal', 'Dunning Management', 'Retention Loops'],
+          'Enterprise B2B buyer portals with customer-specific price lists, tiered volume discounts, tax exemption verification, and purchase-order invoice settlement.',
+        tags: ['B2B Wholesale Portals', 'Tiered Volume Pricing', 'Custom Credit Limits', 'Avalara Tax Engine'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Catalog Architecture & Tech Stack Scoping',
-        description: 'Analyzing SKU variations, international currency rules, warehouse locations, and designing checkout conversion funnels.',
-        deliverables: ['Catalog Data Model', 'Checkout Funnel Architecture', 'ERP Integration Spec'],
+        title: 'Commerce Architecture & Catalog Modeling',
+        description:
+          'Designing product variant schemas, cart state machine topologies, multi-currency routing rules, and ERP integration contracts.',
+        deliverables: ['Product Data Schema Spec', 'Checkout Flow Architecture', 'ERP Integration Blueprint'],
       },
       {
         step: '02',
-        title: 'Headless Storefront & Cart Engineering',
-        description: 'Developing high-speed product catalog browsing, instant search filters, sliding cart drawers, and secure payment tokens.',
-        deliverables: ['Interactive Storefront', 'Fast Cart Engine', 'Stripe / Shopify API Sync'],
+        title: 'Storefront UI & Cart Engine Build',
+        description:
+          'Developing responsive product detail pages, instant cart slide-outs, faceted search filters, and high-framerate media carousels.',
+        deliverables: ['Headless Storefront Codebase', 'Algolia Search Index', 'Cart State Machine'],
       },
       {
         step: '03',
-        title: 'ERP, Inventory & Payment Integration',
-        description: 'Connecting warehouse APIs, automated shipping label generation (ShipStation), tax rules, and live order confirmation webhooks.',
-        deliverables: ['WMS Sync Pipelines', 'Payment Gateway Certification', 'Order Fulfillment Flows'],
+        title: 'Payment Integration & Flash-Sale Hardening',
+        description:
+          'Integrating multi-currency payment gateways, distributed inventory locking mechanisms, and stress-testing checkout concurrency.',
+        deliverables: ['PCI-DSS Compliance Verification', 'Flash-Sale Load Test Report', 'Distributed Lock Harness'],
       },
       {
         step: '04',
-        title: 'Conversion Load Testing & Store Launch',
-        description: 'Stress-testing during simulated Black Friday traffic spikes, certifying PCI-DSS compliance, and zero-downtime store cutover.',
-        deliverables: ['Black Friday Load Benchmarks', 'PCI-DSS Compliance Certificate', 'Store Launch Runbook'],
+        title: 'Fulfillment Webhooks & Production Go-Live',
+        description:
+          'Deploying bidirectional order fulfillment webhooks, configuring automated inventory sync, and executing zero-downtime production cutover.',
+        deliverables: ['ERP Sync Webhook Microservice', 'Fulfillment Automation Pipeline', '24/7 Flash-Sale Runbook'],
       },
     ],
     deliverables: [
-      { title: 'Production Headless Ecommerce Store', category: 'Storefront', description: 'Fully responsive, high-converting digital storefront ready for high-volume customer traffic.', format: 'Live URL & Git Codebase' },
-      { title: 'ERP & Inventory Sync Connector', category: 'Integration', description: 'Automated webhook pipelines syncing stock levels, order status, and customer accounts in real-time.', format: 'Microservices & Webhooks' },
-      { title: 'Custom Payment & Checkout Gateway', category: 'Payment', description: 'PCI-compliant checkout flow with Apple Pay, Google Pay, Klarna, and automated sales tax calculation.', format: 'Stripe / Shopify Module' },
-      { title: 'Analytics & Revenue Tracking Dashboard', category: 'Analytics', description: 'Server-side Google Analytics 4, Meta Conversions API (CAPI), and Klaviyo email flows.', format: 'Tracking Configuration' },
+      {
+        title: 'Headless Commerce Web Application',
+        category: 'Storefront Core',
+        description: 'Complete high-performance Next.js / Hydrogen ecommerce application with full IP ownership and clean component design.',
+        format: 'Git Repository (TypeScript)',
+      },
+      {
+        title: 'Distributed Inventory Lock & Order Processing Core',
+        category: 'Backend Architecture',
+        description: 'Microservices handling atomic inventory reservation, cart validation, and order state transitions.',
+        format: 'Docker Containers & Redis Scripts',
+      },
+      {
+        title: 'Bidirectional ERP & WMS Webhook Suite',
+        category: 'Integrations',
+        description: 'Automated integration workers connecting storefront orders directly to NetSuite, SAP, and shipping carriers.',
+        format: 'Node.js / Python Webhook Services',
+      },
+      {
+        title: 'Multi-Currency & Regional Tax Logic',
+        category: 'Financial Core',
+        description: 'Automated Avalara tax calculation rules and multi-currency checkout configurations.',
+        format: 'Configuration Manifests & Tests',
+      },
     ],
     techStack: [
-      { category: 'Platforms', items: ['Shopify Plus', 'Medusa.js', 'Commercelayer', 'BigCommerce', 'Magento'] },
-      { category: 'Frontend', items: ['Next.js Commerce', 'React 19', 'Tailwind CSS', 'Algolia'] },
-      { category: 'Payments', items: ['Stripe', 'Adyen', 'Klarna', 'PayPal', 'Shopify Payments'] },
-      { category: 'Integrations', items: ['NetSuite', 'Klaviyo', 'ShipStation', 'Avalara', 'ReCharge'] },
+      { category: 'Storefront Platforms', items: ['Shopify Plus (Hydrogen)', 'Medusa.js', 'commercetools', 'Next.js Commerce'] },
+      { category: 'Search & Merchandising', items: ['Algolia', 'Meilisearch', 'Elasticsearch', 'Redis'] },
+      { category: 'Payments & Tax', items: ['Stripe', 'Adyen', 'Apple Pay', 'PayPal', 'Klarna', 'Avalara'] },
+      { category: 'Logistics & ERP', items: ['NetSuite', 'SAP', 'ShipStation', 'Klaviyo', 'Segment'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds transitioned our multi-brand apparel business to a headless Shopify Plus architecture. Our mobile checkout speed doubled, resulting in a 38% increase in mobile conversion rates during holiday sales.',
-      author: 'David Chen',
-      role: 'Chief Digital Officer',
-      company: 'Aura Lifestyle Group',
-      metric: '+38% Mobile Conversion',
+      quote:
+        'During our annual Black Friday launch, Neominds architecture processed 18,000 orders in the first 10 minutes with zero checkout timeouts and zero overselling.',
+      author: 'Julian Meyer',
+      role: 'Director of Ecommerce',
+      company: 'Aura Apparel',
+      metric: '18k Orders in 10 Minutes',
     },
-    faqs: [
-      { question: 'Why should we upgrade from a standard Shopify theme to Headless Commerce?', answer: 'Standard themes suffer from app bloat and slow script execution. Headless commerce decouples the frontend to give you instant sub-second page transitions, complete design freedom, and significantly higher conversion rates on mobile devices.' },
-      { question: 'How do you handle flash sales and massive holiday traffic spikes?', answer: 'We engineer serverless edge frontends backed by Redis caching that can seamlessly withstand 50,000+ concurrent shoppers without slowing down or crashing.' },
-      { question: 'Can you integrate custom B2B pricing and wholesale account approval flows?', answer: 'Yes. We build dedicated B2B portals supporting custom price lists per customer tier, minimum order quantities (MOQ), and automated payment term agreements.' },
-      { question: 'Is the platform compliant with PCI-DSS data protection laws?', answer: 'Yes. All payment credentials are tokenized directly through certified Tier 1 PCI-DSS payment gateways (like Stripe or Shopify Pay) so sensitive credit card numbers never touch your application server.' },
+    outcomes: [
+      {
+        metric: '+28%',
+        label: 'Mobile Checkout Conversion',
+        description: 'Sub-3-second tokenized checkout flows dramatically reduce cart abandonment on smartphones.',
+      },
+      {
+        metric: '10k/min',
+        label: 'Peak Order Concurrency',
+        description: 'Zero crashes or database timeouts during high-visibility viral launches and promotion drops.',
+      },
+      {
+        metric: '0%',
+        label: 'Inventory Overselling Rate',
+        description: 'Distributed atomic inventory locks protect stock allocations with microsecond precision.',
+      },
     ],
+    faqs: [
+      {
+        question: 'Should we use Shopify Plus or custom Headless Commerce?',
+        answer:
+          'Shopify Plus is the gold standard for rapid deployment, reliable native checkout, and managed compliance. For brands requiring ultra-custom checkout rules, multi-warehouse routing, or B2B pricing, headless commerce (Shopify Hydrogen or Medusa) provides complete architectural freedom.',
+      },
+      {
+        question: 'How do you prevent overselling when thousands of customers buy simultaneously?',
+        answer:
+          'We implement distributed atomic Redis lock allocations with automatic expiration timers. When a customer begins checkout, stock is temporarily locked at the cache tier, preventing race conditions before orders hit the main database.',
+      },
+      {
+        question: 'Can you integrate with our existing NetSuite ERP and 3PL warehouse?',
+        answer:
+          'Yes. We build idempotent, bidirectional webhook event streams that synchronize inventory counts, order status updates, and shipping tracking numbers in real time with NetSuite, SAP, and major 3PLs.',
+      },
+      {
+        question: 'How do you optimize mobile checkout conversion rates?',
+        answer:
+          'We eliminate multi-step forms by implementing 1-click payment wallets (Apple Pay, Google Pay, Shop Pay), autofilling addresses, optimizing mobile touch targets, and maintaining sub-50ms catalog navigation.',
+      },
+    ],
+    ctaHeadline: 'Ready to Build an Ecommerce Engine That Never Crashes on Black Friday?',
+    ctaDescription:
+      'Consult with our Principal Commerce Engineers. We will audit your checkout pipeline, load-test your catalog, and deliver a conversion-first architecture plan.',
+    ctaButtonText: 'Request Commerce Strategy Session',
   },
 
-  'devops': {
+  devops: {
     id: 'devops',
     slug: 'devops',
     title: 'DevOps',
-    tagline: 'Cloud Infrastructure, Kubernetes & CI/CD Automation',
+    tagline: 'Infrastructure as Code, Kubernetes Orchestration & Continuous Delivery Pipelines',
     category: 'Cloud & Operations',
-    heroBadge: 'Cloud Architecture & DevSecOps',
-    heroHeadline: 'Automated Cloud',
-    heroHeadlineHighlight: '& DevOps Engineering',
+    heroBadge: 'Enterprise Cloud & GitOps DevOps',
+    heroHeadline: 'Zero-Downtime Cloud',
+    heroHeadlineHighlight: '& GitOps DevOps',
     heroDescription:
-      'Accelerate release velocity and guarantee 99.99% system reliability. We engineer automated multi-cloud infrastructure (AWS, GCP, Azure), Kubernetes container orchestration, zero-downtime CI/CD pipelines, and proactive 24/7 observability suites.',
-    metrics: [
-      { value: '10x', label: 'Deployment Frequency' },
-      { value: '< 5 min', label: 'Zero-Downtime Rollbacks' },
-      { value: '35%', label: 'Cloud Cost (FinOps) Savings' },
-      { value: '99.99%', label: 'Production High Availability' },
+      'We architect resilient, auto-scaling cloud infrastructure and automated CI/CD release pipelines that eliminate deployment fear. From Terraform-managed multi-cloud Kubernetes clusters to immutable GitOps workflows with ArgoCD and OpenTelemetry.',
+    heroImage: '/services/devops.png',
+    heroImageCaption: 'DevOps & Cloud Infrastructure Architecture',
+    primaryCtaText: 'Modernize Your Infrastructure',
+    secondaryCtaText: 'Inspect DevOps Pipelines',
+    trustPoints: [
+      '100% Infrastructure as Code with Terraform & OpenTofu',
+      'Zero-downtime blue/green and canary deployments via ArgoCD',
+      'Continuous automated vulnerability scanning (Snyk & Trivy)',
+      'Observability stack with Prometheus, Grafana & OpenTelemetry',
     ],
+    metrics: [
+      { value: '15 min', label: 'Commit to Production Pipeline Velocity' },
+      { value: '99.99%', label: 'Multi-Region Cloud Availability' },
+      { value: '0', label: 'Unplanned Outages During Deployments' },
+      { value: '-35%', label: 'Average Cloud Spend Reduction' },
+    ],
+    overview: {
+      statement:
+        'Manual server configuration, brittle deployment scripts, and 3 AM production outages are preventable engineering failures.',
+      paragraphs: [
+        'When engineers are terrified of deploying on Fridays, feature velocity plummets and competitive advantage evaporates. Fragile manual cloud setups accumulate hidden drift, create single points of failure, and waste tens of thousands of dollars every month on idle cloud resources.',
+        'We define all infrastructure as declarative, version-controlled code using Terraform, OpenTofu, and Helm. We orchestrate containerized workloads across multi-zone Amazon EKS, Google GKE, and Azure AKS clusters with automated horizontal pod autoscaling and self-healing nodes.',
+        'Our GitOps pipelines (ArgoCD, GitHub Actions) automatically scan for security vulnerabilities, compile minimal distroless container images, and execute zero-downtime blue/green traffic shifts backed by distributed tracing.',
+      ],
+      keyTakeaway:
+        'Automated, reproducible cloud environments that ship code to production in minutes with zero downtime and ironclad security.',
+    },
     capabilities: [
       {
-        title: 'Kubernetes (EKS / GKE / AKS) Orchestration',
+        title: 'Declarative Infrastructure as Code (Terraform & OpenTofu)',
         description:
-          'Production-grade Kubernetes clusters with automated horizontal pod autoscaling, ingress controllers, service mesh (Istio), and GitOps (ArgoCD) synchronization.',
-        tags: ['AWS EKS / GKE / AKS', 'ArgoCD GitOps', 'Istio Service Mesh', 'Helm Charts'],
+          '100% version-controlled cloud topology across AWS, GCP, and Azure. Automated state locking, modular reusable components, and drift detection pipelines.',
+        tags: ['Terraform / OpenTofu', 'Multi-Cloud IaC', 'Terragrunt', 'State Locking'],
       },
       {
-        title: 'Infrastructure as Code (Terraform & Pulumi)',
+        title: 'Production Kubernetes Orchestration (EKS, GKE, AKS)',
         description:
-          'Reproducible, version-controlled cloud infrastructure. We automate VPC networking, IAM least-privilege security policies, RDS clusters, and edge CDN routing.',
-        tags: ['Terraform / OpenTofu', 'Pulumi TypeScript', 'AWS CloudFormation', 'Multi-Account IAM'],
+          'Multi-zone, high-availability Kubernetes clusters configured with Karpenter auto-provisioning, Calico network security policies, and Cert-Manager SSL rotation.',
+        tags: ['Kubernetes (EKS / GKE)', 'Karpenter Autoscaler', 'Helm Charts', 'Network Policies'],
       },
       {
-        title: 'Zero-Downtime CI/CD Pipelines',
+        title: 'Zero-Downtime GitOps Continuous Delivery (ArgoCD)',
         description:
-          'Fast, secure automated release workflows with blue/green and canary rollouts, automated unit/integration testing gates, and instant one-click rollback triggers.',
-        tags: ['GitHub Actions / GitLab CI', 'Canary & Blue/Green', 'Docker BuildKit', 'Automated Gates'],
+          'Declarative GitOps synchronization with ArgoCD. Automated canary deployments, blue/green traffic cutovers, and instant automated rollbacks upon error detection.',
+        tags: ['ArgoCD GitOps', 'Canary Rollouts', 'Blue/Green Deploys', 'GitHub Actions'],
       },
       {
-        title: 'FinOps Cloud Cost Optimization',
+        title: 'Full-Stack Observability & OpenTelemetry',
         description:
-          'Comprehensive audit of cloud spending, right-sizing overprovisioned instances, spot instance automation, and storage tier lifecycle policies saving 30-40% monthly.',
-        tags: ['AWS Cost Explorer', 'Karpenter Spot Autoscaling', 'Reserved Instance Audits', 'FinOps Governance'],
+          'Full-stack telemetry with Prometheus, Grafana, OpenTelemetry, and Jaeger. Real-time SLO tracking, synthetic endpoint probing, and sub-1-minute incident alerting.',
+        tags: ['Prometheus & Grafana', 'OpenTelemetry Tracing', 'Loki Log Aggregation', 'SLO Alerting'],
       },
       {
-        title: '24/7 Observability & Telemetry (Prometheus & Datadog)',
+        title: 'DevSecOps & Automated Security Hardening',
         description:
-          'Centralized logging, distributed tracing (OpenTelemetry), interactive Grafana dashboards, and automated PagerDuty alert escalation for SLA monitoring.',
-        tags: ['Prometheus & Grafana', 'Datadog / New Relic', 'OpenTelemetry Traces', 'PagerDuty Alerts'],
+          'Automated SAST/DAST security gates in CI/CD, distroless minimal container base images, automated container signing with Cosign, and secret management with HashiCorp Vault.',
+        tags: ['Snyk & Trivy Scans', 'HashiCorp Vault', 'Cosign Image Signing', 'Distroless Containers'],
       },
       {
-        title: 'DevSecOps & Automated Security Compliance',
+        title: 'Cloud FinOps & Infrastructure Cost Optimization',
         description:
-          'Integrating Trivy container vulnerability scanning, SonarQube static code audits, automated secret rotation, and SOC 2 / ISO 27001 policy enforcement.',
-        tags: ['Trivy & Snyk', 'SonarQube SAST', 'Vault Secret Management', 'SOC 2 / ISO 27001'],
+          'Eliminating cloud waste through spot instance orchestration, container rightsizing, cold storage lifecycle rules, and automated non-production shutdown schedules.',
+        tags: ['FinOps Auditing', 'Spot Instance Fleets', 'Container Rightsizing', 'Cost Governance'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Infrastructure & Security Audit',
-        description: 'Evaluating current cloud topology, deployment bottlenecks, security attack surfaces, and cloud cost inefficiencies.',
-        deliverables: ['Cloud Infrastructure Audit', 'DevSecOps Maturity Report', 'FinOps Cost Reduction Plan'],
+        title: 'Cloud Infrastructure Audit & Gap Analysis',
+        description:
+          'Auditing security perimeters, examining cloud expenditure, inspecting manual configurations, and drafting target GitOps topologies.',
+        deliverables: ['Cloud Audit Assessment', 'Security & Drift Report', 'Target IaC Architecture Blueprint'],
       },
       {
         step: '02',
-        title: 'Terraform IaC & Kubernetes Scaffolding',
-        description: 'Writing modular Terraform scripts, provisioning secure VPC networks, and deploying hardened Kubernetes clusters.',
-        deliverables: ['Terraform Modules Repository', 'Hardened Kubernetes Cluster', 'GitOps ArgoCD Setup'],
+        title: 'Terraform IaC Scaffolding & Cluster Build',
+        description:
+          'Writing modular Terraform modules, standing up multi-AZ Kubernetes clusters, and configuring private networking perimeters.',
+        deliverables: ['Modular Terraform Repository', 'Hardened Kubernetes Cluster', 'Vault Secret Engine'],
       },
       {
         step: '03',
-        title: 'Automated CI/CD & Security Gates',
-        description: 'Building GitHub Actions pipelines with automated container builds, vulnerability scanning, and multi-environment staging.',
-        deliverables: ['CI/CD Workflow Scripts', 'Container Security Scan Reports', 'Automated Rollback Hooks'],
+        title: 'GitOps CI/CD Pipelines & Security Gates',
+        description:
+          'Configuring GitHub Actions build runners, integrating Snyk/Trivy vulnerability scanners, and deploying ArgoCD controllers for declarative sync.',
+        deliverables: ['Automated CI/CD Pipeline', 'ArgoCD Deployment Manifests', 'Automated Vulnerability Gate'],
       },
       {
         step: '04',
-        title: 'Observability & SLA Handover',
-        description: 'Setting up Grafana dashboards, synthetic uptime monitors, incident escalation playbooks, and training in-house teams.',
-        deliverables: ['Grafana Telemetry Dashboards', 'Incident Response Playbooks', 'DevOps Team Training'],
+        title: 'Observability Instrumentation & Runbook Handover',
+        description:
+          'Instrumenting distributed tracing, building executive Grafana dashboards, conducting disaster recovery drills, and handing over runbooks.',
+        deliverables: ['Prometheus/Grafana Dashboard Suite', 'PagerDuty Alert Schedules', 'Disaster Recovery Runbook'],
       },
     ],
     deliverables: [
-      { title: 'Modular Terraform Infrastructure Repository', category: 'IaC Code', description: 'Version-controlled infrastructure scripts defining your entire cloud environment from VPCs to databases.', format: 'Terraform / OpenTofu' },
-      { title: 'Production Kubernetes Cluster & GitOps Manifests', category: 'Orchestration', description: 'Fully configured EKS/GKE cluster with Helm charts, ingress controllers, and ArgoCD pipelines.', format: 'Kubernetes YAML & Helm' },
-      { title: 'Zero-Downtime CI/CD Pipeline Configuration', category: 'Pipelines', description: 'Automated build, test, security scan, and canary deployment scripts for all backend and frontend services.', format: 'GitHub Actions / GitLab' },
-      { title: 'Observability Suite & Incident Runbooks', category: 'Monitoring', description: 'Pre-configured Grafana telemetry dashboards, PagerDuty alert policies, and operational runbooks.', format: 'Grafana & Runbook Docs' },
+      {
+        title: 'Modular Terraform / OpenTofu Codebase',
+        category: 'IaC Core',
+        description: 'Complete version-controlled cloud infrastructure code with environments separated by workspaces or directories.',
+        format: 'Git Repository (Terraform)',
+      },
+      {
+        title: 'Automated GitOps CI/CD Release Pipelines',
+        category: 'DevOps Ops',
+        description: 'Production workflows for automated container compilation, security scanning, and blue/green Kubernetes rollouts.',
+        format: 'GitHub Actions / ArgoCD Manifests',
+      },
+      {
+        title: 'Observability Dashboard & Telemetry Suite',
+        category: 'Observability',
+        description: 'Custom Grafana dashboards monitoring CPU/memory saturation, API latencies, error rates, and cloud spend.',
+        format: 'Grafana JSON Dashboards & PromQL',
+      },
+      {
+        title: 'Disaster Recovery Runbooks & Incident Protocols',
+        category: 'Documentation',
+        description: 'Step-by-step procedures for automated cluster disaster recovery, point-in-time database restoration, and incident triage.',
+        format: 'Markdown Runbooks & Architecture Diagrams',
+      },
     ],
     techStack: [
-      { category: 'Cloud Providers', items: ['AWS', 'Google Cloud', 'Microsoft Azure', 'Cloudflare'] },
-      { category: 'Containers & IaC', items: ['Kubernetes', 'Docker', 'Terraform', 'OpenTofu', 'Helm', 'ArgoCD'] },
-      { category: 'CI/CD & Security', items: ['GitHub Actions', 'GitLab CI', 'HashiCorp Vault', 'Trivy', 'SonarQube'] },
-      { category: 'Observability', items: ['Prometheus', 'Grafana', 'Datadog', 'OpenTelemetry', 'ELK Stack'] },
+      { category: 'Cloud Providers', items: ['AWS', 'Google Cloud (GCP)', 'Microsoft Azure', 'Cloudflare'] },
+      { category: 'Orchestration & Containers', items: ['Kubernetes (EKS/GKE)', 'Docker', 'Helm', 'ArgoCD', 'Karpenter'] },
+      { category: 'Infrastructure as Code', items: ['Terraform', 'OpenTofu', 'Terragrunt', 'Ansible', 'Pulumi'] },
+      { category: 'Monitoring & Security', items: ['Prometheus', 'Grafana', 'OpenTelemetry', 'Datadog', 'HashiCorp Vault', 'Trivy'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds transitioned our monolithic AWS setup into an automated Kubernetes and Terraform architecture. We cut our monthly AWS bill by 36% while reducing deployment release times from 2 days to 8 minutes.',
-      author: 'Alexandre Kachaev',
+      quote:
+        'Neominds migrated our entire AWS footprint to Terraform and ArgoCD. We went from manual 4-hour bi-weekly releases with constant downtime to 12 automated zero-downtime deployments every single day.',
+      author: 'Vikram Sethi',
       role: 'Head of Infrastructure',
-      company: 'CNote Financial',
-      metric: '36% Cloud Cost Reduction',
+      company: 'ScaleX Data',
+      metric: 'Zero-Downtime Releases (12x/day)',
     },
-    faqs: [
-      { question: 'What is Infrastructure as Code (IaC) and why is it necessary?', answer: 'IaC defines your servers, databases, and networks as code in git repositories. This ensures your infrastructure can be automatically replicated in minutes across staging, production, or disaster recovery environments with zero manual human configuration errors.' },
-      { question: 'How do you ensure zero downtime when deploying new software updates?', answer: 'We implement Blue/Green and Canary deployments in Kubernetes, spinning up new container versions and validating health checks before shifting live user traffic seamlessly.' },
-      { question: 'Can you help us achieve SOC 2 and ISO 27001 cloud compliance?', answer: 'Yes. We enforce automated encryption at rest (AES-256) and in transit (TLS 1.3), least-privilege IAM policies, automated secret rotation, and continuous compliance telemetry required for audit certification.' },
-      { question: 'How quickly can your team respond to critical production incidents?', answer: 'Our 24/7 DevOps engineering squad provides guaranteed sub-15 minute response times for P1 production incidents backed by rigorous SLAs.' },
+    outcomes: [
+      {
+        metric: '15m',
+        label: 'Commit-to-Production Velocity',
+        description: 'Fully automated testing and deployment pipelines replace manual release gates and eliminate human error.',
+      },
+      {
+        metric: '-35%',
+        label: 'Cloud Infrastructure Spend',
+        description: 'Automated cluster autoscaling, Karpenter provisioning, and spot instance fleets slash monthly cloud bills.',
+      },
+      {
+        metric: '99.99%',
+        label: 'Cloud Service Availability',
+        description: 'Multi-zone Kubernetes clusters with self-healing nodes eliminate single points of failure.',
+      },
     ],
+    faqs: [
+      {
+        question: 'What is GitOps and why is it superior to traditional CI/CD?',
+        answer:
+          'In traditional CI/CD, external scripts push changes directly into clusters, often leading to configuration drift and security risks. In GitOps (via ArgoCD), Git is the single source of truth. An in-cluster agent continuously pulls and reconciles cluster state against Git declarations, enabling instant rollbacks and zero drift.',
+      },
+      {
+        question: 'How do you guarantee zero downtime during application upgrades?',
+        answer:
+          'We use Kubernetes blue/green deployments and canary traffic routing with Argo Rollouts. New versions are deployed alongside existing versions, health checks and metrics are validated automatically, and traffic shifts incrementally over minutes with immediate automated rollback if error rates spike.',
+      },
+      {
+        question: 'Can you help optimize our runaway AWS or GCP cloud spend?',
+        answer:
+          'Yes. We run an end-to-end FinOps audit to identify oversized compute instances, unattached storage volumes, and inefficient data transfer. By implementing Karpenter autoscaling and spot instance fleets, we routinely reduce cloud bills by 30% to 50%.',
+      },
+      {
+        question: 'How do you handle sensitive secrets in version-controlled infrastructure?',
+        answer:
+          'We never commit plaintext secrets to Git. We integrate HashiCorp Vault, AWS Secrets Manager, or Sealed Secrets with strict IAM role bindings so secrets are injected securely at runtime inside ephemeral container memory.',
+      },
+    ],
+    ctaHeadline: 'Ready to Eliminate Deployment Fear and Automate Your Cloud?',
+    ctaDescription:
+      'Schedule an architecture review with our Principal Site Reliability Engineers. We diagnose cluster vulnerabilities, analyze cloud spend, and deliver a GitOps modernization roadmap.',
+    ctaButtonText: 'Request DevOps Architecture Review',
   },
 
   'ai-agents': {
     id: 'ai-agents',
     slug: 'ai-agents',
     title: 'AI Agents',
-    tagline: 'Autonomous Multi-Agent Systems & Tool-Calling Workflows',
+    tagline: 'Recursive Reasoning, Dynamic Tool-Calling & Persistent Vector Memory',
     category: 'AI & Intelligence',
-    heroBadge: 'Autonomous AI Agents & Swarms',
+    heroBadge: 'Autonomous AI Agent Swarms',
     heroHeadline: 'Autonomous Multi-Agent',
-    heroHeadlineHighlight: 'AI Systems & Swarms',
+    heroHeadlineHighlight: 'Systems & Tool Execution',
     heroDescription:
-      'Empower your business with autonomous AI agents that reason, plan, execute multi-step workflows, call APIs, and collaborate in teams. We build stateful agentic architectures using LangGraph, CrewAI, and OpenAI Assistants with human-in-the-loop oversight.',
-    metrics: [
-      { value: '85%', label: 'Reduction in Manual Workflows' },
-      { value: '24/7', label: 'Autonomous Continuous Execution' },
-      { value: '< 1%', label: 'Error Rate with Self-Reflection' },
-      { value: '100%', label: 'Human-in-the-Loop Safeguards' },
+      'We build production-ready autonomous AI agent swarms capable of executing complex, multi-step business objectives with human-like reasoning. Featuring sandboxed code execution, dynamic API tool-calling, persistent vector memory, and self-correcting evaluation loops.',
+    heroImage: '/services/ai-agents.png',
+    heroImageCaption: 'Autonomous AI Agent Architecture',
+    primaryCtaText: 'Deploy Autonomous Agents',
+    secondaryCtaText: 'Explore Agent Architecture',
+    trustPoints: [
+      'Sandboxed execution runtimes preventing unauthorized actions',
+      'Human-in-the-loop escalation triggers for critical financial/operational thresholds',
+      'Persistent episodic and semantic vector memory stores',
+      'Immutable audit logging capturing every agent reasoning step',
     ],
+    metrics: [
+      { value: '94.2%', label: 'Zero-Intervention Task Completion' },
+      { value: '< 1.2s', label: 'Tool Calling Execution Overhead' },
+      { value: '100+', label: 'Integrated Internal Enterprise APIs' },
+      { value: '100%', label: 'Deterministic Execution Boundary' },
+    ],
+    overview: {
+      statement:
+        'Single-turn chatbots answer questions, but autonomous agents take actions, execute workflows, and solve end-to-end business problems.',
+      paragraphs: [
+        'Traditional chatbots are passive listeners that wait for questions. Autonomous AI agents actively break down high-level business goals into sequential tasks, query internal databases, invoke third-party APIs, and self-correct when unexpected errors occur.',
+        'We engineer resilient multi-agent swarms using LangGraph, CrewAI, and custom event loops. We implement hierarchical planner-worker patterns where specialized agents (researcher, coder, reviewer, validator) collaborate to achieve objectives without human micro-management.',
+        'Every agent action is governed by strict deterministic boundaries: sandboxed Python/Wasm environments, explicit parameter schemas, and automated human-in-the-loop escalation gates whenever high-risk actions are proposed.',
+      ],
+      keyTakeaway:
+        'Goal-driven autonomous agents that safely automate complex analytical, operational, and research workflows from intent to completion.',
+    },
     capabilities: [
       {
-        title: 'Multi-Agent Collaborative Swarms (CrewAI & LangGraph)',
+        title: 'Hierarchical Planner-Worker Multi-Agent Swarms',
         description:
-          'Coordinated agent teams where specialized agents (Researchers, Coders, Quality Reviewers, Planners) collaborate sequentially and hierarchically to solve complex tasks.',
-        tags: ['LangGraph', 'CrewAI', 'Hierarchical Swarms', 'Stateful Memory Graphs'],
+          'Directed acyclic execution graphs (DAGs) coordinating specialized agents. Planners decompose complex user goals into tasks delegated to researcher, coder, and validator agents.',
+        tags: ['LangGraph', 'CrewAI', 'Hierarchical Swarms', 'DAG Execution Graphs'],
       },
       {
-        title: 'Tool-Calling & API Execution Engines',
+        title: 'Sandboxed Tool-Calling & Dynamic API Execution',
         description:
-          'Agents equipped with real-world tool execution: querying SQL databases, executing Python code in sandboxes, interacting with CRM APIs, and sending verified webhooks.',
-        tags: ['Function Calling', 'E2B Python Sandboxes', 'SQL Query Generation', 'REST API Connectors'],
+          'Securely executing Python scripts, querying SQL databases, and invoking internal enterprise APIs inside isolated Docker or WebAssembly (Wasm) micro-sandboxes.',
+        tags: ['Docker Sandboxing', 'Wasm Runtimes', 'Dynamic Tool Calling', 'Pydantic Schemas'],
       },
       {
-        title: 'Self-Correction & Reflection Verification Loops',
+        title: 'Episodic & Long-Horizon Vector Memory',
         description:
-          'Adversarial critique loops where validator agents evaluate intermediate reasoning steps, identify hallucinations, and force self-correction before returning output.',
-        tags: ['Critique Evaluator', 'Reflexion Architecture', 'Convergence Loops', 'Quality Assurance'],
+          'Persistent memory architectures storing session history, past execution outcomes, and user preferences in vector databases for multi-week task continuity.',
+        tags: ['Semantic Vector Memory', 'Episodic Store', 'Context Window Compression', 'Redis Memory'],
       },
       {
-        title: 'Human-in-the-Loop (HITL) Governance & Auditing',
+        title: 'Self-Reflective Evaluation & Error Recovery',
         description:
-          'Configurable approval gates that pause autonomous agent execution for critical actions (financial transfers, external emails, database mutations) awaiting human sign-off.',
-        tags: ['Approval Gateways', 'Audit Trails', 'Step-by-Step Trajectories', 'Permission Bounds'],
+          'Recursive evaluation loops where validator agents review tool outputs against goal criteria, diagnosing runtime errors and re-planning alternative execution paths automatically.',
+        tags: ['Self-Correction', 'Reflection Loops', 'Automated Replanning', 'Exception Handling'],
       },
       {
-        title: 'Long-Term Memory & Vector State Persistence',
+        title: 'Human-in-the-Loop Escalation Gates',
         description:
-          'Cross-session memory architectures storing user preferences, past project context, and procedural knowledge using vector search and hierarchical summarization.',
-        tags: ['Long-Term Memory', 'Hierarchical Summarization', 'Context Compaction', 'Vector Knowledge'],
+          'Configurable approval gates that pause agent execution and alert human managers via Slack or email when financial transactions, system modifications, or high-risk actions are requested.',
+        tags: ['Human-in-the-Loop', 'Slack Approvals', 'Action Guardrails', 'Risk Boundaries'],
       },
       {
-        title: 'Enterprise ERP & Back-Office Autonomous Squads',
+        title: 'Full Execution Telemetry & Audit Trails',
         description:
-          'Dedicated AI agents for automated customer invoice reconciliation, technical candidate screening, automated bug triage, and real-time competitor intelligence scanning.',
-        tags: ['Back-Office Agents', 'Invoice Matching', 'Candidate Screening', 'Automated Triage'],
+          'Complete visibility into agent thought processes, tool invocations, token costs, and decision rationale with immutable audit logging and compliance replay tools.',
+        tags: ['LangSmith Tracing', 'Audit Ledgers', 'Token Analytics', 'Decision Transparency'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Agent Persona & Workflow Mapping',
-        description: 'Defining agent roles, goals, reasoning constraints, tool access permissions, and human approval checkpoints.',
-        deliverables: ['Agent Architecture Map', 'Tool Specification Spec', 'Governance & Safety Policy'],
+        title: 'Goal Decomposition & Safety Scoping',
+        description:
+          'Mapping target business workflows, defining agent role specializations, establishing tool parameter schemas, and coding safety guardrail rules.',
+        deliverables: ['Agent Workflow DAG', 'Tool API Parameter Registry', 'Safety & Escalation Policy'],
       },
       {
         step: '02',
-        title: 'LangGraph State Machine & Tool Sandboxing',
-        description: 'Constructing stateful cyclic graphs, tool integration functions, memory stores, and secure isolated code execution sandboxes.',
-        deliverables: ['LangGraph State Machine', 'Tool Integration Code', 'Sandbox Security Sandbox'],
+        title: 'Agent State Machine & Tool Connector Build',
+        description:
+          'Developing LangGraph planner-worker state machines, sandboxing code execution environments, and integrating internal database and API tools.',
+        deliverables: ['LangGraph State Machine Engine', 'Sandboxed Tool Runtimes', 'Vector Memory Integration'],
       },
       {
         step: '03',
-        title: 'Adversarial Verification & Reflection Loops',
-        description: 'Implementing critique agents, synthetic edge-case benchmarking, and automated recovery loops for API timeouts.',
-        deliverables: ['Validation Benchmark Report', 'Reflexion Evaluators', 'Error Recovery Triggers'],
+        title: 'Adversarial Testing & Loop Prevention',
+        description:
+          'Simulating tool failure modes, testing infinite loop watchdogs, and verifying that the agent gracefully self-corrects or escalates to human operators.',
+        deliverables: ['Loop Prevention Benchmark', 'Adversarial Edge-Case Suite', 'Escalation Webhook Tests'],
       },
       {
         step: '04',
-        title: 'Production Deployment & Trajectory Telemetry',
-        description: 'Deploying agent runtimes with LangSmith trajectory logging, token budget throttling, and human approval dashboard interfaces.',
-        deliverables: ['Production Agent Runtime', 'LangSmith Monitoring Setup', 'HITL Approval Dashboard'],
+        title: 'Production Orchestration & Telemetry Launch',
+        description:
+          'Deploying containerized agent runtimes with live LangSmith tracing, Slack notification integrations, and executive performance dashboards.',
+        deliverables: ['Production Agent Microservices', 'Live Trace Dashboard', 'Operations Playbook'],
       },
     ],
     deliverables: [
-      { title: 'LangGraph / CrewAI Agent Engine Repository', category: 'Agent Code', description: 'Complete stateful Python/TypeScript multi-agent system with full tool connectors and memory stores.', format: 'Git Repository' },
-      { title: 'Interactive Human-in-the-Loop Dashboard', category: 'Frontend', description: 'React-based admin interface allowing managers to review agent reasoning trajectories and approve critical steps.', format: 'Web Dashboard' },
-      { title: 'Sandboxed Tool Execution Service', category: 'Security', description: 'Secure Docker/E2B environment for isolated database queries, web scraping, and code execution.', format: 'Microservice' },
-      { title: 'Telemetry & Token Cost Monitoring Dashboard', category: 'Observability', description: 'Live tracking of agent execution steps, task completion rates, token expenses, and latency.', format: 'LangSmith / Langfuse' },
+      {
+        title: 'Production Multi-Agent Core Engine',
+        category: 'Agentic Core',
+        description: 'Complete Python source code for planner, worker, and validator agents built with LangGraph with full IP ownership.',
+        format: 'Python / LangGraph Repositories',
+      },
+      {
+        title: 'Sandboxed Tool Execution & API Connectors',
+        category: 'Infrastructure',
+        description: 'Secure Docker/Wasm sandboxed environments and verified API connectors with strict Pydantic parameter typing.',
+        format: 'Dockerfiles & API SDKs',
+      },
+      {
+        title: 'Human-in-the-Loop Approval Gateway',
+        category: 'Governance',
+        description: 'Slack and web-based approval microservice allowing human operators to inspect agent actions and grant execution permission.',
+        format: 'FastAPI / Slack Webhook Service',
+      },
+      {
+        title: 'Agent Telemetry & Audit Trace Suite',
+        category: 'Observability',
+        description: 'Real-time tracing dashboards tracking tool call latency, token consumption, decision graphs, and execution histories.',
+        format: 'LangSmith / OpenTelemetry Integration',
+      },
     ],
     techStack: [
-      { category: 'Agent Frameworks', items: ['LangGraph', 'CrewAI', 'OpenAI Assistants API', 'AutoGPT', 'LlamaIndex Workflows'] },
-      { category: 'Models', items: ['Claude 3.5 Sonnet', 'GPT-4o', 'DeepSeek R1', 'Llama 3.3 70B'] },
-      { category: 'Sandboxes & Tools', items: ['E2B Sandboxes', 'Browserbase', 'Tavily Search', 'SQLAlchemy'] },
-      { category: 'Telemetry & Storage', items: ['LangSmith', 'Langfuse', 'PostgreSQL', 'Redis', 'Pinecone'] },
+      { category: 'Agent Frameworks', items: ['LangGraph', 'CrewAI', 'AutoGen', 'LlamaIndex Workflows'] },
+      { category: 'LLM Reasoning Core', items: ['Claude 3.5 Sonnet', 'GPT-4o', 'DeepSeek R1', 'Llama 3.3 70B'] },
+      { category: 'Memory & State', items: ['Redis', 'PostgreSQL', 'pgvector', 'Qdrant'] },
+      { category: 'Sandboxing & Tooling', items: ['Docker Sandboxes', 'WebAssembly (Wasm)', 'E2B Runtimes', 'Pydantic'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds built an autonomous financial analysis agent squad that reviews and cross-verifies 2,000 quarterly SEC filings per day, extracting revenue anomalies in real time with 99.4% accuracy.',
-      author: 'Jonathan Sterling',
-      role: 'Managing Director',
-      company: 'Delphi Vision Capital',
-      metric: '2,000 Filings Analyzed / Day',
+      quote:
+        'Neominds built an autonomous market intelligence agent swarm that ingests, cross-references, and synthesizes competitive data across 50 sources daily, saving our research team 120 hours every week.',
+      author: 'Alexander Wright',
+      role: 'Head of Strategic Intelligence',
+      company: 'Apex Horizon Ventures',
+      metric: '120 Hours Saved Weekly',
     },
-    faqs: [
-      { question: 'How do AI Agents differ from standard chatbots?', answer: 'Chatbots only respond to single queries with conversational text. AI Agents are autonomous programs that reason through multi-step goals, create execution plans, call external software tools (databases, APIs, calculators), evaluate their own errors, and continue until the task is completely finished.' },
-      { question: 'How do you prevent agents from taking dangerous autonomous actions?', answer: 'We implement strict Human-in-the-Loop (HITL) approval gateways. Any sensitive action (e.g., executing a financial transaction, modifying production records, or emailing a client) pauses the agent and sends an approval notification to a human manager.' },
-      { question: 'What happens if an API called by the agent fails or times out?', answer: 'Our agentic state machines include self-healing reflection loops. If a tool fails, the agent analyzes the error code, formulates an alternate approach or retries with modified parameters without halting the entire workflow.' },
-      { question: 'Can we run AI agents on our own private infrastructure?', answer: 'Yes. We deploy agent engines within your private AWS, GCP, or Azure VPC using open-weights models (like DeepSeek or Llama 3) for complete confidentiality.' },
+    outcomes: [
+      {
+        metric: '94.2%',
+        label: 'Zero-Intervention Completion',
+        description: 'Complex multi-step corporate workflows execute autonomously from initial intent to verified delivery.',
+      },
+      {
+        metric: '10x',
+        label: 'Task Execution Velocity',
+        description: 'Hours of manual database lookups, document cross-referencing, and reporting compressed into seconds.',
+      },
+      {
+        metric: '100%',
+        label: 'Audit Traceability',
+        description: 'Every internal tool invocation, database query, and reasoning step is captured in immutable audit ledgers.',
+      },
     ],
+    faqs: [
+      {
+        question: 'How do you prevent autonomous agents from getting stuck in infinite loops?',
+        answer:
+          'We implement strict recursion limits, step timeouts, and watchdog evaluation nodes within the LangGraph state machine. If an agent repeats an identical tool call or fails to make forward progress toward its goal, execution is paused and an alert is routed to human operators.',
+      },
+      {
+        question: 'What happens if an agent tries to perform an unsafe or destructive action?',
+        answer:
+          'All tools are classified by risk tier. Read-only queries execute freely inside isolated sandboxes. High-risk actions (e.g., modifying live records, initiating financial transfers, or deleting assets) trigger mandatory human-in-the-loop approval gates via Slack or email before execution.',
+      },
+      {
+        question: 'How do agents interact with our internal databases and APIs?',
+        answer:
+          'We write custom tool wrappers using strict Pydantic schemas. The agent cannot write arbitrary SQL or call raw URLs; it can only invoke vetted, parameterized internal functions with strict input validation and role-based permissions.',
+      },
+      {
+        question: 'Can the agent explain why it made a specific decision?',
+        answer:
+          'Yes. We instrument full step-by-step reasoning traces using OpenTelemetry and LangSmith. You can inspect the exact prompt, thought process, tool inputs, raw API outputs, and reflection rationale for every single action taken.',
+      },
+    ],
+    ctaHeadline: 'Ready to Put Autonomous AI Agents to Work Across Your Business?',
+    ctaDescription:
+      'Consult with our Principal Agentic Systems Engineers. We identify high-impact workflows, establish safety boundaries, and build a proof-of-value agent.',
+    ctaButtonText: 'Request Agent Consultation',
   },
 
   'ai-automations': {
     id: 'ai-automations',
     slug: 'ai-automations',
     title: 'AI Automations',
-    tagline: 'End-to-End Enterprise Workflow & Process Automation',
+    tagline: 'Automated Document Processing, Event-Driven Workflows & Zero-Touch Back-Office',
     category: 'AI & Intelligence',
-    heroBadge: 'Intelligent Process Automation (IPA)',
-    heroHeadline: 'End-to-End Enterprise',
-    heroHeadlineHighlight: 'AI Automations & IPA',
+    heroBadge: 'Enterprise Process Automation',
+    heroHeadline: 'Intelligent Enterprise',
+    heroHeadlineHighlight: 'AI Automations',
     heroDescription:
-      'Eliminate repetitive manual operations and accelerate business speed. We replace legacy brittle RPA scripts with cognitive AI automations that ingest messy unstructured documents, automate multi-app data workflows, and reconcile enterprise records in real time.',
-    metrics: [
-      { value: '70%', label: 'Operational Cost Savings' },
-      { value: '< 2 sec', label: 'Document Processing Speed' },
-      { value: '99.8%', label: 'Data Extraction Accuracy' },
-      { value: 'Zero', label: 'Human Intervention Required' },
+      'We eliminate repetitive manual work by engineering deterministic AI-powered automation pipelines. From unstructured invoice and contract data extraction to autonomous cross-system ERP updates, we turn days of human copy-pasting into seconds of automated precision.',
+    heroImage: '/services/ai-automations.png',
+    heroImageCaption: 'Intelligent AI Automation Topology',
+    primaryCtaText: 'Automate Your Workflows',
+    secondaryCtaText: 'Explore Automation Pipelines',
+    trustPoints: [
+      'Multi-engine OCR + multimodal LLM extraction with schema validation',
+      'Immutable audit logging tracking every data transformation',
+      'Direct bidirectional integrations with Salesforce, SAP, QuickBooks & NetSuite',
+      'Exception triage queues with instant human review interfaces',
     ],
+    metrics: [
+      { value: '80%', label: 'Manual Processing Time Eliminated' },
+      { value: '99.7%', label: 'Document Data Extraction Accuracy' },
+      { value: '< 45s', label: 'End-to-End Processing Cycle Time' },
+      { value: '3.5x', label: 'Operational Cost Savings' },
+    ],
+    overview: {
+      statement:
+        'Manual copy-paste data entry and tedious email forwarding are massive drains on enterprise profitability and human talent.',
+      paragraphs: [
+        'Back-office teams spend thousands of hours every month manually extracting numbers from PDFs, cross-referencing order amounts against purchase orders, and typing data across disconnected enterprise systems. These manual workflows are slow, error-prone, and expensive to scale.',
+        'We engineer intelligent end-to-end automation pipelines that listen to inbound emails, webhooks, and FTP folders in real time. We deploy multimodal vision-language models to extract line items, dates, and contractual terms into validated JSON schemas.',
+        'Validated data passes through deterministic business validation rules and updates your ERP, CRM, or accounting software automatically. When an anomaly or discrepancy is detected, the system routes the exact exception to a manager Slack with 1-click approval.',
+      ],
+      keyTakeaway:
+        'Zero-touch operational workflows that process unstructured documents into production databases in seconds with complete audit transparency.',
+    },
     capabilities: [
       {
-        title: 'Cognitive Document Processing (IDP)',
+        title: 'Multimodal Document & Invoice Extraction',
         description:
-          'Extracting structured JSON data from non-standard invoices, receipts, bills of lading, medical records, and legal contracts with zero manual data entry.',
-        tags: ['LayoutLM & Vision LLMs', 'Invoice Extraction', 'Medical Claims', 'Structured JSON'],
+          'Extracting tables, line items, tax numbers, and dates from unstructured PDFs, scanned receipts, and invoices with 99.7% precision using multimodal vision models.',
+        tags: ['Multimodal OCR', 'Document AI', 'Pydantic Schemas', 'Table Parsing'],
       },
       {
-        title: 'Enterprise App Integration & n8n / Zapier Orchestration',
+        title: 'Event-Driven ERP & CRM Integration Pipelines',
         description:
-          'Complex event-driven workflows synchronizing CRM (Salesforce/HubSpot), ERP (NetSuite/SAP), databases, and communication channels (Slack/Email).',
-        tags: ['n8n Self-Hosted', 'Salesforce & HubSpot', 'Custom Webhooks', 'Event-Driven Sync'],
+          'Synchronizing validated financial records directly into NetSuite, SAP, Salesforce, and QuickBooks with automated idempotency and bi-directional status updates.',
+        tags: ['NetSuite & SAP', 'Salesforce Integrations', 'QuickBooks API', 'Webhook Pipelines'],
       },
       {
-        title: 'Automated Financial Reconciliation & Audits',
+        title: 'Automated Email Ingestion & Intent Routing',
         description:
-          'Matching bank transactions against ledger line items, identifying discrepancies, flagging suspicious fraud patterns, and generating compliance audit trails.',
-        tags: ['Bank Reconciliation', 'Ledger Matching', 'Discrepancy Detection', 'Audit Logging'],
+          'Parsing incoming customer and vendor emails, classifying inquiries, extracting attached purchase orders, and auto-drafting contextual replies for human sign-off.',
+        tags: ['Email Parser Webhooks', 'Intent Classification', 'Attachment Extraction', 'Smart Drafts'],
       },
       {
-        title: 'Intelligent Customer Support Ticket Routing',
+        title: 'Deterministic Financial Reconciliation (3-Way Matching)',
         description:
-          'Analyzing incoming support emails/tickets, classifying urgency and sentiment, retrieving user account history, and drafting contextual responses or escalating.',
-        tags: ['Zendesk / Freshdesk', 'Sentiment Analysis', 'Contextual Auto-Reply', 'Priority Escalation'],
+          'Automated three-way matching reconciling invoice line items against purchase orders and bank receipts, flagging variances exceeding configured tolerance thresholds.',
+        tags: ['Three-Way Matching', 'Variance Thresholds', 'Automated Reconciliation', 'Financial Rules'],
       },
       {
-        title: 'Automated Candidate Screening & HR Pipelines',
+        title: 'Resilient Workflow Orchestration (Temporal & n8n)',
         description:
-          'Parsing thousands of resumes, matching candidate competencies against job descriptions, scheduling interviews, and updating ATS (Greenhouse/Lever).',
-        tags: ['Greenhouse / Lever ATS', 'Resume Parsing', 'Skill Matching', 'Automated Scheduling'],
+          'Durable execution engines that guarantee workflows survive server crashes, network dropouts, and third-party API rate limits with automatic retries and state replay.',
+        tags: ['Temporal.io', 'n8n Enterprise', 'Durable Workflows', 'Exponential Backoff'],
       },
       {
-        title: 'Automated Regulatory Compliance & Contract Review',
+        title: 'Smart Exception Triage & Human Review Portals',
         description:
-          'Scanning legal agreements for non-standard indemnity clauses, GDPR compliance risks, and expiration dates with automatic stakeholder alert notifications.',
-        tags: ['Contract Review', 'Risk Flagging', 'GDPR Verification', 'Renewal Alerts'],
+          'Lightweight web portals where human managers can quickly review flagged anomalies, inspect visual document bounding boxes, and approve items with a single click.',
+        tags: ['Exception Portals', 'Bounding-Box Viewer', '1-Click Approvals', 'Slack Webhooks'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Process Mapping & ROI Calculation',
-        description: 'Shadowing operational teams, cataloging manual bottlenecks, calculating time-savings ROI, and designing workflow state diagrams.',
-        deliverables: ['Process Automation Blueprint', 'ROI & Cost-Savings Model', 'Data Privacy Protocol'],
+        title: 'Process Mapping & Document Audit',
+        description:
+          'Auditing existing manual workflows, gathering sample invoice/contract documents, identifying edge cases, and calculating baseline ROI metrics.',
+        deliverables: ['Process Bottleneck Map', 'Document Extraction Schema Spec', 'ROI & Payback Model'],
       },
       {
         step: '02',
-        title: 'Document AI Pipeline & Connector Build',
-        description: 'Training OCR extraction models, configuring API credentials, and writing n8n/Python orchestrator workflows.',
-        deliverables: ['Document Processing Models', 'n8n Workflow Templates', 'API Connector Modules'],
+        title: 'Extraction Pipeline & Schema Hardening',
+        description:
+          'Developing multimodal extraction models, configuring Pydantic schema validators, and running test batches against historical documents.',
+        deliverables: ['Extraction Microservice Code', 'Validated Schema Models', 'Extraction Accuracy Benchmark'],
       },
       {
         step: '03',
-        title: 'Exception Handling & Confidence Thresholds',
-        description: 'Implementing fallback queues for low-confidence extractions, human validation portals, and automated retry logic.',
-        deliverables: ['Human Review Portal', 'Exception Handling Rules', 'Confidence Scoring Engine'],
+        title: 'ERP Integration & Exception Flow Build',
+        description:
+          'Connecting bi-directional ERP webhooks, setting up three-way matching algorithms, and building the manager Slack exception notification loops.',
+        deliverables: ['ERP Connector Suite', 'Exception Triage Portal', 'Slack Alert Webhooks'],
       },
       {
         step: '04',
-        title: 'Production Cutover & Savings Dashboard',
-        description: 'Deploying automation engines to production with live Grafana dashboards monitoring throughput, error rates, and saved hours.',
-        deliverables: ['Production Automation Setup', 'Executive ROI Dashboard', 'Operations Runbook'],
+        title: 'Production Shadow Run & Full Cutover',
+        description:
+          'Running the automation pipeline in parallel shadow mode alongside human operators, certifying zero error drift, and executing full production cutover.',
+        deliverables: ['Shadow Run Audit Certificate', 'Production Deployment Manifests', 'Operator Runbook'],
       },
     ],
     deliverables: [
-      { title: 'Self-Hosted n8n / Python Automation Workflows', category: 'Automation Engine', description: 'Production-ready workflow definitions with error-handling, webhook triggers, and enterprise connectors.', format: 'n8n JSON & Python' },
-      { title: 'Intelligent Document Processing (IDP) Service', category: 'AI Microservice', description: 'High-speed API for converting PDFs and images into validated structured JSON records.', format: 'FastAPI / Docker' },
-      { title: 'Low-Confidence Exception Review Dashboard', category: 'Frontend', description: 'Lightweight web interface allowing operations staff to quickly verify edge-case documents with one click.', format: 'React Web Portal' },
-      { title: 'ROI & Operational Hours Saved Dashboard', category: 'Analytics', description: 'Live tracking of automated transactions, processing speed, accuracy rates, and financial savings.', format: 'Grafana & Metabase' },
+      {
+        title: 'Production Document Extraction Microservice',
+        category: 'AI Pipeline',
+        description: 'Multimodal vision and OCR parsing service with structured Pydantic schema outputs and full IP transfer.',
+        format: 'Dockerized FastAPI / Python Service',
+      },
+      {
+        title: 'ERP / CRM Connector & Webhook Suite',
+        category: 'Integrations',
+        description: 'Bi-directional integration pipelines connecting processed data to Salesforce, NetSuite, SAP, and databases.',
+        format: 'Node.js / Python Webhook Runtimes',
+      },
+      {
+        title: 'Exception Triage & Human Approval Portal',
+        category: 'Web Interface',
+        description: 'Responsive React portal showing document side-by-side with extracted fields for fast human verification.',
+        format: 'Next.js / React Portal',
+      },
+      {
+        title: 'Automated Audit Logging & Compliance System',
+        category: 'Compliance',
+        description: 'Immutable logging capturing every document transformation, validation check, and ERP write timestamp.',
+        format: 'PostgreSQL Audit Tables & Dashboards',
+      },
     ],
     techStack: [
-      { category: 'Orchestration', items: ['n8n Self-Hosted', 'Temporal.io', 'Apache Airflow', 'Make / Zapier'] },
-      { category: 'Document AI', items: ['LayoutLM v3', 'AWS Textract', 'Google Document AI', 'OpenAI Vision'] },
-      { category: 'Enterprise Connectors', items: ['Salesforce', 'HubSpot', 'NetSuite', 'Stripe', 'Zendesk', 'Jira'] },
-      { category: 'Databases & Queues', items: ['PostgreSQL', 'Redis', 'RabbitMQ', 'AWS SQS'] },
+      { category: 'OCR & Multimodal AI', items: ['GPT-4o Vision', 'Claude 3.5 Sonnet', 'AWS Textract', 'Google Document AI', 'Tesseract'] },
+      { category: 'Workflow Orchestration', items: ['Temporal.io', 'n8n Enterprise', 'Celery', 'Apache Airflow'] },
+      { category: 'Backend & Data', items: ['Python (FastAPI)', 'Node.js', 'PostgreSQL', 'Redis', 'Kafka'] },
+      { category: 'Enterprise Systems', items: ['Salesforce', 'NetSuite', 'SAP', 'QuickBooks', 'HubSpot', 'Slack'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds automated our freight invoice processing workflow. We went from 12 full-time clerks manually entering data over 48 hours to fully automated 3-second processing with 99.8% accuracy.',
-      author: 'Henrik Lindqvist',
-      role: 'VP of Global Logistics',
-      company: 'Maersk Broker Digital',
-      metric: '99.8% Extraction Accuracy',
+      quote:
+        'Neominds automated our accounts payable pipeline. We process over 15,000 vendor invoices monthly, cutting cycle times from 4 days to 45 seconds while reducing data entry errors to zero.',
+      author: 'Danielle Brooks',
+      role: 'VP of Financial Operations',
+      company: 'OmniLogistics Global',
+      metric: '45s Invoice Processing Time',
     },
-    faqs: [
-      { question: 'How is AI Automation different from traditional RPA (like UiPath)?', answer: 'Traditional RPA relies on brittle screen coordinates that break whenever a website or software updates its UI. Cognitive AI Automations use API-first integrations and LLM document understanding to process messy, variable layouts without breaking.' },
-      { question: 'What happens when a document has bad handwriting or poor scan quality?', answer: 'Our system assigns confidence scores to every extracted field. If confidence falls below your defined threshold (e.g. 95%), the document is automatically routed to a fast human review portal with highlighted fields for 5-second signoff.' },
-      { question: 'Can automations be hosted entirely on our private cloud servers?', answer: 'Yes. We specialize in deploying self-hosted n8n, Temporal, and local AI model containers inside your AWS, GCP, or on-premise infrastructure for complete data isolation.' },
-      { question: 'How quickly can we see positive ROI from an automation project?', answer: 'Most enterprise automation workflows pay for themselves within 60 to 90 days by eliminating thousands of hours of manual administrative labor and preventing costly human entry errors.' },
+    outcomes: [
+      {
+        metric: '80%',
+        label: 'Operational Overhead Eliminated',
+        description: 'Frees operations and finance teams from manual copy-paste spreadsheet entry and document re-typing.',
+      },
+      {
+        metric: '99.7%',
+        label: 'Extraction Precision',
+        description: 'Strict Pydantic JSON schema validation stops corrupted database writes.',
+      },
+      {
+        metric: '< 45s',
+        label: 'Document Processing Time',
+        description: 'Replaces multi-day invoice approval backlogs with sub-minute automated verification.',
+      },
     ],
+    faqs: [
+      {
+        question: 'Can your automation pipelines extract data from messy, scanned, or handwritten PDFs?',
+        answer:
+          'Yes. We combine enterprise OCR with multimodal vision-language models (GPT-4o and Claude 3.5 Sonnet) that interpret skewed scans, degraded faxes, low-resolution receipts, and complex multi-column tables with 99.7% accuracy.',
+      },
+      {
+        question: 'What happens when an invoice contains an error or unexpected line item?',
+        answer:
+          'Our deterministic business validation engine checks sums, tax calculations, and vendor names against your database. If a discrepancy or confidence threshold violation occurs, the system automatically routes the exact invoice to a manager Slack or review portal for 1-click approval.',
+      },
+      {
+        question: 'Can you integrate with our legacy on-premise ERP or accounting system?',
+        answer:
+          'Yes. In addition to cloud APIs (Salesforce, NetSuite), we integrate with on-premise SQL databases, SFTP batch directories, and legacy ERPs using secure VPN connectors and durable event queues.',
+      },
+      {
+        question: 'How quickly do we see positive return on investment (ROI)?',
+        answer:
+          'Most enterprise clients achieve full payback within 60 to 90 days. Eliminating manual data entry saves hundreds of employee hours per month and completely prevents costly duplicate invoice payments.',
+      },
+    ],
+    ctaHeadline: 'Ready to Eliminate Repetitive Manual Back-Office Workflows?',
+    ctaDescription:
+      'Talk to our Process Automation Specialists. We will analyze your document flows, calculate your exact operational ROI, and demo a working extraction pipeline.',
+    ctaButtonText: 'Request Automation Discovery',
   },
 
   'chatbot-videobot': {
     id: 'chatbot-videobot',
     slug: 'chatbot-videobot',
-    title: 'Chatbot & Video Bot Development',
-    tagline: 'Conversational AI, Voice Agents & Real-Time Video Avatars',
+    title: 'Chatbot & Video Bot',
+    tagline: 'Real-Time Conversational AI, Low-Latency Voice & Photorealistic WebRTC Video Avatars',
     category: 'AI & Intelligence',
-    heroBadge: 'Conversational AI & Synthetic Avatars',
-    heroHeadline: 'Conversational AI, Voice',
-    heroHeadlineHighlight: '& Video Bot Development',
+    heroBadge: 'Multimodal Conversational AI',
+    heroHeadline: 'Multimodal Chatbots',
+    heroHeadlineHighlight: '& Interactive Video Bots',
     heroDescription:
-      'Transform customer and employee interactions with next-generation conversational experiences. We build multi-lingual conversational AI chatbots, ultra-low-latency voice agents, and interactive real-time video avatar assistants powered by LLMs.',
-    metrics: [
-      { value: '< 600ms', label: 'Voice-to-Voice Latency' },
-      { value: '95%', label: 'First-Contact Resolution' },
-      { value: '50+ Languages', label: 'Multi-Lingual Support' },
-      { value: '24/7', label: 'Always-On Availability' },
+      'We engineer next-generation conversational experiences that go far beyond standard text chat. From voice-enabled enterprise support bots with sub-300ms latency to photorealistic, lip-synced interactive video avatars streamed directly over WebRTC.',
+    heroImage: '/services/chatbot-videobot.png',
+    heroImageCaption: 'Multimodal Chatbot & Video Bot Architecture',
+    primaryCtaText: 'Deploy Conversational AI',
+    secondaryCtaText: 'Experience Video Bots',
+    trustPoints: [
+      'Zero hallucination guarantee via strict enterprise vector knowledge grounding',
+      'Ultra-low-latency audio/video streaming via WebRTC and H.264',
+      'Omnichannel deployment: Web, iOS, Android, WhatsApp, and telephony',
+      'Direct live human agent escalation with full conversation context transfer',
     ],
+    metrics: [
+      { value: '< 350ms', label: 'Voice-to-Speech Response Latency' },
+      { value: '78%', label: 'First-Contact Resolution Rate' },
+      { value: '40+', label: 'Languages Supported in Real Time' },
+      { value: '24/7', label: 'Instant Multimodal Availability' },
+    ],
+    overview: {
+      statement:
+        'Traditional static FAQ chatbots frustrate customers with robotic canned responses, while modern buyers expect instant, lifelike dialogue.',
+      paragraphs: [
+        'Rule-based decision-tree chatbots feel antiquated and force customers into infuriating loops. Today modern digital customers demand human-level comprehension, natural voice cadence, and emotionally resonant video interactions across web and mobile touchpoints.',
+        'We engineer multimodal conversational platforms integrating ultra-fast Whisper speech-to-text, knowledge-grounded LLMs, and neural text-to-speech with natural breathing cues. For high-touch brand experiences, we stream photorealistic digital humans with frame-accurate lip-synchronization over WebRTC.',
+        'Every bot is deeply integrated into your customer data platform (Zendesk, Salesforce, custom APIs) to execute transactions: booking appointments, looking up order statuses, and escalating complex tickets to human reps with complete context.',
+      ],
+      keyTakeaway:
+        'Immersive voice and video conversational agents that resolve customer inquiries instantly with human empathy and verified technical accuracy.',
+    },
     capabilities: [
       {
-        title: 'Enterprise Multi-Channel AI Chatbots',
+        title: 'Photorealistic WebRTC Video Avatar Streaming',
         description:
-          'Smart conversational bots integrated across Web, WhatsApp, iOS, Android, Slack, and Microsoft Teams grounded in your proprietary knowledge base with zero hallucinations.',
-        tags: ['Web / WhatsApp / Slack', 'Zendesk & Intercom Sync', 'RAG Knowledge Grounding', 'Contextual Memory'],
+          'Streaming real-time interactive digital human avatars over WebRTC with sub-500ms latency. Frame-accurate neural lip-synchronization, natural head movements, and dynamic facial expressions.',
+        tags: ['WebRTC Video Streaming', 'Neural Lip-Sync', 'Digital Human Avatars', 'H.264 Low-Latency'],
       },
       {
-        title: 'Real-Time Interactive Video Avatar Bots',
+        title: 'Ultra-Low Latency Voice Dialogue Engines',
         description:
-          'Photorealistic synthetic digital humans with synchronized lip-sync, dynamic facial expressions, and natural eye contact for virtual sales reps and onboarding concierges.',
-        tags: ['HeyGen / Tavus Avatars', 'WebRTC Video Streams', 'Lip-Sync Animation', 'Interactive Kiosks'],
+          'Sub-300ms round-trip voice conversations using streaming Whisper transcription, low-latency LLM token streaming, and neural voices with natural interruption handling.',
+        tags: ['Streaming Speech-to-Text', 'Neural TTS', 'Interruption Handling', 'Whisper & Cartesia'],
       },
       {
-        title: 'Ultra-Low-Latency Voice AI Agents',
+        title: 'Enterprise Knowledge Grounding & Factuality (RAG)',
         description:
-          'Sub-600ms conversational phone and web voice bots that interrupt naturally, understand tone, handle objections, and schedule calendar appointments.',
-        tags: ['LiveKit / WebRTC', 'Whisper & Deepgram STT', 'ElevenLabs & Cartesia TTS', 'Twilio Phone Calling'],
+          'Grounding answers in your verified documentation, product specs, and support knowledge bases. Strict guardrails block hallucinations and attach verified source citations.',
+        tags: ['Knowledge Base RAG', 'Zero Hallucination Guardrails', 'Source Citations', 'pgvector'],
       },
       {
-        title: 'Live CRM & Calendar Action Triggers',
+        title: 'Omnichannel Integration (Web, Mobile, WhatsApp, Voice)',
         description:
-          'Bots that go beyond talking by booking Google/Outlook calendar slots, querying order statuses in Shopify, updating HubSpot deals, and processing payments.',
-        tags: ['Calendar Booking', 'Shopify Order Queries', 'HubSpot / Salesforce Sync', 'Payment Links'],
+          'Deploying conversational assistants directly across React web applications, native iOS/Android SDKs, WhatsApp Business, Slack, and PSTN telephone lines.',
+        tags: ['React & Mobile SDKs', 'WhatsApp Business API', 'Telephony / SIP Trunks', 'Twilio Voice'],
       },
       {
-        title: 'Intelligent Human Handoff & Sentiment Escalation',
+        title: 'Transactional Tool Execution & CRM Lookup',
         description:
-          'Seamless real-time handoff to human agents when sentiment turns negative or complex edge-cases occur, transferring complete conversation transcripts and context.',
-        tags: ['Live Agent Handoff', 'Sentiment Monitoring', 'Zendesk Chat Transfer', 'Context Preservation'],
+          'Configuring bots to authenticate users securely, check real-time order tracking, process refunds, schedule calendar appointments, and write updates to Salesforce.',
+        tags: ['CRM Integrations', 'Stripe Refunds', 'Calendar Scheduling', 'Authenticated Sessions'],
       },
       {
-        title: 'Enterprise Guardrails & Privacy Redaction',
+        title: 'Smart Human Agent Escalation & Context Transfer',
         description:
-          'Strict real-time PII redaction (masking credit cards and SSNs), prompt-injection defenses, and brand-safe response validation filters.',
-        tags: ['NeMo Guardrails', 'Real-Time PII Masking', 'Prompt Injection Shield', 'Brand Voice Controls'],
+          'Detecting user frustration or complex inquiries, generating structured conversation summaries, and routing callers directly to live human agents via Zendesk or Genesys.',
+        tags: ['Sentiment Analysis', 'Live Agent Escalation', 'Zendesk / Genesys Sync', 'Conversation Handoff'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Conversation Design & Persona Definition',
-        description: 'Mapping customer intent trees, defining brand voice tone, safety boundaries, and avatar visual aesthetic.',
-        deliverables: ['Conversation Flow Diagram', 'Brand Voice Guide', 'Avatar Visual Spec'],
+        title: 'Knowledge Ingestion & Persona Architecture',
+        description:
+          'Ingesting support knowledge bases, structuring vector embeddings, defining brand tone of voice, and designing transactional intent schemas.',
+        deliverables: ['Knowledge Base Vector Store', 'Persona & Tone Guidelines', 'Intent Action Registry'],
       },
       {
         step: '02',
-        title: 'Knowledge Base Grounding & Voice Latency Tuning',
-        description: 'Connecting product documentation, fine-tuning Speech-to-Text models, and configuring sub-second audio streaming pipelines.',
-        deliverables: ['Vector Knowledge Store', 'WebRTC Audio Engine', 'Low-Latency Pipeline'],
+        title: 'Voice & Video Avatar Pipeline Integration',
+        description:
+          'Configuring WebRTC media servers, training neural voice models, and calibrating sub-400ms audio/video streaming pipelines.',
+        deliverables: ['WebRTC Media Streaming Service', 'Custom Voice Profile', 'Video Avatar Pipeline'],
       },
       {
         step: '03',
-        title: 'Avatar Rendering & Tool-Calling Integration',
-        description: 'Integrating synthetic video avatar lip-sync engines, calendar scheduling tools, and CRM live update webhooks.',
-        deliverables: ['Video Stream Engine', 'Calendar & CRM Tools', 'Human Handoff Trigger'],
+        title: 'CRM Tool-Calling & Security Guardrails',
+        description:
+          'Connecting Salesforce/Zendesk APIs, implementing strict PII redaction filters, and configuring automated live agent escalation triggers.',
+        deliverables: ['CRM Integration Connectors', 'PII Redaction Guardrails', 'Agent Escalation Webhooks'],
       },
       {
         step: '04',
-        title: 'Multi-Channel Deployment & Analytics',
-        description: 'Deploying widgets to website, WhatsApp, and phone telephony with real-time conversation analytics dashboards.',
-        deliverables: ['Embeddable Web Widget', 'Telephony Phone Line', 'Conversation Analytics Suite'],
+        title: 'Omnichannel Deployment & Conversation Analytics',
+        description:
+          'Embedding widgets into web and mobile apps, provisioning WhatsApp lines, and launching live conversation analytics dashboards.',
+        deliverables: ['Embeddable React / Mobile SDKs', 'Analytics Dashboard', 'Live Support Runbook'],
       },
     ],
     deliverables: [
-      { title: 'Embeddable Web & Mobile Bot Widget', category: 'Frontend', description: 'Lightweight, responsive React/JavaScript widget with voice input, video avatar streaming, and dark mode support.', format: 'NPM Package / Script' },
-      { title: 'Real-Time Voice / Video AI Streaming Server', category: 'Backend Engine', description: 'High-throughput WebRTC audio/video server orchestrating speech recognition, LLM reasoning, and voice generation.', format: 'FastAPI / WebRTC' },
-      { title: 'WhatsApp & Telephony Phone Integration', category: 'Omnichannel', description: 'Twilio and Meta Cloud API connectors for inbound/outbound customer phone calls and WhatsApp messaging.', format: 'Cloud Webhook Service' },
-      { title: 'Conversation Analytics & Transcript Dashboard', category: 'Analytics', description: 'Real-time analytics tracking resolution rates, sentiment scores, drop-off questions, and deflection savings.', format: 'Analytics Portal' },
+      {
+        title: 'Embeddable Web & Mobile Chat / Video SDK',
+        category: 'Client SDK',
+        description: 'Lightweight, responsive React component and mobile SDKs supporting text, voice, and streaming video avatars.',
+        format: 'npm Package / Swift & Kotlin SDKs',
+      },
+      {
+        title: 'Real-Time WebRTC Media Streaming Backend',
+        category: 'Media Core',
+        description: 'High-throughput WebRTC streaming server orchestrating video generation, audio transcription, and token routing.',
+        format: 'Dockerized Media Runtimes',
+      },
+      {
+        title: 'Enterprise Knowledge Retrieval & Guardrail Core',
+        category: 'AI Pipeline',
+        description: 'Vector search knowledge retrieval engine with factuality validation and hallucination filters.',
+        format: 'Python / FastAPI Microservice',
+      },
+      {
+        title: 'Live Agent Handoff & Conversation Analytics Suite',
+        category: 'Operations',
+        description: 'Supervisor dashboard tracking sentiment trends, first-contact resolution rates, and live agent queue routing.',
+        format: 'Analytics Web Portal',
+      },
     ],
     techStack: [
-      { category: 'LLMs & Reasoning', items: ['OpenAI GPT-4o', 'Claude 3.5 Sonnet', 'Groq LPU Inference', 'Mistral'] },
-      { category: 'Voice & Video', items: ['LiveKit WebRTC', 'Deepgram STT', 'ElevenLabs TTS', 'Cartesia', 'HeyGen Streaming'] },
-      { category: 'Channels', items: ['Twilio Telephony', 'WhatsApp Cloud API', 'Slack API', 'Intercom / Zendesk'] },
-      { category: 'Infrastructure', items: ['WebSockets', 'Redis Streams', 'Docker', 'AWS ECS'] },
+      { category: 'Audio & Speech', items: ['OpenAI Whisper', 'Deepgram', 'Cartesia', 'ElevenLabs', 'Twilio Voice'] },
+      { category: 'Video Avatars & Streaming', items: ['WebRTC', 'MediaSoup', 'LiveKit', 'HeyGen API', 'Simli'] },
+      { category: 'LLM & Guardrails', items: ['Claude 3.5 Sonnet', 'GPT-4o', 'Llama 3.3', 'NeMo Guardrails'] },
+      { category: 'Integrations & Storage', items: ['Zendesk', 'Salesforce', 'pgvector', 'Redis', 'Socket.io'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds built our 24/7 interactive customer video avatar and phone voice agent. It resolves 91% of tier-1 support tickets instantly, reducing our customer wait times to under 5 seconds.',
-      author: 'Sophia Martinez',
-      role: 'Director of Customer Experience',
-      company: 'FinServe Global',
-      metric: '91% Tier-1 Resolution Rate',
+      quote:
+        'Neominds deployed an interactive video avatar for our patient intake portal. It resolves 82% of pre-consultation inquiries autonomously with an astonishing 96% patient satisfaction rating.',
+      author: 'Dr. Evelyn Reed',
+      role: 'Chief Medical Officer',
+      company: 'Vanguard Health Care',
+      metric: '82% Autonomous Resolution Rate',
     },
-    faqs: [
-      { question: 'How realistic are real-time video avatar bots in 2026?', answer: 'Extremely realistic. Using modern WebRTC synthetic rendering and photorealistic generative diffusion, our avatars feature natural human eye blinking, head movement, realistic breathing, and millisecond-accurate lip synchronization.' },
-      { question: 'How do you achieve conversational voice latency under 600ms?', answer: 'We utilize ultra-fast Groq LPU inference, Deepgram streaming Speech-to-Text, and Cartesia sonic voice models over WebRTC connections to ensure speech begins before the user notices any pause.' },
-      { question: 'Can the bot transfer users to a live human support rep if needed?', answer: 'Yes. The bot continuously monitors user sentiment and frustration markers. If triggered, it transfers the caller to your Zendesk, Freshdesk, or phone queue with the complete context transcript.' },
-      { question: 'Can the chatbot speak multiple languages?', answer: 'Yes. Our bots automatically detect the user’s language (over 50+ languages supported) and respond fluently with native cultural nuances and correct pronunciation.' },
+    outcomes: [
+      {
+        metric: '< 350ms',
+        label: 'Voice Interaction Latency',
+        description: 'Enables natural human conversational flow without awkward pauses or robotic audio delays.',
+      },
+      {
+        metric: '78%',
+        label: 'Autonomous First-Contact Resolution',
+        description: 'Resolves routine customer queries without requiring escalation to human support agents.',
+      },
+      {
+        metric: '24/7',
+        label: 'Global Multimodal Coverage',
+        description: 'Delivers high-touch, video-guided customer onboarding and support in 40+ languages around the clock.',
+      },
     ],
+    faqs: [
+      {
+        question: 'How do video avatars stream smoothly without buffering or massive bandwidth requirements?',
+        answer:
+          'We utilize modern WebRTC adaptive bitrate streaming with H.264 video compression. Video frames are synthesized and lip-synced in the cloud at low latency, requiring only standard mobile broadband (under 1.5 Mbps) to stream smoothly at 30fps.',
+      },
+      {
+        question: 'Can the chatbot authenticate users and look up sensitive customer data safely?',
+        answer:
+          'Yes. We implement secure OAuth2 session handshakes and OTP phone/email verification before allowing the bot to access private customer information. All database calls are sandboxed with strict parameter validation and encrypted in transit.',
+      },
+      {
+        question: 'What happens when the bot does not know the answer to a question?',
+        answer:
+          'Rather than hallucinating or guessing, the bot acknowledges its boundary, captures the customer details, and either submits an asynchronous ticket or initiates a warm transfer to a live human agent with the entire chat history summarized.',
+      },
+      {
+        question: 'How long does it take to train the bot on our company documentation?',
+        answer:
+          'Our automated ingestion pipelines ingest PDFs, websites, Notion wikis, and Zendesk articles in hours. With semantic chunking and embedding, your bot is typically ready for accuracy testing within 48 hours.',
+      },
+    ],
+    ctaHeadline: 'Ready to Replace Robotic Chatbots with Lifelike Interactive Avatars?',
+    ctaDescription:
+      'Schedule a live demo with our Conversational AI Architects. Experience sub-400ms voice and WebRTC video streaming firsthand.',
+    ctaButtonText: 'Request Live Interactive Demo',
   },
 
   'analytics-dashboard': {
@@ -1039,102 +1800,185 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     heroHeadline: 'Real-Time Business',
     heroHeadlineHighlight: 'Analytics & Dashboards',
     heroDescription:
-      'Turn vast data streams into actionable executive clarity. We engineer real-time business intelligence dashboards, custom embedded analytics, high-performance time-series charts, and automated data warehouse pipelines using modern technologies.',
-    metrics: [
-      { value: '< 100ms', label: 'Data Query Speed' },
-      { value: '10M+ Rows', label: 'Rendered in Real Time' },
-      { value: '100%', label: 'Embedded White-Label Ready' },
-      { value: 'SOC 2', label: 'Compliant Data Governance' },
+      'Turn vast data streams into actionable executive clarity. We engineer real-time analytical data warehouses (ClickHouse, Snowflake) paired with 60fps interactive React visualizations, embedded white-label portals, and automated anomaly alerting.',
+    heroImage: '/services/analytics-dashboard.png',
+    heroImageCaption: 'Real-Time Analytics Dashboard Architecture',
+    primaryCtaText: 'Build Your Dashboard',
+    secondaryCtaText: 'Explore Analytics Architecture',
+    trustPoints: [
+      'Decoupled columnar storage (ClickHouse/DuckDB) preventing production database load',
+      'Embedded white-label customer analytics with strict Row-Level Security (RLS)',
+      'Sub-80ms analytical aggregations across hundreds of millions of events',
+      'Automated scheduled executive PDF summaries and instant Slack anomaly alerts',
     ],
+    metrics: [
+      { value: '< 80ms', label: 'Query Latency on 100M+ Rows' },
+      { value: '60 FPS', label: 'WebGL & Canvas Chart Rendering' },
+      { value: '100%', label: 'Multi-Tenant Row-Level Security' },
+      { value: '10x', label: 'Faster Executive Decision Velocity' },
+    ],
+    overview: {
+      statement:
+        'Sluggish, clunky dashboards that take 30 seconds to reload destroy executive focus and hide critical business risks.',
+      paragraphs: [
+        'When analytics queries freeze your production database or take 45 seconds to generate an executive report, data-driven decision making grinds to a halt. Traditional transactional databases were never designed for multi-million-row aggregations.',
+        'We architect modern data pipelines pairing high-speed columnar warehouses (ClickHouse, Snowflake, DuckDB) with reactive frontend visualization frameworks. We use Change Data Capture (CDC) to stream events from your operational databases without adding a single millisecond of overhead to your live users.',
+        'Our dashboards are engineered with Apache ECharts and WebGL canvas renderers that display 500,000 data points at a silky smooth 60 frames per second, complete with multi-tenant row-level security and natural language "Talk to Your Data" query interfaces.',
+      ],
+      keyTakeaway:
+        'Sub-second analytical intelligence that turns massive operational event streams into actionable visual decisions without breaking production.',
+    },
     capabilities: [
       {
-        title: 'Real-Time Interactive Data Visualizations',
+        title: 'High-Speed Columnar Analytical Warehouses',
         description:
-          'High-performance interactive charts, financial heatmaps, geographic spatial maps, and hierarchical tree maps built with Apache ECharts, D3.js, and Canvas.',
-        tags: ['Apache ECharts / D3.js', 'WebGL Canvas Renderers', 'Financial Heatmaps', 'Geospatial Maps'],
+          'Ingesting millions of events per minute into ClickHouse, Snowflake, and TimescaleDB with instant materialization and sub-80ms analytical query response times.',
+        tags: ['ClickHouse / Snowflake', 'DuckDB', 'Columnar Storage', 'Sub-80ms Queries'],
       },
       {
-        title: 'Embedded White-Label Customer Analytics',
+        title: 'Reactive WebGL & Canvas Visualizations',
         description:
-          'Seamlessly embedding multi-tenant analytics dashboards directly inside your SaaS application with row-level security (RLS) and custom client branding.',
-        tags: ['Multi-Tenant RLS', 'Embedded Analytics', 'White-Label Theming', 'Export to PDF/CSV'],
+          'High-density data charts rendering 500,000 data points at smooth 60fps using Apache ECharts, D3.js, and WebGL. Interactive zoom, pan, brush filtering, and financial heatmaps.',
+        tags: ['Apache ECharts', 'D3.js', 'WebGL Canvas Renderers', 'Financial Heatmaps'],
       },
       {
-        title: 'Modern Data Stack (ClickHouse, Snowflake, BigQuery)',
+        title: 'Embedded Multi-Tenant Customer Portals',
         description:
-          'High-speed columnar analytical data warehouses (ClickHouse, Snowflake, DuckDB) capable of querying billions of rows in milliseconds without degrading production DBs.',
-        tags: ['ClickHouse / DuckDB', 'Snowflake & BigQuery', 'dbt Data Modeling', 'Columnar Storage'],
+          'Embedding white-label customer-facing analytics dashboards directly inside your SaaS application with strict Row-Level Security (RLS) and custom client theming.',
+        tags: ['Row-Level Security (RLS)', 'Embedded SaaS Dashboards', 'White-Label Branding', 'Multi-Tenant Isolation'],
       },
       {
-        title: 'Real-Time Event Streaming & ETL Pipelines',
+        title: 'Real-Time Event Ingestion & CDC Pipelines',
         description:
-          'Automated data ingestion from PostgreSQL, Stripe, Segment, and Kafka streams transformed with dbt pipelines into clean analytical data marts.',
-        tags: ['Kafka / Debezium CDC', 'dbt Transformations', 'Airflow Pipelines', 'Data Lakes'],
-      },
-      {
-        title: 'Automated Executive Reports & Slack/Email Alerts',
-        description:
-          'Scheduled PDF executive summaries, automated KPI variance anomaly alerts, and real-time Slack notifications whenever financial metrics cross target thresholds.',
-        tags: ['Automated PDF Reports', 'Anomaly Detection', 'Slack / Email Alerts', 'KPI Forecasting'],
+          'Debezium and Kafka change-data-capture (CDC) pipelines streaming updates from transactional databases into transformed dbt data marts with zero production DB lock.',
+        tags: ['Kafka / Debezium CDC', 'dbt Data Modeling', 'Airflow Pipelines', 'Zero DB Lock'],
       },
       {
         title: 'Natural Language "Talk to Your Data" (Text-to-SQL)',
         description:
-          'Empower non-technical executives to ask plain English questions ("Show MRR growth in Europe last quarter") and receive verified charts and SQL citations instantly.',
-        tags: ['Text-to-SQL LLM', 'Semantic Data Layers', 'SQL Guardrails', 'Self-Service BI'],
+          'Semantic layer allowing non-technical leaders to ask plain English questions ("Compare Q3 gross margin across European hubs") and receive verified charts instantly.',
+        tags: ['Text-to-SQL', 'Semantic Data Layer', 'SQL Guardrails', 'Self-Service BI'],
+      },
+      {
+        title: 'Automated Anomaly Alerting & Scheduled Reports',
+        description:
+          'Machine learning models detecting statistical outliers across revenue, churn, and error metrics, triggering automated Slack alerts and scheduled executive PDF reports.',
+        tags: ['Anomaly Detection', 'Slack / Email Alerts', 'Automated PDF Reports', 'Variance Tracking'],
       },
     ],
     processSteps: [
       {
         step: '01',
-        title: 'Data Modeling & KPI Workshop',
-        description: 'Identifying key executive metrics, mapping transactional database schemas, and designing analytical star-schemas.',
-        deliverables: ['KPI Metrics Taxonomy', 'Dimensional Star Schema', 'Query Performance Goals'],
+        title: 'Metric Taxonomy & Dimensional Modeling',
+        description:
+          'Defining executive KPI definitions, mapping transactional data sources, and designing dimensional star schemas optimized for analytical speed.',
+        deliverables: ['KPI Metric Taxonomy', 'Dimensional Star Schema Spec', 'Data Volume Benchmarks'],
       },
       {
         step: '02',
-        title: 'Analytical Data Warehouse & ETL Ingestion',
-        description: 'Deploying ClickHouse or Snowflake warehouses with automated change-data-capture (CDC) pipelines from production DBs.',
-        deliverables: ['ClickHouse / Snowflake Schema', 'dbt Transformation Models', 'Automated CDC Sync'],
+        title: 'Columnar Warehouse & CDC Ingestion Setup',
+        description:
+          'Deploying ClickHouse or Snowflake clusters, configuring real-time change data capture pipelines, and authoring dbt transformation models.',
+        deliverables: ['ClickHouse / Snowflake Schema DDL', 'dbt Transformation Models', 'Real-Time CDC Pipeline'],
       },
       {
         step: '03',
-        title: 'Interactive Dashboard UI & Component Build',
-        description: 'Developing responsive React dashboard layouts, custom filter bars, date-range pickers, and high-framerate charts.',
+        title: 'Interactive React UI & Visual Component Kit',
+        description:
+          'Developing responsive React dashboard layouts, custom filter bars, date-range pickers, high-framerate charts, and PDF export engines.',
         deliverables: ['React Dashboard Component Kit', 'Apache ECharts Visualizations', 'PDF Export Engine'],
       },
       {
         step: '04',
-        title: 'Row-Level Security & Production Launch',
-        description: 'Configuring multi-tenant security filters, cache invalidation rules, and role-based viewing permissions.',
-        deliverables: ['Row-Level Security Policies', 'Cache Performance Tuning', 'User Documentation'],
+        title: 'Row-Level Security Hardening & Launch',
+        description:
+          'Configuring multi-tenant security filters, testing database query caching rules, training executive users, and launching to production.',
+        deliverables: ['Row-Level Security Policies', 'Query Performance Benchmark', 'Executive Training Playbook'],
       },
     ],
     deliverables: [
-      { title: 'Interactive React Analytics Dashboard Application', category: 'Frontend', description: 'Modular, responsive dashboard portal with dark/light themes, custom filters, and sub-100ms chart rendering.', format: 'React / Next.js' },
-      { title: 'Analytical Data Warehouse & dbt Models', category: 'Data Architecture', description: 'Optimized columnar database schema with automated dbt transformation scripts and data tests.', format: 'ClickHouse / dbt Code' },
-      { title: 'Automated Scheduled PDF Reporting Engine', category: 'Reporting', description: 'Microservice generating pixel-perfect executive PDF summaries delivered via email and Slack.', format: 'Puppeteer Microservice' },
-      { title: 'Natural Language Text-to-SQL Interface', category: 'AI Analytics', description: 'Semantic layer allowing users to query metrics using natural language with guaranteed SQL accuracy.', format: 'FastAPI Service' },
+      {
+        title: 'Interactive React / Next.js Analytics Portal',
+        category: 'Frontend UI',
+        description: 'Modular, responsive dashboard application with dark/light themes, custom filters, and sub-100ms chart rendering.',
+        format: 'React / Next.js Git Repository',
+      },
+      {
+        title: 'Columnar Data Warehouse & dbt Models',
+        category: 'Data Architecture',
+        description: 'Optimized ClickHouse/Snowflake database schemas with automated dbt transformation scripts and data tests.',
+        format: 'ClickHouse DDL & dbt Project',
+      },
+      {
+        title: 'Automated Scheduled PDF & Slack Reporting Engine',
+        category: 'Reporting',
+        description: 'Microservice generating pixel-perfect executive PDF summaries delivered via email alongside automated Slack anomaly alerts.',
+        format: 'Puppeteer / Node.js Microservice',
+      },
+      {
+        title: 'Natural Language Text-to-SQL Semantic Layer',
+        category: 'AI BI',
+        description: 'Semantic layer allowing business users to query metrics using natural language with guaranteed SQL accuracy.',
+        format: 'FastAPI Semantic Service',
+      },
     ],
     techStack: [
       { category: 'Visualization', items: ['Apache ECharts', 'D3.js', 'Tremor', 'Chart.js', 'Mapbox GL'] },
-      { category: 'Data Warehouses', items: ['ClickHouse', 'Snowflake', 'DuckDB', 'Google BigQuery', 'PostgreSQL Timescale'] },
+      { category: 'Data Warehouses', items: ['ClickHouse', 'Snowflake', 'DuckDB', 'Google BigQuery', 'TimescaleDB'] },
       { category: 'Data Engineering', items: ['dbt', 'Apache Airflow', 'Kafka', 'Debezium', 'Dagster'] },
-      { category: 'Frontend & APIs', items: ['Next.js 15', 'React 19', 'FastAPI', 'Tailwind CSS'] },
+      { category: 'Application Tier', items: ['Next.js 15', 'React 19', 'TypeScript', 'FastAPI', 'Tailwind CSS'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds built our multi-tenant SaaS analytics portal on ClickHouse. Our customers can now analyze 50 million transaction records in under 80 milliseconds directly inside our application.',
+      quote:
+        'Neominds built our multi-tenant customer analytics portal on ClickHouse. Our enterprise customers now analyze 50 million transaction records in under 80 milliseconds directly inside our SaaS product.',
       author: 'Rachel Kovalev',
       role: 'VP of Product Analytics',
       company: 'City Index Analytics',
       metric: '< 80ms Query on 50M Records',
     },
-    faqs: [
-      { question: 'Will running heavy analytics queries slow down our live production database?', answer: 'No. We use Change Data Capture (CDC) to stream data from your production transactional database into an isolated columnar analytical warehouse (like ClickHouse or Snowflake), ensuring zero performance impact on live users.' },
-      { question: 'Can we embed these dashboards directly inside our existing SaaS app?', answer: 'Yes. We build embedded React components with Row-Level Security (RLS) so each of your enterprise customers only sees their authorized data with your white-label branding.' },
-      { question: 'How do you handle multi-million row datasets without browser lag?', answer: 'We utilize server-side aggregation, WebGL Canvas chart renderers, and progressive data windowing so millions of data points render at a silky smooth 60 frames per second.' },
-      { question: 'Can non-technical executives create custom queries without knowing SQL?', answer: 'Yes. We integrate our natural language "Talk to Your Data" interface, allowing executives to ask questions in plain English and receive instant verified visual charts.' },
+    outcomes: [
+      {
+        metric: '< 80ms',
+        label: 'Query Execution Speed',
+        description: 'Instant data discovery across 100M+ rows without sluggish loading spinners or timeout errors.',
+      },
+      {
+        metric: '0%',
+        label: 'Production DB Degradation',
+        description: 'Isolated columnar analytical data marts keep your transactional databases fast.',
+      },
+      {
+        metric: '100%',
+        label: 'Embedded Multi-Tenant Security',
+        description: 'Row-Level Security (RLS) guarantees each enterprise customer only sees their authorized data.',
+      },
     ],
+    faqs: [
+      {
+        question: 'Will running heavy analytics queries slow down our live production database?',
+        answer:
+          'No. We use Change Data Capture (CDC) to asynchronously replicate data from your production transactional database into an isolated columnar analytical warehouse (like ClickHouse or Snowflake), guaranteeing zero performance impact on live users.',
+      },
+      {
+        question: 'Can we embed these dashboards directly inside our existing SaaS app?',
+        answer:
+          'Yes. We build embedded React components with strict Row-Level Security (RLS) so each of your enterprise customers only sees their authorized data with your customized white-label branding.',
+      },
+      {
+        question: 'How do you render millions of data points without browser lag?',
+        answer:
+          'We utilize server-side aggregation, WebGL Canvas chart renderers, and progressive data windowing so millions of data points render at a silky smooth 60 frames per second without crashing browser tabs.',
+      },
+      {
+        question: 'Can non-technical executives create custom queries without knowing SQL?',
+        answer:
+          'Yes. We integrate our natural language "Talk to Your Data" interface, allowing executives to ask questions in plain English ("Show MRR growth in Europe last quarter") and receive instant verified visual charts.',
+      },
+    ],
+    ctaHeadline: 'Ready to Turn Millions of Data Points into Sub-Second Executive Clarity?',
+    ctaDescription:
+      'Consult with our Principal Data & BI Architects. We will review your database topology, design a columnar data mart, and deliver a customized dashboard prototype.',
+    ctaButtonText: 'Request Dashboard Architecture Plan',
   },
 
   'technical-support': {
@@ -1147,82 +1991,127 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
     heroHeadline: '24/7 Enterprise SLA',
     heroHeadlineHighlight: '& Technical Support',
     heroDescription:
-      'Ensure uninterrupted business continuity for mission-critical software. We provide round-the-clock L1-L3 technical support, proactive uptime monitoring, automated vulnerability patching, database optimization, and guaranteed response SLAs.',
+      'Protect uninterrupted business continuity for mission-critical software systems. We provide guaranteed sub-15-minute P1 response times, proactive synthetic uptime monitoring, continuous security vulnerability patching, and dedicated Tier-3 site reliability engineers.',
+    heroImage: '/services/technical-support.png',
+    heroImageCaption: '24/7 SLA Technical Support Architecture',
+    primaryCtaText: 'Secure 24/7 Support',
+    secondaryCtaText: 'Review Support SLAs',
+    trustPoints: [
+      'Guaranteed contractual sub-15-minute P1 incident response time',
+      'Continuous synthetic monitoring probing APIs & user journeys every 30s',
+      'Automated zero-day security patching & dependency vulnerability audits',
+      'Blameless post-mortem documentation with preventative architecture hardening',
+    ],
     metrics: [
-      { value: '< 15 min', label: 'P1 Critical Response Time' },
+      { value: '< 15 min', label: 'P1 Critical Outage Response SLA' },
       { value: '24/7/365', label: 'Continuous Human Coverage' },
       { value: '99.99%', label: 'Guaranteed System Uptime' },
       { value: '100%', label: 'Dedicated Escalation Engineers' },
     ],
+    overview: {
+      statement:
+        'A 20-minute middle-of-the-night production outage can destroy customer trust, breach enterprise contracts, and burn reputation.',
+      paragraphs: [
+        'Software systems do not fail during convenient business hours. When an unexpected database deadlock strikes or an SSL certificate expires at 2:00 AM on a Sunday, internal development teams are woken up exhausted, leading to frantic fixes that create more downtime.',
+        'We provide battle-tested, 24/7/365 Tier-1 to Tier-3 site reliability engineering coverage backed by legally binding SLAs. We deploy synthetic monitoring probes that test your critical user funnels every 30 seconds, catching latency degradation and memory leaks long before your customers notice.',
+        'When a critical incident occurs, our dedicated on-call engineers triage the issue within 15 minutes, execute verified operational runbooks, resolve the failure, and deliver a detailed, blameless post-mortem report detailing exact preventative fixes.',
+      ],
+      keyTakeaway:
+        'Guaranteed round-the-clock peace of mind backed by senior engineers, proactive telemetry, and ironclad uptime SLAs.',
+    },
     capabilities: [
       {
-        title: '24/7/365 L1-L3 Tiered Support Squads',
+        title: '24/7/365 Tiered L1-L3 Engineering Support',
         description:
-          'Dedicated support engineers covering L1 triage, L2 technical investigation, and L3 core code debugging with clear SLA escalation matrix governance.',
-        tags: ['L1-L3 Tiered Support', '24/7 Global Rotation', 'Sub-15m P1 SLA', 'Dedicated Squads'],
+          'Dedicated senior support squads covering Tier-1 triage, Tier-2 technical diagnostics, and Tier-3 core code debugging with a guaranteed sub-15-minute response SLA for critical incidents.',
+        tags: ['Tiered L1-L3 Support', '24/7 Global Rotation', 'Sub-15m P1 SLA', 'Dedicated Engineers'],
       },
       {
-        title: 'Proactive Synthetic Uptime & Performance Monitoring',
+        title: 'Proactive Synthetic Uptime & User Journey Probes',
         description:
-          'Automated health checks, synthetic browser user journeys, API endpoint heartbeats, and memory leak detection alerting engineers before users notice issues.',
+          'Automated synthetic browser journeys, API endpoint heartbeats, SSL certificate monitors, and memory saturation alerts that catch anomalies before real users are impacted.',
         tags: ['Datadog & New Relic', 'Synthetic User Journeys', 'API Heartbeats', 'Memory Profiling'],
       },
       {
-        title: 'Security Vulnerability Patching & Dependency Upgrades',
+        title: 'Automated Security Vulnerability Patching',
         description:
-          'Continuous CVE scanning, automated zero-day security patching, database minor/major version upgrades, and library compatibility maintenance.',
-        tags: ['CVE Vulnerability Scans', 'Zero-Day Patching', 'Database Upgrades', 'Dependency Audits'],
+          'Continuous CVE vulnerability scanning, automated zero-day security patching, database minor/major version upgrades, and third-party dependency maintenance.',
+        tags: ['CVE Scans', 'Zero-Day Patching', 'Database Upgrades', 'Dependency Audits'],
       },
       {
         title: 'Continuous Database Health & Performance Tuning',
         description:
-          'Slow query log optimization, vacuuming routines, index re-indexing, read-replica lag management, and automated disaster recovery backup drills.',
+          'Automated vacuuming routines, index re-indexing, slow query plan optimization, read-replica replication lag management, and disaster recovery backup restoration drills.',
         tags: ['PostgreSQL / MySQL Tuning', 'Index Optimization', 'Backup Restorations', 'Deadlock Resolution'],
       },
       {
-        title: 'Cloud Cost Optimization & Right-Sizing',
+        title: 'Cloud FinOps & Continuous Cost Optimization',
         description:
-          'Ongoing monthly FinOps audits, eliminating orphaned cloud volumes, optimizing storage lifecycles, and adjusting serverless memory limits.',
-        tags: ['FinOps Auditing', 'Orphaned Resource Pruning', 'Cloud Capacity Planning', 'Cost Controls'],
+          'Monthly cloud cost audits, eliminating orphaned EBS volumes and snapshots, optimizing object storage lifecycles, and rightsizing idle compute resources.',
+        tags: ['FinOps Auditing', 'Orphaned Resource Pruning', 'Capacity Planning', 'Cloud Cost Control'],
       },
       {
-        title: 'Disaster Recovery Drills & Business Continuity',
+        title: 'Disaster Recovery Drills & Multi-Region Failover',
         description:
-          'Semi-annual disaster recovery simulation tests, point-in-time database restore verification, and multi-region failover certifications.',
-        tags: ['RTO < 30min / RPO < 5min', 'Disaster Recovery Drills', 'Multi-Region Failover', 'Audit Documentation'],
+          'Semi-annual disaster recovery simulation drills verifying point-in-time recovery, RTO (<30m) and RPO (<5m) restoration targets, and multi-region failover integrity.',
+        tags: ['RTO < 30min / RPO < 5min', 'DR Drills', 'Multi-Region Failover', 'Audit Documentation'],
       },
     ],
     processSteps: [
       {
         step: '01',
         title: 'System Handover & Runbook Ingestion',
-        description: 'Auditing existing codebase, documenting cloud topology, capturing environment variables, and establishing escalation matrices.',
+        description:
+          'Auditing existing codebase, documenting cloud topology, capturing environment variables, and establishing escalation matrices.',
         deliverables: ['System Runbook Specification', 'SLA Escalation Matrix', 'Access & Security Credentials'],
       },
       {
         step: '02',
         title: 'Synthetic Monitoring & Alert Integration',
-        description: 'Deploying Datadog / Prometheus synthetic monitors, configuring PagerDuty alert thresholds, and testing incident loops.',
+        description:
+          'Deploying Datadog / Prometheus synthetic monitors, configuring PagerDuty alert thresholds, and testing incident loops.',
         deliverables: ['Synthetic Alert Setup', 'PagerDuty On-Call Schedule', 'Live System Health Board'],
       },
       {
         step: '03',
         title: 'Continuous Maintenance & Patch Management',
-        description: 'Executing bi-weekly dependency updates, security vulnerability remediation, and database maintenance scripts.',
+        description:
+          'Executing bi-weekly dependency updates, security vulnerability remediation, and database maintenance scripts.',
         deliverables: ['Monthly Patch Report', 'Security Audit Logs', 'Performance Improvement Log'],
       },
       {
         step: '04',
         title: 'Quarterly Executive Review & DR Drills',
-        description: 'Presenting quarterly SLA compliance scorecards, cloud expenditure trends, and conducting full disaster recovery restoration drills.',
+        description:
+          'Presenting quarterly SLA compliance scorecards, cloud expenditure trends, and conducting full disaster recovery restoration drills.',
         deliverables: ['Quarterly SLA Scorecard', 'Disaster Recovery Certificate', 'Infrastructure Roadmap'],
       },
     ],
     deliverables: [
-      { title: '24/7 SLA Support Agreement & Runbook', category: 'Governance', description: 'Legally binding SLA contract outlining response times (P1 < 15 min, P2 < 1 hour), coverage, and runbooks.', format: 'Formal SLA Document' },
-      { title: 'Live System Health & Status Page', category: 'Monitoring', description: 'Public or private status page (e.g. status.yourcompany.com) tracking real-time uptime and incident history.', format: 'Hosted Status Portal' },
-      { title: 'Monthly Maintenance & Performance Report', category: 'Reporting', description: 'Detailed breakdown of resolved tickets, security patches applied, uptime percentages, and response metrics.', format: 'Monthly Executive PDF' },
-      { title: 'Disaster Recovery Audit & Restore Certificate', category: 'Compliance', description: 'Documented test results confirming RTO (<30m) and RPO (<5m) restoration from cloud backups.', format: 'Audit Certificate' },
+      {
+        title: '24/7 SLA Support Agreement & Runbook',
+        category: 'Governance',
+        description: 'Legally binding SLA contract outlining response times (P1 < 15 min, P2 < 1 hour), coverage, and runbooks.',
+        format: 'Formal SLA Document',
+      },
+      {
+        title: 'Live System Health & Status Page',
+        category: 'Monitoring',
+        description: 'Public or private status page (e.g. status.yourcompany.com) tracking real-time uptime and incident history.',
+        format: 'Hosted Status Portal',
+      },
+      {
+        title: 'Monthly Maintenance & Performance Report',
+        category: 'Reporting',
+        description: 'Detailed breakdown of resolved tickets, security patches applied, uptime percentages, and response metrics.',
+        format: 'Monthly Executive PDF',
+      },
+      {
+        title: 'Disaster Recovery Audit & Restore Certificate',
+        category: 'Compliance',
+        description: 'Documented test results confirming RTO (<30m) and RPO (<5m) restoration from cloud backups.',
+        format: 'Audit Certificate',
+      },
     ],
     techStack: [
       { category: 'Monitoring & Alerting', items: ['Datadog', 'Prometheus', 'Grafana', 'PagerDuty', 'Sentry', 'BetterUptime'] },
@@ -1231,18 +2120,56 @@ export const SERVICES_DATA: Record<string, ServiceData> = {
       { category: 'Security & Scanning', items: ['Snyk', 'Trivy', 'Dependabot', 'SonarQube'] },
     ],
     caseStudyQuote: {
-      quote: 'Neominds manages 24/7 support for our core transaction platform. Over 3 years of partnership, we have maintained a 99.995% uptime record with zero unaddressed critical incidents.',
+      quote:
+        'Neominds manages 24/7 support for our core transaction platform. Over 3 years of partnership, we have maintained a 99.995% uptime record with zero unaddressed critical incidents.',
       author: 'Elena Rostova',
       role: 'Chief Operating Officer',
       company: 'Authenticom Logistics',
       metric: '99.995% Uptime Over 3 Years',
     },
-    faqs: [
-      { question: 'What is your response time for critical P1 production outages?', answer: 'We guarantee a sub-15 minute response time for P1 critical outages (complete system downtime or data integrity threat) with engineers actively troubleshooting and communicating in dedicated incident channels.' },
-      { question: 'How do your support engineers get up to speed on our custom codebase?', answer: 'We perform a structured 2-week onboarding transition period where our senior architects map all dependencies, document operational runbooks, and shadow your team before going live.' },
-      { question: 'Do you only fix bugs, or do you also build feature enhancements?', answer: 'Our support plans include dedicated development hours each month that can be flexibly allocated to minor feature additions, UI enhancements, or dependency modernization.' },
-      { question: 'How do you handle security vulnerability updates?', answer: 'We continuously run automated dependency vulnerability scans (CVE tracking) and deploy critical security patches within 24 hours of release following strict staging validation.' },
+    outcomes: [
+      {
+        metric: '< 15 min',
+        label: 'P1 Incident Response SLA',
+        description: 'Immediate war-room paging and active senior developer remediation for any critical outage.',
+      },
+      {
+        metric: '99.99%',
+        label: 'Production Uptime',
+        description: 'Proactive synthetic probes and self-healing automation eliminate unplanned platform downtime.',
+      },
+      {
+        metric: '-30%',
+        label: 'Internal Engineering Burnout',
+        description: 'Frees your internal product development team from stressful middle-of-the-night on-call duties.',
+      },
     ],
+    faqs: [
+      {
+        question: 'What is your response time for critical P1 production outages?',
+        answer:
+          'We guarantee a sub-15 minute response time for P1 critical outages (complete system downtime or data integrity threat) with engineers actively troubleshooting and communicating in dedicated incident channels.',
+      },
+      {
+        question: 'How do your support engineers get up to speed on our custom codebase?',
+        answer:
+          'We perform a structured 2-week onboarding transition period where our senior architects map all dependencies, document operational runbooks, and shadow your team before going live.',
+      },
+      {
+        question: 'Do you only fix bugs, or do you also build feature enhancements?',
+        answer:
+          'Our support plans include dedicated development hours each month that can be flexibly allocated to minor feature additions, UI enhancements, or dependency modernization.',
+      },
+      {
+        question: 'How do you handle security vulnerability updates?',
+        answer:
+          'We continuously run automated dependency vulnerability scans (CVE tracking) and deploy critical security patches within 24 hours of release following strict staging validation.',
+      },
+    ],
+    ctaHeadline: 'Ready to Protect Your Infrastructure with Guaranteed 24/7 SLA Support?',
+    ctaDescription:
+      'Connect with our On-Call Operations Leadership. We audit your infrastructure runbooks, establish incident escalation matrices, and onboard your system in under two weeks.',
+    ctaButtonText: 'Request 24/7 SLA Agreement',
   },
 };
 
