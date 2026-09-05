@@ -54,8 +54,8 @@ const statsData = [
 ];
 
 export const DeliveryPrinciples: React.FC = () => {
-  // Default to first principle active, switches smoothly on hover or click like an FAQ
-  const [activePrinciple, setActivePrinciple] = useState<string>('product');
+  const [activePrinciple, setActivePrinciple] = useState<string>(''); // Collapsed by default until clicked
+  const [hoveredCardIndex, setHoveredCardIndex] = useState<number | null>(null);
   const [counts, setCounts] = useState<number[]>([0, 0, 0, 0]);
   const hasAnimatedRef = useRef(false);
   const statsRef = useRef<HTMLDivElement>(null);
@@ -109,7 +109,7 @@ export const DeliveryPrinciples: React.FC = () => {
         width: '100%',
         backgroundColor: '#ffffff',
         paddingTop: 'clamp(70px, 8vw, 100px)',
-        paddingBottom: 'clamp(70px, 8vw, 100px)',
+        paddingBottom: '0px',
         color: '#121212',
       }}
     >
@@ -160,7 +160,7 @@ export const DeliveryPrinciples: React.FC = () => {
               We own the engineering from early concept to enterprise-scale systems and long-term support.
             </ScrollReveal>
 
-            {/* Principle Accordion Items */}
+            {/* Principle Accordion Items - Pure click-to-expand */}
             <div
               style={{
                 display: 'flex',
@@ -168,30 +168,31 @@ export const DeliveryPrinciples: React.FC = () => {
                 width: '100%',
                 borderRadius: '8px',
                 overflow: 'hidden',
-                border: '1px solid #e4e4e7',
+                border: 'none',
               }}
             >
-              {principles.map((p, idx) => {
+              {principles.map((p) => {
                 const isActive = activePrinciple === p.id;
                 return (
                   <div
                     key={p.id}
-                    onMouseEnter={() => setActivePrinciple(p.id)}
-                    onClick={() => setActivePrinciple(p.id)}
+                    onClick={() => setActivePrinciple(isActive ? '' : p.id)}
                     style={{
-                      borderBottom: idx < principles.length - 1 ? '1px solid #e4e4e7' : 'none',
+                      borderBottom: 'none',
                       backgroundColor: isActive ? '#2258E7' : '#ffffff',
                       color: isActive ? '#ffffff' : '#121212',
                       cursor: 'pointer',
                       transition: 'background-color 0.28s ease, color 0.28s ease, box-shadow 0.28s ease',
                       boxShadow: isActive ? '0 10px 30px rgba(34, 88, 231, 0.2)' : 'none',
+                      borderRadius: '8px',
+                      marginBottom: '8px',
                     }}
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
                       if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
-                        setActivePrinciple(p.id);
+                        setActivePrinciple(isActive ? '' : p.id);
                       }
                     }}
                     aria-expanded={isActive}
@@ -270,8 +271,7 @@ export const DeliveryPrinciples: React.FC = () => {
                       <div
                         style={{
                           padding: '0 clamp(20px, 2.8vw, 32px) clamp(22px, 3vw, 28px)',
-                          borderTop: '1px solid rgba(255, 255, 255, 0.15)',
-                          paddingTop: '16px',
+                          paddingTop: '8px',
                         }}
                       >
                         <p
@@ -318,63 +318,79 @@ export const DeliveryPrinciples: React.FC = () => {
           </div>
         </div>
 
-        {/* 4-Column Statistics Grid with Smooth Animated Viewport Counter */}
+        {/* 4-Column Statistics Grid: Connected with proper sharp styling (0px border-radius) & responsive hover effect */}
         <RevealElement variant="card" start="top 92%" end="top 65%">
           <div
             ref={statsRef}
             className="stats-grid"
+            onMouseLeave={() => setHoveredCardIndex(null)}
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              border: '1px solid #e4e4e7',
               backgroundColor: '#ffffff',
+              border: 'none',
+              gap: '0px',
+              borderRadius: '0px',
+              overflow: 'hidden',
             }}
           >
-            {statsData.map((stat, index) => (
-              <div
-                key={stat.label}
-                className="stat-box"
-                style={{
-                  padding: 'clamp(28px, 3.5vw, 40px) clamp(20px, 2.5vw, 32px)',
-                  borderRight: index < 3 ? '1px solid #e4e4e7' : 'none',
-                  borderBottom: '1px solid #e4e4e7',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  minHeight: '190px',
-                  transition: 'background-color 0.2s ease',
-                }}
-              >
-                <span
+            {statsData.map((stat, index) => {
+              const isHovered = hoveredCardIndex === index;
+              return (
+                <div
+                  key={stat.label}
+                  className="stat-box"
+                  onMouseEnter={() => setHoveredCardIndex(index)}
                   style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    letterSpacing: '0.12em',
-                    color: '#475067',
-                    textTransform: 'uppercase',
-                    marginBottom: '24px',
-                    lineHeight: 1.4,
+                    padding: 'clamp(28px, 3.5vw, 42px) clamp(20px, 2.5vw, 32px)',
+                    border: 'none',
+                    borderRadius: '0px', // Proper sharp styling, not rounded corners
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
+                    minHeight: '190px',
+                    backgroundColor: isHovered ? '#2258e7' : '#ffffff',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.22s ease, color 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease',
+                    position: 'relative',
+                    zIndex: isHovered ? 2 : 1,
+                    boxShadow: isHovered ? '0 16px 36px rgba(34, 88, 231, 0.28)' : 'none',
                   }}
                 >
-                  {stat.label}
-                </span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: '12px',
+                      fontWeight: 700,
+                      letterSpacing: '0.12em',
+                      color: isHovered ? '#ffffff' : '#121212',
+                      textTransform: 'uppercase',
+                      marginBottom: '24px',
+                      lineHeight: 1.4,
+                      transition: 'color 0.22s ease',
+                    }}
+                  >
+                    {stat.label}
+                  </span>
 
-                <h4
-                  style={{
-                    fontFamily: 'var(--font-heading)',
-                    fontSize: 'clamp(36px, 4.2vw, 56px)',
-                    fontWeight: 700,
-                    color: '#121212',
-                    lineHeight: 1,
-                    fontVariantNumeric: 'tabular-nums',
-                  }}
-                >
-                  {counts[index]}
-                  {stat.suffix}
-                </h4>
-              </div>
-            ))}
+                  <h4
+                    style={{
+                      fontFamily: 'var(--font-heading)',
+                      fontSize: 'clamp(38px, 4.4vw, 60px)',
+                      fontWeight: 700,
+                      color: isHovered ? '#ffffff' : '#2258e7',
+                      lineHeight: 1,
+                      fontVariantNumeric: 'tabular-nums',
+                      margin: 0,
+                      transition: 'color 0.22s ease',
+                    }}
+                  >
+                    {counts[index]}
+                    {stat.suffix}
+                  </h4>
+                </div>
+              );
+            })}
           </div>
         </RevealElement>
       </div>
@@ -383,9 +399,6 @@ export const DeliveryPrinciples: React.FC = () => {
         @media (max-width: 640px) {
           .stats-grid {
             grid-template-columns: repeat(2, 1fr) !important;
-          }
-          .stats-grid .stat-box:nth-child(2) {
-            border-right: none !important;
           }
         }
       `}</style>

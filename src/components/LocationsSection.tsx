@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail } from 'lucide-react';
+import { Mail, Instagram, Facebook, Linkedin } from 'lucide-react';
 import { ScrollReveal, RevealElement } from './scroll-reveal';
 
 interface LocationsSectionProps {
@@ -7,9 +7,8 @@ interface LocationsSectionProps {
   onOpenPrivacy?: () => void;
 }
 
-export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToast, onOpenPrivacy }) => {
+export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToast }) => {
   const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
   const [newsletterConsent, setNewsletterConsent] = useState(false);
 
   const handleSubscribe = (e: React.FormEvent) => {
@@ -18,7 +17,6 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
       alert('Please enter your email and accept terms.');
       return;
     }
-    setSubscribed(true);
     if (onSuccessToast) onSuccessToast(`Subscribed "${email}" to Neominds technology briefs.`);
   };
 
@@ -35,7 +33,7 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
       }}
     >
       <div className="container" style={{ maxWidth: '1280px' }}>
-        {/* Main Location Section matching ourlocations.png */}
+        {/* Main Location Section */}
         <div
           style={{
             display: 'grid',
@@ -45,7 +43,7 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
           }}
           className="location-grid"
         >
-          {/* Left Column: Heading & Contact Info */}
+          {/* Left Column: Heading, Contact Info & Social Media Links */}
           <div>
             <ScrollReveal
               as="h2"
@@ -84,6 +82,7 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
                 fontFamily: 'var(--font-heading)',
                 transition: 'color 0.2s',
                 minHeight: '44px',
+                marginBottom: '32px',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.color = '#183c9e')}
               onMouseLeave={(e) => (e.currentTarget.style.color = '#2258E7')}
@@ -103,9 +102,158 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
               </div>
               <span>rfq@neominds.io</span>
             </a>
+
+            {/* Connect with us on social media */}
+            <div style={{ marginTop: '8px' }}>
+              <span
+                style={{
+                  display: 'block',
+                  fontSize: '12px',
+                  fontWeight: 700,
+                  letterSpacing: '0.12em',
+                  color: '#475067',
+                  textTransform: 'uppercase',
+                  marginBottom: '14px',
+                  fontFamily: 'var(--font-heading)',
+                }}
+              >
+                Connect with us
+              </span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                {/* Instagram */}
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: '#f1f5f9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#0f172a',
+                    transition: 'all 0.25s ease',
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#e1306c';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f1f5f9';
+                    e.currentTarget.style.color = '#0f172a';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  <Instagram size={18} />
+                </a>
+
+                {/* Facebook */}
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Facebook"
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: '#f1f5f9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#0f172a',
+                    transition: 'all 0.25s ease',
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#1877f2';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f1f5f9';
+                    e.currentTarget.style.color = '#0f172a';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  <Facebook size={18} />
+                </a>
+
+                {/* X (formerly Twitter) */}
+                <a
+                  href="https://x.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="X (Twitter)"
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: '#f1f5f9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#0f172a',
+                    transition: 'all 0.25s ease',
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#000000';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f1f5f9';
+                    e.currentTarget.style.color = '#0f172a';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                  </svg>
+                </a>
+
+                {/* LinkedIn */}
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                  style={{
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '50%',
+                    backgroundColor: '#f1f5f9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#0f172a',
+                    transition: 'all 0.25s ease',
+                    textDecoration: 'none',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#0a66c2';
+                    e.currentTarget.style.color = '#ffffff';
+                    e.currentTarget.style.transform = 'translateY(-2px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#f1f5f9';
+                    e.currentTarget.style.color = '#0f172a';
+                    e.currentTarget.style.transform = 'none';
+                  }}
+                >
+                  <Linkedin size={18} />
+                </a>
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Single Neominds Headquarters Location Card */}
+          {/* Right Column: Headquarters Location Card */}
           <RevealElement variant="card" start="top 90%" end="top 65%">
             <div>
               {/* Region Tab */}
@@ -120,7 +268,7 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
                 </button>
               </div>
 
-              {/* Single Location Card for Neominds */}
+              {/* Location Card */}
               <div
                 style={{
                   backgroundColor: '#ffffff',
@@ -159,10 +307,7 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
                       fontWeight: 600,
                       textDecoration: 'none',
                       fontFamily: 'var(--font-heading)',
-                      transition: 'color 0.2s',
                     }}
-                    onMouseEnter={(e) => (e.currentTarget.style.color = '#2258E7')}
-                    onMouseLeave={(e) => (e.currentTarget.style.color = '#121212')}
                   >
                     +1 (415) 968-5678
                   </a>
@@ -172,116 +317,115 @@ export const LocationsSection: React.FC<LocationsSectionProps> = ({ onSuccessToa
           </RevealElement>
         </div>
 
-        {/* Newsletter Strip matching lower portion of ourlocations.png */}
-        <RevealElement variant="card" start="top 92%" end="top 70%">
+        {/* Newsletter Subscription Strip */}
+        <RevealElement variant="card">
           <div
             style={{
-              borderTop: '1px solid #e4e4e7',
-              paddingTop: '48px',
-              display: 'grid',
-              gridTemplateColumns: 'minmax(280px, 1fr) minmax(300px, 1.4fr)',
-              gap: '36px',
-              alignItems: 'center',
+              padding: 'clamp(28px, 3.5vw, 44px)',
+              backgroundColor: '#ffffff',
+              border: '1px solid #e4e4e7',
+              borderRadius: '0px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '24px',
             }}
-            className="newsletter-grid"
           >
-            {/* Newsletter Text */}
             <div>
-              <h3
+              <span
                 style={{
-                  fontSize: 'clamp(22px, 2.2vw, 30px)',
+                  display: 'block',
+                  fontSize: '12px',
                   fontWeight: 700,
-                  fontFamily: 'var(--font-heading)',
-                  color: '#121212',
+                  letterSpacing: '0.12em',
+                  color: '#475067',
+                  textTransform: 'uppercase',
                   marginBottom: '8px',
+                  fontFamily: 'var(--font-heading)',
                 }}
               >
-                Join our newsletter
+                STAY INFORMED
+              </span>
+              <h3
+                style={{
+                  fontSize: 'clamp(20px, 2.2vw, 28px)',
+                  fontWeight: 700,
+                  color: '#121212',
+                  margin: 0,
+                  fontFamily: 'var(--font-heading)',
+                }}
+              >
+                Subscribe to our technology insights
               </h3>
-              <p className="body-text" style={{ color: '#475067' }}>
-                Stay up to date with the latest news, announcements, and articles.
-              </p>
             </div>
 
-            {/* Newsletter Form */}
-            <div>
-              {subscribed ? (
-                <div style={{ color: '#059669', fontWeight: 600, fontSize: '15px', fontFamily: 'var(--font-heading)' }}>
-                  ✓ Thank you for subscribing to Neominds updates!
-                </div>
-              ) : (
-                <form onSubmit={handleSubscribe} style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
-                    <input
-                      type="email"
-                      required
-                      placeholder="Enter your email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      style={{
-                        flex: 1,
-                        minWidth: '220px',
-                        minHeight: '44px',
-                        padding: '10px 16px',
-                        border: '1px solid #d0d3dd',
-                        borderRadius: '0px',
-                        fontSize: '15px',
-                        fontFamily: 'var(--font-body)',
-                        outline: 'none',
-                        color: '#121212',
-                      }}
-                    />
-                    <button
-                      type="submit"
-                      className="btn btn-primary btn-md"
-                    >
-                      Subscribe
-                    </button>
-                  </div>
+            <form
+              onSubmit={handleSubscribe}
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '16px',
+                maxWidth: '640px',
+              }}
+            >
+              <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your work email"
+                  required
+                  style={{
+                    flex: '1 1 260px',
+                    height: '48px',
+                    padding: '0 16px',
+                    border: '1px solid #d0d3dd',
+                    fontSize: '14px',
+                    outline: 'none',
+                    fontFamily: 'var(--font-body)',
+                  }}
+                />
+                <button
+                  type="submit"
+                  className="btn-primary btn-md"
+                  style={{
+                    height: '48px',
+                    paddingInline: '24px',
+                    fontWeight: 700,
+                    borderRadius: '0px',
+                  }}
+                >
+                  Subscribe
+                </button>
+              </div>
 
-                  <label
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '10px',
-                      cursor: 'pointer',
-                      fontSize: '12px',
-                      lineHeight: 1.45,
-                      color: '#666e85',
-                    }}
-                  >
-                    <input
-                      type="checkbox"
-                      required
-                      checked={newsletterConsent}
-                      onChange={(e) => setNewsletterConsent(e.target.checked)}
-                      className="custom-checkbox"
-                    />
-                    <span>
-                      Subscribe to Neominds newsletter to receive updates. You can unsubscribe at any time. See our{' '}
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          if (onOpenPrivacy) onOpenPrivacy();
-                        }}
-                        style={{ color: '#121212', textDecoration: 'underline', cursor: 'pointer', fontSize: '12px', background: 'none', border: 'none', padding: 0 }}
-                      >
-                        Privacy Policy
-                      </button>{' '}
-                      for details.
-                    </span>
-                  </label>
-                </form>
-              )}
-            </div>
+              <label
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '8px',
+                  fontSize: '13px',
+                  color: '#64748b',
+                  cursor: 'pointer',
+                  userSelect: 'none',
+                }}
+              >
+                <input
+                  type="checkbox"
+                  checked={newsletterConsent}
+                  onChange={(e) => setNewsletterConsent(e.target.checked)}
+                  required
+                  style={{ marginTop: '3px' }}
+                />
+                <span>I agree to receive technology briefs and product updates from Neominds.</span>
+              </label>
+            </form>
           </div>
         </RevealElement>
       </div>
 
       <style>{`
         @media (max-width: 768px) {
-          .location-grid, .newsletter-grid {
+          .location-grid {
             grid-template-columns: 1fr !important;
           }
         }

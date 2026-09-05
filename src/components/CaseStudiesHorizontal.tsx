@@ -7,64 +7,131 @@ gsap.registerPlugin(ScrollTrigger);
 
 interface CaseStudy {
   id: string;
-  title: string;
+  clientName: string;
+  clientLogo?: React.ReactNode;
   categories: string[];
   extraTagsCount?: number;
-  highlightMetric: string;
-  metricLabel: string;
+  title: string;
   description: string;
-  clientType: string;
-  deliverables: string[];
-  techStack: string[];
-  accentGradient: string;
-  heroVisualType: 'trading' | 'etl' | 'medical';
+  bgGradient: string;
+  imageUrl?: string;
+  isEmblemVisual?: boolean;
 }
 
 const caseStudies: CaseStudy[] = [
   {
     id: 'etl-modernization',
+    clientName: 'AUTHENTICOM',
+    clientLogo: (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <svg width="22" height="22" viewBox="0 0 40 40" fill="none">
+          <path d="M20 4L36 34H4L20 4Z" stroke="#ffffff" strokeWidth="4" strokeLinejoin="round" />
+          <path d="M20 16L28 30H12L20 16Z" fill="#ffffff" />
+        </svg>
+        <span
+          style={{
+            fontSize: '14px',
+            fontWeight: 800,
+            color: '#ffffff',
+            letterSpacing: '0.06em',
+            fontFamily: 'var(--font-heading)',
+          }}
+        >
+          AUTHENTICOM
+        </span>
+      </div>
+    ),
+    categories: ['Artificial intelligence', 'Data related', 'Modernization', 'Data services'],
+    extraTagsCount: 1,
     title: 'Mission-critical ETL platform, modernized with agentic AI',
-    categories: ['Financial intelligence', 'Data pipelines'],
-    extraTagsCount: 4,
-    highlightMetric: '10x',
-    metricLabel: 'Faster Pipeline Throughput',
     description:
-      'Engineered an event-driven data ingestion platform processing 45M daily transactions with sub-second ETL latency and automated LLM anomaly reconciliation.',
-    clientType: 'Tier-1 Global Financial Institution',
-    deliverables: ['Autonomous Agentic Reconciliation', 'Apache Kafka / Flink Pipeline', 'Zero-Downtime Data Migration', 'ISO 27001 Security Blueprint'],
-    techStack: ['Python', 'Kafka', 'pgvector', 'FastAPI', 'Kubernetes'],
-    accentGradient: 'linear-gradient(135deg, #091a38 0%, #15326a 100%)',
-    heroVisualType: 'etl',
+      'Transformed ETL modernization approach from manual rewrites into a governed, multi-agent AI system designed for scale, control, and long-term growth.',
+    bgGradient: 'radial-gradient(ellipse at 40% 30%, #2a5298 0%, #1a3668 50%, #0c1c38 100%)',
+    isEmblemVisual: true,
   },
   {
     id: 'trading-platform',
+    clientName: 'TRADEX GROUP',
+    clientLogo: (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div
+          style={{
+            width: '20px',
+            height: '20px',
+            borderRadius: '4px',
+            backgroundColor: '#3b82f6',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#ffffff',
+            fontWeight: 900,
+            fontSize: '12px',
+          }}
+        >
+          T
+        </div>
+        <span
+          style={{
+            fontSize: '14px',
+            fontWeight: 800,
+            color: '#ffffff',
+            letterSpacing: '0.06em',
+            fontFamily: 'var(--font-heading)',
+          }}
+        >
+          TRADEX
+        </span>
+      </div>
+    ),
+    categories: ['Financial services', 'Trading platform', 'High concurrency', 'Cloud native'],
+    extraTagsCount: 2,
     title: 'A startup idea engineered into a million-user trading platform',
-    categories: ['Financial services & Trading'],
-    extraTagsCount: 9,
-    highlightMetric: '<1.2ms',
-    metricLabel: 'Order Routing Latency',
     description:
-      'Architected a high-concurrency order matching system capable of sustaining 250k simultaneous active traders with real-time risk margin recalculations.',
-    clientType: 'Next-Gen FinTech Trading Scaleup',
-    deliverables: ['Sub-Millisecond Execution Engine', 'Real-Time WebSocket Market Data', 'PCI-DSS Tier 1 Compliance', 'Mobile Apps (iOS & Android)'],
-    techStack: ['Go', 'Rust', 'React 19', 'Redis', 'AWS EKS'],
-    accentGradient: 'linear-gradient(135deg, #132b50 0%, #1e457f 100%)',
-    heroVisualType: 'trading',
+      'EffectiveSoft joined the founders to engineer the high-performance infrastructure behind a multi-asset user trading ecosystem.',
+    bgGradient: 'radial-gradient(ellipse at 40% 30%, #1e3a5f 0%, #132742 50%, #0a1424 100%)',
+    imageUrl: 'https://images.unsplash.com/photo-1642543492481-44e81e3914a7?q=80&w=1200&auto=format&fit=crop',
   },
   {
     id: 'medical-coding',
-    title: 'AI integration for medical coding software',
-    categories: ['Healthcare', 'Artificial intelligence'],
-    extraTagsCount: 4,
-    highlightMetric: '98.4%',
-    metricLabel: 'Automated Coding Accuracy',
+    clientName: 'MEDICORE HEALTH',
+    clientLogo: (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div
+          style={{
+            width: '20px',
+            height: '20px',
+            borderRadius: '50%',
+            backgroundColor: '#10b981',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: '#ffffff',
+            fontWeight: 900,
+            fontSize: '12px',
+          }}
+        >
+          +
+        </div>
+        <span
+          style={{
+            fontSize: '14px',
+            fontWeight: 800,
+            color: '#ffffff',
+            letterSpacing: '0.06em',
+            fontFamily: 'var(--font-heading)',
+          }}
+        >
+          MEDICORE
+        </span>
+      </div>
+    ),
+    categories: ['Healthcare', 'Artificial intelligence', 'HIPAA compliant', 'FHIR API'],
+    extraTagsCount: 3,
+    title: 'AI integration for mission-critical medical coding software',
     description:
-      'Integrated specialized LLM pipelines with HL7/FHIR EHR systems to automate ICD-10 clinical chart review, reducing physician administrative load by 60%.',
-    clientType: 'Leading US Healthcare Network',
-    deliverables: ['Clinical NLP Chart Analyzer', 'FHIR v4 Bi-Directional Bridge', 'HIPAA Certified Cloud Infrastructure', 'Physician Audit Dashboard'],
-    techStack: ['PyTorch', 'Claude API', 'PostgreSQL', 'Docker', 'FHIR API'],
-    accentGradient: 'linear-gradient(135deg, #0b1f2d 0%, #154558 100%)',
-    heroVisualType: 'medical',
+      'Integrated clinical NLP chart review models directly with EHR systems, eliminating manual overhead while elevating diagnostic compliance accuracy.',
+    bgGradient: 'radial-gradient(ellipse at 40% 30%, #1b4b66 0%, #103247 50%, #091c29 100%)',
+    imageUrl: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=1200&auto=format&fit=crop',
   },
 ];
 
@@ -88,7 +155,7 @@ export const CaseStudiesHorizontal: React.FC<CaseStudiesProps> = ({ onContactCli
   }, []);
 
   useLayoutEffect(() => {
-    // On mobile, disable GSAP horizontal pinning so cards stack vertically
+    // On mobile, disable GSAP horizontal pinning so panels stack vertically
     if (isMobile) return;
 
     const ctx = gsap.context(() => {
@@ -97,14 +164,14 @@ export const CaseStudiesHorizontal: React.FC<CaseStudiesProps> = ({ onContactCli
 
       // GSAP Horizontal Scroll Pinning
       gsap.to(track, {
-        x: () => -(track.scrollWidth - window.innerWidth + 80),
+        x: () => -(track.scrollWidth - window.innerWidth),
         ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
           pin: true,
           scrub: 1,
           start: 'top top',
-          end: () => `+=${track.scrollWidth - window.innerWidth + 500}`,
+          end: () => `+=${track.scrollWidth - window.innerWidth + 400}`,
           invalidateOnRefresh: true,
         },
       });
@@ -128,233 +195,315 @@ export const CaseStudiesHorizontal: React.FC<CaseStudiesProps> = ({ onContactCli
         position: 'relative',
         width: '100%',
         height: isMobile ? 'auto' : '100vh',
-        backgroundColor: '#ffffff',
+        backgroundColor: '#0a0d14',
         overflow: isMobile ? 'visible' : 'hidden',
         display: 'flex',
         flexDirection: isMobile ? 'column' : 'row',
         alignItems: isMobile ? 'stretch' : 'center',
-        padding: isMobile ? '48px 16px' : '0',
+        padding: 0,
       }}
     >
       {/* Mobile Header Title */}
       {isMobile && (
-        <div style={{ marginBottom: '24px', textAlign: 'left', maxWidth: '1280px', margin: '0 auto 24px auto', width: '100%' }}>
-          <span style={{ fontSize: '12px', fontWeight: 700, color: '#2258E7', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+        <div style={{ padding: '36px 20px 20px 20px', textAlign: 'left', width: '100%' }}>
+          <span style={{ fontSize: '12px', fontWeight: 700, color: '#38bdf8', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
             FEATURED WORK
           </span>
-          <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#0f172a', margin: '4px 0 0 0', letterSpacing: '-0.02em' }}>
+          <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#ffffff', margin: '4px 0 0 0', letterSpacing: '-0.02em' }}>
             Case Studies & Impact
           </h2>
         </div>
       )}
 
-      {/* Horizontal Track / Mobile Vertical Column Container */}
+      {/* Horizontal Track: Full screen viewport width per case study panel */}
       <div
         ref={trackRef}
         style={{
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
-          alignItems: isMobile ? 'stretch' : 'center',
-          gap: isMobile ? '24px' : 'clamp(20px, 3.5vw, 40px)',
-          paddingLeft: isMobile ? '0' : 'clamp(16px, 4vw, 64px)',
-          paddingRight: isMobile ? '0' : 'clamp(24px, 5vw, 64px)',
-          height: isMobile ? 'auto' : '86vh',
-          maxHeight: isMobile ? 'none' : '760px',
+          alignItems: 'stretch',
+          height: isMobile ? 'auto' : '100vh',
           width: isMobile ? '100%' : 'auto',
-          maxWidth: isMobile ? '1280px' : 'none',
-          margin: isMobile ? '0 auto' : '0',
+          margin: 0,
+          padding: 0,
           willChange: isMobile ? 'auto' : 'transform',
         }}
       >
-        {/* 3 Case Study Panels */}
+        {/* Full-bleed, full-screen case study showcase views */}
         {caseStudies.map((cs) => (
           <div
             key={cs.id}
+            onClick={() => {
+              if (onSelectCaseStudy) {
+                onSelectCaseStudy(cs.id);
+              } else if (onContactClick) {
+                onContactClick();
+              }
+            }}
             style={{
               position: 'relative',
-              width: isMobile ? '100%' : 'clamp(320px, 68vw, 1020px)',
-              height: isMobile ? 'auto' : '100%',
-              minHeight: isMobile ? '380px' : 'auto',
-              backgroundColor: '#f8fafc',
-              border: '1px solid #e2e8f0',
-              borderRadius: isMobile ? '8px' : '12px',
-              padding: isMobile ? '24px' : 'clamp(24px, 3.5vw, 44px)',
+              width: isMobile ? '100%' : '100vw',
+              height: isMobile ? 'auto' : '100vh',
+              minHeight: isMobile ? '520px' : '100vh',
+              background: cs.bgGradient,
+              borderRadius: '0px',
+              border: 'none',
+              padding: 'clamp(32px, 5vw, 64px) clamp(24px, 5vw, 80px)',
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'space-between',
               flexShrink: 0,
               overflow: 'hidden',
-              boxShadow: '0 20px 48px rgba(0, 0, 0, 0.04)',
+              cursor: 'pointer',
+              boxSizing: 'border-box',
             }}
           >
-            {/* Top Tag Pills */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                flexWrap: 'wrap',
-                zIndex: 3,
-                marginBottom: isMobile ? '16px' : '0',
-              }}
-            >
-              {cs.categories.map((cat, cIdx) => (
-                <span
-                  key={cIdx}
-                  style={{
-                    backgroundColor: '#ffffff',
-                    border: '1px solid #e2e8f0',
-                    color: '#1e293b',
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    padding: '4px 14px',
-                    borderRadius: '100px',
-                    boxShadow: '0 2px 6px rgba(0, 0, 0, 0.03)',
-                  }}
-                >
-                  {cat}
-                </span>
-              ))}
-              {cs.extraTagsCount && (
-                <span
-                  style={{
-                    backgroundColor: 'rgba(34, 88, 231, 0.08)',
-                    border: '1px solid rgba(34, 88, 231, 0.2)',
-                    color: '#2258e7',
-                    fontSize: '12px',
-                    fontWeight: 700,
-                    padding: '4px 10px',
-                    borderRadius: '100px',
-                  }}
-                >
-                  +{cs.extraTagsCount}
-                </span>
-              )}
-            </div>
-
-            {/* Middle Content Visual Simulation (Clean White Card) */}
-            <div
-              style={{
-                margin: isMobile ? '16px 0' : '24px 0',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-                minHeight: isMobile ? '140px' : '200px',
-              }}
-            >
+            {/* Ambient Background Photography Overlay */}
+            {cs.imageUrl && (
               <div
                 style={{
-                  width: '100%',
-                  maxWidth: '680px',
-                  backgroundColor: '#ffffff',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '24px',
-                  boxShadow: '0 12px 32px rgba(0, 0, 0, 0.04)',
+                  position: 'absolute',
+                  inset: 0,
+                  backgroundImage: `url(${cs.imageUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                  opacity: 0.18,
+                  mixBlendMode: 'luminosity',
+                  zIndex: 1,
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
+
+            {/* Top Row: Client Brand & Outlined Frosted Pill Badges */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexWrap: 'wrap',
+                gap: '16px',
+                zIndex: 3,
+                position: 'relative',
+                width: '100%',
+                maxWidth: '1360px',
+                margin: '0 auto',
+              }}
+            >
+              {/* Client Brand Logo on Left */}
+              <div>{cs.clientLogo}</div>
+
+              {/* Frosted Outline Pill Badges on Right */}
+              <div
+                style={{
                   display: 'flex',
-                  justifyContent: 'space-between',
                   alignItems: 'center',
+                  gap: '8px',
                   flexWrap: 'wrap',
-                  gap: '16px',
                 }}
               >
-                <div>
-                  <span style={{ fontSize: '11px', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.04em', fontWeight: 600 }}>
-                    {cs.clientType}
+                {cs.categories.map((cat, cIdx) => (
+                  <span
+                    key={cIdx}
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.38)',
+                      backdropFilter: 'blur(8px)',
+                      color: '#ffffff',
+                      fontSize: '12.5px',
+                      fontWeight: 500,
+                      padding: '5px 16px',
+                      borderRadius: '100px',
+                      letterSpacing: '0.01em',
+                    }}
+                  >
+                    {cat}
                   </span>
-                  <div style={{ fontSize: '32px', fontWeight: 800, color: '#2258e7', marginTop: '4px', fontFamily: 'var(--font-heading)' }}>
-                    {cs.highlightMetric}
-                  </div>
-                  <span style={{ fontSize: '13px', color: '#0f172a', fontWeight: 600 }}>
-                    {cs.metricLabel}
+                ))}
+                {cs.extraTagsCount && (
+                  <span
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      border: '1px solid rgba(255, 255, 255, 0.38)',
+                      backdropFilter: 'blur(8px)',
+                      color: '#ffffff',
+                      fontSize: '12.5px',
+                      fontWeight: 600,
+                      padding: '5px 12px',
+                      borderRadius: '100px',
+                    }}
+                  >
+                    +{cs.extraTagsCount}
                   </span>
-                </div>
-
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', maxWidth: '320px' }}>
-                  {cs.techStack.map((tech) => (
-                    <span
-                      key={tech}
-                      style={{
-                        fontSize: '12px',
-                        backgroundColor: '#f1f5f9',
-                        border: '1px solid #e2e8f0',
-                        color: '#334155',
-                        padding: '4px 10px',
-                        borderRadius: '4px',
-                        fontWeight: 500,
-                      }}
-                    >
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                )}
               </div>
             </div>
 
-            {/* Bottom Title & Action Arrow */}
+            {/* Full-bleed immersive photography background (when not emblem visual) */}
+            {cs.imageUrl && !cs.isEmblemVisual && (
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  zIndex: 1,
+                  overflow: 'hidden',
+                }}
+              >
+                <img
+                  src={cs.imageUrl}
+                  alt={cs.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                    opacity: 0.42,
+                    mixBlendMode: 'luminosity',
+                    transform: 'scale(1.02)',
+                  }}
+                />
+                {/* Subtle cinematic gradient overlay for seamless contrast */}
+                <div
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(to top, rgba(6, 12, 26, 0.95) 0%, rgba(6, 12, 26, 0.5) 50%, rgba(6, 12, 26, 0.85) 100%)',
+                  }}
+                />
+              </div>
+            )}
+
+            {/* Middle Section: Authentic 3D Emblem (for AuthenticOM) */}
+            {cs.isEmblemVisual && (
+              <div
+                style={{
+                  position: 'relative',
+                  zIndex: 2,
+                  margin: 'auto 0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  width: '100%',
+                  maxWidth: '1360px',
+                  marginInline: 'auto',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '20px',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      filter: 'drop-shadow(0 24px 48px rgba(0, 0, 0, 0.5))',
+                    }}
+                  >
+                    <svg width="240" height="200" viewBox="0 0 200 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M100 15L180 155H20L100 15Z"
+                        stroke="#ffffff"
+                        strokeWidth="18"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M100 55L148 138H52L100 55Z"
+                        stroke="#ffffff"
+                        strokeWidth="14"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+                      <path
+                        d="M100 95L118 126H82L100 95Z"
+                        fill="#ffffff"
+                      />
+                    </svg>
+                  </div>
+                  <span
+                    style={{
+                      fontSize: 'clamp(32px, 4.2vw, 56px)',
+                      fontWeight: 800,
+                      color: '#ffffff',
+                      letterSpacing: '0.04em',
+                      fontFamily: 'var(--font-heading)',
+                      textShadow: '0 6px 24px rgba(0, 0, 0, 0.45)',
+                    }}
+                  >
+                    AUTHENTICOM
+                  </span>
+                </div>
+              </div>
+            )}
+
+            {/* Bottom Row: Full Width Title, Description, and Arrow */}
             <div
               style={{
+                position: 'relative',
+                zIndex: 3,
                 display: 'flex',
                 alignItems: 'flex-end',
                 justifyContent: 'space-between',
-                gap: '16px',
-                borderTop: '1px solid #e2e8f0',
+                gap: '28px',
+                width: '100%',
+                maxWidth: '1360px',
+                margin: '0 auto',
                 paddingTop: '20px',
-                zIndex: 3,
               }}
             >
-              <h3
-                style={{
-                  fontSize: 'clamp(18px, 2.2vw, 26px)',
-                  fontWeight: 700,
-                  color: '#0f172a',
-                  letterSpacing: '-0.02em',
-                  lineHeight: 1.25,
-                  margin: 0,
-                  fontFamily: 'var(--font-heading)',
-                  maxWidth: '85%',
-                }}
-              >
-                {cs.title}
-              </h3>
+              <div style={{ maxWidth: '900px' }}>
+                <h3
+                  style={{
+                    fontSize: 'clamp(24px, 3.2vw, 42px)',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    letterSpacing: '-0.025em',
+                    lineHeight: 1.2,
+                    margin: '0 0 12px 0',
+                    fontFamily: 'var(--font-heading)',
+                  }}
+                >
+                  {cs.title}
+                </h3>
+                <p
+                  style={{
+                    fontSize: 'clamp(14px, 1.35vw, 18px)',
+                    color: 'rgba(255, 255, 255, 0.88)',
+                    lineHeight: 1.55,
+                    margin: 0,
+                    fontWeight: 400,
+                    maxWidth: '820px',
+                  }}
+                >
+                  {cs.description}
+                </p>
+              </div>
 
-              <button
-                onClick={() => {
-                  if (onSelectCaseStudy) {
-                    onSelectCaseStudy(cs.id);
-                  }
-                  if (onContactClick) {
-                    onContactClick();
-                  }
-                }}
+              {/* Diagonal Arrow Icon ↗ */}
+              <div
                 style={{
-                  width: '44px',
-                  height: '44px',
-                  backgroundColor: '#2258e7',
+                  width: '56px',
+                  height: '56px',
                   borderRadius: '50%',
+                  border: '1.5px solid rgba(255, 255, 255, 0.4)',
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  backdropFilter: 'blur(10px)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: '#ffffff',
                   flexShrink: 0,
-                  transition: 'transform 0.2s, background-color 0.2s',
-                  cursor: 'pointer',
-                  border: 'none',
-                  boxShadow: '0 4px 12px rgba(34, 88, 231, 0.3)',
+                  transition: 'transform 0.25s ease, background-color 0.25s ease',
                 }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = '#183c9e';
-                  e.currentTarget.style.transform = 'scale(1.08)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = '#2258e7';
-                  e.currentTarget.style.transform = 'scale(1)';
-                }}
-                aria-label="View case study"
               >
-                <ArrowUpRight size={20} />
-              </button>
+                <ArrowUpRight size={28} color="#ffffff" />
+              </div>
             </div>
           </div>
         ))}

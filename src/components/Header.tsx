@@ -75,7 +75,8 @@ export const Header: React.FC<HeaderProps> = ({
 
   const scrollStopTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Cinematic on-scroll disappearing effect with 1.5s smooth reappearance
+  // Floating shrink effect upon scroll:
+  // When scrolled > 20px, smoothly transitions into the compact pill (width: min(58%, 640px), height: 46px)
   useEffect(() => {
     const handleScroll = () => {
       // Keep navbar pinned and visible if the mobile drawer is actively open
@@ -85,22 +86,14 @@ export const Header: React.FC<HeaderProps> = ({
       }
 
       const currentScrollY = window.scrollY || document.documentElement.scrollTop;
-      const scrolled = currentScrollY > 30;
+      const scrolled = currentScrollY > 20;
       setIsScrolled(scrolled);
+      setIsVisible(true);
 
-      // Disappear smoothly while actively scrolling and close open dropdowns
-      setIsVisible(false);
-      setActiveMenu(null);
-
-      // Clear previous timer
-      if (scrollStopTimerRef.current) {
-        clearTimeout(scrollStopTimerRef.current);
+      // Close open dropdowns during active scroll
+      if (activeMenu) {
+        setActiveMenu(null);
       }
-
-      // Reappear smoothly after scrolling has stopped for 1.5 seconds (1500ms)
-      scrollStopTimerRef.current = setTimeout(() => {
-        setIsVisible(true);
-      }, 1500);
     };
 
     // Initial check on mount
@@ -203,38 +196,36 @@ export const Header: React.FC<HeaderProps> = ({
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          paddingTop: isScrolled ? '12px' : '0px',
-          paddingInline: isScrolled ? '16px' : '0px',
+          paddingTop: isScrolled ? '12px' : '16px',
+          paddingInline: isScrolled ? '16px' : 'clamp(16px, 3.5vw, 40px)',
           boxSizing: 'border-box',
           transform: isVisible ? 'translate3d(0, 0, 0)' : 'translate3d(0, -140%, 0)',
           opacity: isVisible ? 1 : 0,
           willChange: 'transform, opacity',
-          transition: 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), padding-top 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-inline 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+          transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, padding-top 0.4s ease, padding-inline 0.4s ease',
         }}
       >
         {/* ========================================================
-            SHRINKING ON SCROLL FLOATING NAVBAR PILL
-            Starts full-width edge-to-edge (100% width, 64px height).
-            When scrolled, smoothly shrinks by ~30% in total width (~70% width, 48px height)!
+            FLOATING NAVBAR PILL WITH TOP GAP
+            Floating rounded bar with top gap instead of sticking to the top edge.
+            When scrolled, smoothly shrinks to compact pill!
             ======================================================== */}
         <div
           style={{
-            width: isScrolled ? 'min(56%, 620px)' : '100%',
-            maxWidth: isScrolled ? '620px' : '100%',
-            height: isScrolled ? '44px' : '64px',
-            borderRadius: isScrolled ? '6px' : '0px',
-            backgroundColor: isScrolled ? '#0b0e14' : '#080a0f',
-            borderTop: 'none',
-            borderLeft: isScrolled ? '1px solid #1e2430' : 'none',
-            borderRight: isScrolled ? '1px solid #1e2430' : 'none',
-            borderBottom: '1px solid #1e2430',
+            width: isScrolled ? 'min(58%, 640px)' : 'min(96%, 1320px)',
+            maxWidth: isScrolled ? '640px' : '1320px',
+            height: isScrolled ? '46px' : '64px',
+            borderRadius: isScrolled ? '8px' : '10px',
+            backgroundColor: isScrolled ? 'rgba(11, 14, 20, 0.98)' : 'rgba(8, 10, 15, 0.96)',
+            backdropFilter: 'blur(20px)',
+            border: '1px solid #1e2430',
             boxShadow: isScrolled
               ? '0 16px 36px rgba(0, 0, 0, 0.75)'
-              : '0 2px 10px rgba(0, 0, 0, 0.3)',
+              : '0 10px 30px rgba(0, 0, 0, 0.45)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingInline: isScrolled ? '10px' : 'clamp(24px, 4vw, 56px)',
+            paddingInline: isScrolled ? '12px' : 'clamp(20px, 3vw, 44px)',
             pointerEvents: 'auto',
             transition: 'width 0.4s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), height 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-radius 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease',
           }}
@@ -303,7 +294,7 @@ export const Header: React.FC<HeaderProps> = ({
             style={{
               display: 'none',
               alignItems: 'center',
-              gap: isScrolled ? '18px' : '28px',
+              gap: isScrolled ? '20px' : 'clamp(28px, 2.6vw, 42px)',
               height: '100%',
               transition: 'gap 0.3s ease',
             }}

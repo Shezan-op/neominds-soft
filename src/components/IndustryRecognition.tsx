@@ -80,11 +80,11 @@ export const IndustryRecognition: React.FC = () => {
       style={{
         position: 'relative',
         width: '100%',
-        backgroundColor: '#ffffff',
-        paddingTop: 'var(--section-padding-y)',
-        paddingBottom: 'var(--section-padding-y)',
+        backgroundColor: '#001334',
+        paddingTop: 'clamp(60px, 7vw, 100px)',
+        paddingBottom: 'clamp(60px, 7vw, 100px)',
         overflow: 'hidden',
-        borderTop: '1px solid #e2e8f0',
+        borderTop: 'none',
       }}
     >
       <div className="container" style={{ maxWidth: '1280px' }}>
@@ -102,7 +102,7 @@ export const IndustryRecognition: React.FC = () => {
               as="h2"
               className="section-title"
               style={{
-                color: '#0f172a',
+                color: '#ffffff',
                 marginBottom: 'clamp(20px, 3vw, 28px)',
                 display: 'block',
               }}
@@ -115,12 +115,12 @@ export const IndustryRecognition: React.FC = () => {
               <p
                 className="body-lead"
                 style={{
-                  color: '#334155',
+                  color: 'rgba(255, 255, 255, 0.88)',
                   marginBottom: '20px',
                 }}
               >
                 We are recognized for AI engineering capabilities in the{' '}
-                <span style={{ color: '#2258e7', fontWeight: 700 }}>
+                <span style={{ color: '#60a5fa', fontWeight: 700 }}>
                   “Agentic AI in Digital Engineering Market 2025–2029”
                 </span>{' '}
                 report by Research and Markets, listed alongside NVIDIA, OpenAI, Google Cloud, and Accenture.
@@ -131,7 +131,7 @@ export const IndustryRecognition: React.FC = () => {
               <p
                 className="body-text"
                 style={{
-                  color: '#64748b',
+                  color: 'rgba(255, 255, 255, 0.65)',
                 }}
               >
                 Beyond AI, we bring AWS, Google Cloud, and Microsoft partnerships with ISO/IEC 27001:2022-certified processes.
@@ -148,12 +148,12 @@ export const IndustryRecognition: React.FC = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#f8fafc',
-                border: '1px solid #e2e8f0',
-                borderRadius: '12px',
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                borderRadius: '16px',
                 padding: 'clamp(36px, 5vw, 60px) clamp(20px, 3vw, 40px)',
                 minHeight: '440px',
-                boxShadow: '0 16px 36px rgba(0, 0, 0, 0.04)',
+                boxShadow: '0 20px 48px rgba(0, 0, 0, 0.35)',
               }}
             >
             {/* Left Nav Arrow */}
@@ -164,8 +164,8 @@ export const IndustryRecognition: React.FC = () => {
                 left: '12px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#0f172a',
-                opacity: 0.7,
+                color: '#ffffff',
+                opacity: 0.8,
                 padding: '12px',
                 minWidth: '44px',
                 minHeight: '44px',
@@ -174,15 +174,16 @@ export const IndustryRecognition: React.FC = () => {
                 justifyContent: 'center',
                 transition: 'opacity 0.2s',
                 zIndex: 4,
-                background: 'none',
+                background: 'rgba(255, 255, 255, 0.08)',
+                borderRadius: '50%',
                 border: 'none',
                 cursor: 'pointer',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.7')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.8')}
               aria-label="Previous Award"
             >
-              <ChevronLeft size={28} />
+              <ChevronLeft size={24} />
             </button>
 
             {/* Right Nav Arrow */}
@@ -193,8 +194,8 @@ export const IndustryRecognition: React.FC = () => {
                 right: '12px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#0f172a',
-                opacity: 0.7,
+                color: '#ffffff',
+                opacity: 0.8,
                 padding: '12px',
                 minWidth: '44px',
                 minHeight: '44px',
@@ -203,15 +204,16 @@ export const IndustryRecognition: React.FC = () => {
                 justifyContent: 'center',
                 transition: 'opacity 0.2s',
                 zIndex: 4,
-                background: 'none',
+                background: 'rgba(255, 255, 255, 0.08)',
+                borderRadius: '50%',
                 border: 'none',
                 cursor: 'pointer',
               }}
               onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-              onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.7')}
+              onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.8')}
               aria-label="Next Award"
             >
-              <ChevronRight size={28} />
+              <ChevronRight size={24} />
             </button>
 
             {/* Recognition Badge Container */}
@@ -361,13 +363,14 @@ export const IndustryRecognition: React.FC = () => {
                   width: '36px',
                   height: '36px',
                   borderRadius: '50%',
-                  border: '1px solid #cbd5e1',
-                  color: '#0f172a',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   transition: 'all 0.2s',
-                  background: '#ffffff',
+                  background: 'rgba(255, 255, 255, 0.1)',
+                  cursor: 'pointer',
                 }}
                 aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
               >
@@ -383,7 +386,7 @@ export const IndustryRecognition: React.FC = () => {
                     style={{
                       width: idx === currentIndex ? '36px' : '20px',
                       height: '4px',
-                      backgroundColor: idx === currentIndex ? '#2258e7' : '#cbd5e1',
+                      backgroundColor: idx === currentIndex ? '#60a5fa' : 'rgba(255, 255, 255, 0.25)',
                       cursor: 'pointer',
                       transition: 'all 0.3s ease',
                       borderRadius: '2px',

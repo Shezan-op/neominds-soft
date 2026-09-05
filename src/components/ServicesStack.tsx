@@ -266,7 +266,7 @@ export const ServicesStack: React.FC<ServicesStackProps> = ({ onSelectService })
         className="container"
         style={{
           maxWidth: '1280px',
-          paddingTop: 'clamp(60px, 7vw, 90px)',
+          paddingTop: '20px',
           paddingBottom: 'clamp(24px, 3vw, 40px)',
         }}
       >

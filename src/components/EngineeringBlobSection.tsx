@@ -9,80 +9,76 @@ export const EngineeringBlobSection: React.FC = () => {
   const blobRef = useRef<HTMLDivElement>(null);
   const textContentRef = useRef<HTMLDivElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
+  const dotLeftRef = useRef<HTMLSpanElement>(null);
+  const dotRightRef = useRef<HTMLSpanElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      // Pinned scroll-driven transition: Full blue -> contracting radial organic blob -> white background
+      // Pinned scroll-driven transition:
+      // Starts with 100% full screen blue background & white text (Screenshot 1)
+      // As you scroll, the blue field smoothly shrinks downward into a bottom-center blob (Screenshot 2)
+      // and text smoothly turns black/dark with blue punctuation dots!
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
-          end: '+=130%',
+          end: '+=150%',
           pin: true,
           scrub: 1,
           anticipatePin: 1,
         },
       });
 
-      // Explicitly anchor blob center at top 50% left 50%
-      gsap.set(blobRef.current, {
-        xPercent: -50,
-        yPercent: -50,
-        transformOrigin: 'center center',
-      });
-
-      // 1. Blob contracts from full screen to centered circle to small dot and fades away
+      // 1. Blue background overlay smoothly pulls downward / scales down towards bottom center
       tl.fromTo(
         blobRef.current,
         {
-          width: '180vw',
-          height: '180vh',
-          borderRadius: '35%',
+          width: '100%',
+          height: '100%',
+          bottom: '0%',
+          borderRadius: '0%',
           opacity: 1,
-          scale: 1,
-          xPercent: -50,
-          yPercent: -50,
-          transformOrigin: 'center center',
+          filter: 'blur(0px)',
+          transformOrigin: '50% 100%',
         },
         {
-          width: '560px',
-          height: '560px',
-          borderRadius: '50%',
-          opacity: 0.85,
-          scale: 0.85,
-          xPercent: -50,
-          yPercent: -50,
-          transformOrigin: 'center center',
-          ease: 'power1.inOut',
+          width: 'clamp(220px, 24vw, 340px)',
+          height: 'clamp(100px, 12vw, 160px)',
+          bottom: '-70px', // Lower and smaller: stays well below the paragraph text
+          borderRadius: '50% 50% 0 0',
+          opacity: 0.95,
+          filter: 'blur(20px)',
+          ease: 'power2.inOut',
           duration: 1,
-        }
-      )
-        .to(blobRef.current, {
-          width: '100px',
-          height: '100px',
-          borderRadius: '50%',
-          opacity: 0,
-          scale: 0.2,
-          xPercent: -50,
-          yPercent: -50,
-          transformOrigin: 'center center',
-          ease: 'power2.in',
-          duration: 0.6,
-        })
-        // 2. Text transitions to dark black / dark slate
-        .fromTo(
-          headlineRef.current,
-          { color: '#ffffff', y: 30 },
-          { color: '#121212', y: 0, ease: 'power1.out', duration: 1 },
-          0
-        )
-        .fromTo(
-          paragraphRef.current,
-          { color: 'rgba(255, 255, 255, 0.85)', y: 30 },
-          { color: '#121212', y: 0, ease: 'power1.out', duration: 1 },
-          0.2
-        );
+        },
+        0
+      );
+
+      // 2. Dynamic Text Color Change:
+      // Starts crisp White (#ffffff) -> Turns Dark (#0f172a) as the blue shrinks down
+      tl.fromTo(
+        headlineRef.current,
+        { color: '#ffffff' },
+        { color: '#0f172a', ease: 'power1.out', duration: 0.8 },
+        0.15
+      );
+
+      // Dots color: Starts White (#ffffff) -> Turns vivid electric blue (#2258e7) exactly like screenshot 2
+      tl.fromTo(
+        [dotLeftRef.current, dotRightRef.current],
+        { color: '#ffffff' },
+        { color: '#2258e7', ease: 'power1.out', duration: 0.8 },
+        0.15
+      );
+
+      // Paragraph subtext: Starts White (rgba(255, 255, 255, 0.95)) -> Turns readable Charcoal (#334155)
+      tl.fromTo(
+        paragraphRef.current,
+        { color: 'rgba(255, 255, 255, 0.95)' },
+        { color: '#334155', ease: 'power1.out', duration: 0.8 },
+        0.2
+      );
     }, containerRef);
 
     return () => {
@@ -111,19 +107,21 @@ export const EngineeringBlobSection: React.FC = () => {
         zIndex: 5,
       }}
     >
-      {/* Scroll-Driven Contracting Blue Radial Blob */}
+      {/* The Single Blue Surface that smoothly morphs/shrinks into the bottom-center blob */}
       <div
         ref={blobRef}
         style={{
           position: 'absolute',
-          top: '50%',
+          bottom: '0%',
           left: '50%',
-          transform: 'translate(-50%, -50%)',
-          transformOrigin: 'center center',
-          background: 'radial-gradient(circle at center, #001334 0%, #2258e7 55%, rgba(34, 88, 231, 0.4) 80%, rgba(255, 255, 255, 0) 100%)',
-          filter: 'blur(35px)',
+          transform: 'translateX(-50%)',
+          width: '100%',
+          height: '100%',
+          borderRadius: '0%',
+          background: 'radial-gradient(ellipse at 50% 95%, #1040c0 0%, #1850e0 45%, #2258e7 75%, #1850e0 100%)',
           zIndex: 1,
           pointerEvents: 'none',
+          willChange: 'width, height, bottom, border-radius, filter',
         }}
       />
 
@@ -133,43 +131,70 @@ export const EngineeringBlobSection: React.FC = () => {
         className="container"
         style={{
           position: 'relative',
-          zIndex: 2,
+          zIndex: 3,
           textAlign: 'center',
-          maxWidth: '960px',
+          maxWidth: '940px',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           padding: '0 var(--container-padding)',
         }}
       >
+        {/* Headline */}
         <h2
           ref={headlineRef}
           style={{
             fontFamily: 'var(--font-heading)',
-            fontSize: 'clamp(32px, 5.8vw, 84px)',
+            fontSize: 'clamp(38px, 6.2vw, 92px)',
             fontWeight: 700,
-            lineHeight: 1.08,
-            letterSpacing: '-0.03em',
-            marginBottom: 'clamp(20px, 3.5vw, 36px)',
-            color: '#121212',
+            lineHeight: 1.1,
+            letterSpacing: '-0.035em',
+            marginBottom: 'clamp(24px, 3.8vw, 42px)',
+            color: '#ffffff',
+            transition: 'color 0.3s ease',
           }}
         >
           Engineering first.
           <br />
-          AI-enhanced<span style={{ color: '#2258e7' }}>.</span>
+          <span
+            ref={dotLeftRef}
+            style={{
+              color: '#ffffff',
+              marginRight: '0.22em',
+              fontSize: '0.85em',
+              verticalAlign: 'middle',
+              display: 'inline-block',
+              transition: 'color 0.3s ease',
+            }}
+          >
+            •
+          </span>
+          AI-enhanced
+          <span
+            ref={dotRightRef}
+            style={{
+              color: '#ffffff',
+              marginLeft: '0.04em',
+              transition: 'color 0.3s ease',
+            }}
+          >
+            .
+          </span>
         </h2>
 
-        {/* Decorative Blue Dot Motif */}
-        <div style={{ marginBottom: 'clamp(18px, 3vw, 32px)' }}>
-          <span className="blue-dot" style={{ width: '8px', height: '8px' }} />
-        </div>
-
+        {/* Lead Paragraph Text */}
         <p
           ref={paragraphRef}
           className="body-lead"
           style={{
-            color: '#121212',
+            color: 'rgba(255, 255, 255, 0.95)',
             maxWidth: '780px',
+            fontSize: 'clamp(15px, 1.45vw, 20px)',
+            lineHeight: 1.6,
+            fontWeight: 450,
+            letterSpacing: '-0.01em',
+            margin: '0 auto',
+            transition: 'color 0.3s ease',
           }}
         >
           The AI era doesn’t replace engineering fundamentals, but it raises the bar for them. The hard part is not the demo, but scaling, securing, integrating, and sustaining AI inside real products. Neominds brings deep experience in complex systems, production delivery, and reliability-critical environments.

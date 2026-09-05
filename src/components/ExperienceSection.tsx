@@ -1,40 +1,164 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { RevealElement } from './scroll-reveal';
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface ClientLogo {
+  id: string;
+  name: string;
+  render: React.ReactNode;
+}
+
+const clientLogos: ClientLogo[] = [
+  {
+    id: 'plato',
+    name: 'plato',
+    render: (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+        </svg>
+        <span style={{ fontSize: '20px', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
+          plato
+        </span>
+      </div>
+    ),
+  },
+  {
+    id: 'waterway',
+    name: 'waterway',
+    render: (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <span style={{ fontSize: '22px', fontWeight: 900, fontStyle: 'italic', color: '#ffffff', letterSpacing: '0.04em' }}>
+          /// waterway
+        </span>
+      </div>
+    ),
+  },
+  {
+    id: 'nissin',
+    name: 'NISSIN',
+    render: (
+      <div
+        style={{
+          border: '2px solid #ffffff',
+          borderRadius: '16px',
+          padding: '2px 12px',
+          color: '#ffffff',
+          fontWeight: 900,
+          fontSize: '15px',
+          letterSpacing: '0.08em',
+        }}
+      >
+        NISSIN
+      </div>
+    ),
+  },
+  {
+    id: 'cityindex',
+    name: 'CITY INDEX',
+    render: (
+      <span style={{ fontSize: '18px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.08em' }}>
+        CITY INDEX
+      </span>
+    ),
+  },
+  {
+    id: 'midiagnostics',
+    name: 'miDiagnostics',
+    render: (
+      <span style={{ fontSize: '20px', fontWeight: 700, color: '#ffffff', letterSpacing: '-0.02em' }}>
+        <i style={{ fontStyle: 'italic', fontWeight: 900 }}>mi</i>Diagnostics
+      </span>
+    ),
+  },
+  {
+    id: 'authenticom',
+    name: 'AUTHENTICOM',
+    render: (
+      <span style={{ fontSize: '17px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.08em' }}>
+        AUTHENTICOM
+      </span>
+    ),
+  },
+  {
+    id: 'maersk',
+    name: 'MAERSK BROKER',
+    render: (
+      <span style={{ fontSize: '16px', fontWeight: 800, color: '#ffffff', letterSpacing: '0.06em' }}>
+        MAERSK BROKER
+      </span>
+    ),
+  },
+  {
+    id: 'trubridge',
+    name: 'TruBridge',
+    render: (
+      <span style={{ fontSize: '19px', fontWeight: 800, color: '#ffffff', letterSpacing: '-0.02em' }}>
+        TruBridge<sup style={{ fontSize: '10px' }}>®</sup>
+      </span>
+    ),
+  },
+];
 
 export const ExperienceSection: React.FC = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
   const textContainerRef = useRef<HTMLDivElement>(null);
+  const [logoBatch, setLogoBatch] = useState(0);
 
+  // Word-by-word slow and buttery smooth scroll illumination
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const lineElements = textContainerRef.current?.querySelectorAll('.fill-line-text');
-      if (!lineElements || lineElements.length === 0) return;
+      const words = textContainerRef.current?.querySelectorAll('.scroll-word');
+      if (!words || words.length === 0) return;
 
-      // Line-by-line progressive text fill and blur reduction linked to scroll position
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
-          end: 'bottom 60%',
-          scrub: 0.8,
+      gsap.fromTo(
+        words,
+        {
+          opacity: 0.18,
+          color: 'rgba(255, 255, 255, 0.25)',
+          y: 4,
         },
-      });
-
-      lineElements.forEach((line) => {
-        tl.fromTo(
-          line,
-          { opacity: 0.15, filter: 'blur(6px)', color: 'rgba(255, 255, 255, 0.25)' },
-          { opacity: 1, filter: 'blur(0px)', color: '#ffffff', ease: 'none', duration: 1 }
-        );
-      });
+        {
+          opacity: 1,
+          color: '#ffffff',
+          y: 0,
+          stagger: 0.08,
+          ease: 'power1.out',
+          scrollTrigger: {
+            trigger: textContainerRef.current,
+            start: 'top 85%',
+            end: 'bottom 45%',
+            scrub: 1.2, // Generous smooth scrub factor
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
+
+  // Premium 4-at-a-time Rolling Slot rotation every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLogoBatch((prev) => (prev + 1) % 2);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Text broken strictly into words
+  const headlineText =
+    'Backed by 23 years of full-spectrum engineering for healthcare, financial services, and ISV/SaaS companies.';
+  const wordsList = headlineText.split(' ');
+
+  // Group 8 logos into 4 pairs (one for each slot)
+  const slotPairs = [
+    [clientLogos[0], clientLogos[4]], // Slot 1: plato <-> miDiagnostics
+    [clientLogos[1], clientLogos[5]], // Slot 2: waterway <-> AUTHENTICOM
+    [clientLogos[2], clientLogos[6]], // Slot 3: NISSIN <-> MAERSK BROKER
+    [clientLogos[3], clientLogos[7]], // Slot 4: CITY INDEX <-> TruBridge
+  ];
 
   return (
     <section
@@ -45,151 +169,123 @@ export const ExperienceSection: React.FC = () => {
         width: '100%',
         backgroundColor: '#001334',
         paddingTop: 'clamp(80px, 9vw, 120px)',
-        paddingBottom: 'clamp(70px, 8vw, 110px)',
+        paddingBottom: 'clamp(60px, 7vw, 100px)',
         overflow: 'hidden',
-        borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+        border: 'none',
       }}
     >
       <div className="container" style={{ maxWidth: '1280px' }}>
-        {/* Large Editorial Headline with Line-by-Line Fill */}
+        {/* Large Editorial Headline with Pure Word-by-Word Smooth Fill */}
         <div
           ref={textContainerRef}
           style={{
             maxWidth: '1120px',
-            marginBottom: 'clamp(28px, 4vw, 40px)',
+            marginBottom: 'clamp(36px, 5vw, 56px)',
           }}
         >
-          <p
+          <h2
             style={{
               fontFamily: 'var(--font-heading)',
               fontSize: 'clamp(28px, 4.2vw, 64px)',
               fontWeight: 600,
-              lineHeight: 1.2,
+              lineHeight: 1.25,
               letterSpacing: '-0.025em',
+              margin: 0,
               display: 'flex',
-              flexDirection: 'column',
-              gap: '6px',
+              flexWrap: 'wrap',
+              rowGap: '8px',
             }}
           >
-            <span className="fill-line-text" style={{ transition: 'color 0.2s' }}>
-              Backed by 23 years of full-spectrum
-            </span>
-            <span className="fill-line-text" style={{ transition: 'color 0.2s' }}>
-              engineering for healthcare, financial
-            </span>
-            <span className="fill-line-text" style={{ transition: 'color 0.2s' }}>
-              services, and ISV/SaaS companies.
-            </span>
-          </p>
+            {wordsList.map((word, wIdx) => (
+              <span
+                key={wIdx}
+                className="scroll-word"
+                style={{
+                  display: 'inline-block',
+                  marginRight: '0.28em',
+                  opacity: 0.18,
+                  color: 'rgba(255, 255, 255, 0.25)',
+                  willChange: 'opacity, color, transform',
+                }}
+              >
+                {word}
+              </span>
+            ))}
+          </h2>
         </div>
 
         {/* Decorative Blue Dot Motif */}
-        <div style={{ margin: 'clamp(24px, 4vw, 40px) 0 clamp(48px, 6vw, 80px) 0', paddingLeft: '4px' }}>
+        <div style={{ margin: 'clamp(24px, 4vw, 36px) 0 clamp(36px, 5vw, 60px) 0', paddingLeft: '4px' }}>
           <span className="blue-dot" style={{ width: '8px', height: '8px' }} />
         </div>
 
-        {/* Client Logos Grid (Responsive 4-col desktop, 2-col mobile) */}
-        <RevealElement variant="card" start="top 92%" end="top 68%">
-          <div
-            className="logos-grid"
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
-              alignItems: 'center',
-              justifyItems: 'start',
-              gap: '36px 28px',
-              opacity: 0.9,
-              paddingTop: '24px',
-              borderTop: '1px solid rgba(255, 255, 255, 0.1)',
-            }}
-          >
-            {/* miDiagnostics Logo */}
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <span
-                style={{
-                  fontSize: 'clamp(20px, 2.2vw, 24px)',
-                  fontWeight: 700,
-                  color: '#ffffff',
-                  fontFamily: 'var(--font-heading)',
-                  letterSpacing: '-0.03em',
-                }}
-              >
-                <i style={{ fontStyle: 'italic', fontWeight: 800 }}>mi</i>Diagnostics
-              </span>
-            </div>
+        {/* 4 Logos at a Time with 3D Vertical Rolling Cylinder Effect */}
+        <div
+          style={{
+            width: '100%',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+            alignItems: 'center',
+            justifyItems: 'center',
+            gap: 'clamp(20px, 3vw, 40px)',
+            paddingTop: '20px',
+            borderTop: 'none',
+          }}
+        >
+          {slotPairs.map((pair, slotIdx) => {
+            const activeLogo = pair[logoBatch];
 
-            {/* Delta Symbol Logo */}
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <svg width="38" height="34" viewBox="0 0 40 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M20 2L38 33H2L20 2Z"
-                  stroke="#ffffff"
-                  strokeWidth="3.5"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M20 12L29 28H11L20 12Z"
-                  stroke="#ffffff"
-                  strokeWidth="2.5"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-
-            {/* MAERSK BROKER Logo */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            return (
               <div
+                key={slotIdx}
+                className="logo-roller-slot"
                 style={{
-                  width: '24px',
-                  height: '24px',
-                  backgroundColor: '#0284c7',
+                  position: 'relative',
+                  width: '100%',
+                  maxWidth: '240px',
+                  height: '56px',
+                  overflow: 'hidden',
+                  perspective: '800px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                 }}
               >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="#ffffff">
-                  <polygon points="12,2 15,9 22,9 17,14 19,21 12,17 5,21 7,14 2,9 9,9" />
-                </svg>
+                {/* Rolling Content Container */}
+                <div
+                  key={logoBatch}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    animation: `logoRollIn 0.65s cubic-bezier(0.16, 1, 0.3, 1) ${slotIdx * 0.08}s both`,
+                    willChange: 'transform, opacity, filter',
+                  }}
+                >
+                  {activeLogo.render}
+                </div>
               </div>
-              <span
-                style={{
-                  fontSize: 'clamp(14px, 1.4vw, 17px)',
-                  fontWeight: 800,
-                  color: '#ffffff',
-                  letterSpacing: '0.04em',
-                }}
-              >
-                MAERSK BROKER
-              </span>
-            </div>
-
-            {/* TruBridge Logo */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <svg width="28" height="16" viewBox="0 0 34 20" fill="none">
-                <path d="M2 18C8 4 26 4 32 18H26C22 9 12 9 8 18H2Z" fill="#10b981" />
-              </svg>
-              <span
-                style={{
-                  fontSize: 'clamp(18px, 1.8vw, 22px)',
-                  fontWeight: 800,
-                  color: '#ffffff',
-                  fontFamily: 'var(--font-heading)',
-                  letterSpacing: '-0.02em',
-                }}
-              >
-                TruBridge<sup style={{ fontSize: '10px' }}>®</sup>
-              </span>
-            </div>
-          </div>
-        </RevealElement>
+            );
+          })}
+        </div>
       </div>
 
       <style>{`
-        @media (max-width: 580px) {
-          .logos-grid {
-            grid-template-columns: repeat(2, 1fr) !important;
-            gap: 28px 16px !important;
+        @keyframes logoRollIn {
+          0% {
+            transform: translateY(110%) rotateX(-70deg);
+            opacity: 0;
+            filter: blur(4px);
+          }
+          50% {
+            opacity: 0.8;
+          }
+          100% {
+            transform: translateY(0%) rotateX(0deg);
+            opacity: 1;
+            filter: blur(0px);
           }
         }
       `}</style>
