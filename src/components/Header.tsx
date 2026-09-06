@@ -54,7 +54,8 @@ export type PageType =
   | 'applied-ai'
   | 'ai-agent-systems'
   | 'intelligent-automation'
-  | 'generative-ai';
+  | 'generative-ai'
+  | '404';
 
 interface HeaderProps {
   onNavigate: (sectionId: string) => void;

@@ -47,31 +47,86 @@ import { CookieConsent } from './components/CookieConsent';
 import { CommandPalette } from './components/CommandPalette';
 import { Toast, ToastMessage } from './components/Toast';
 import { CinematicScroll } from './components/lightswind/cinematic-scroll';
+import { NotFoundPage } from './components/NotFoundPage';
+import { updateHeadMetadata } from './utils/seo';
 
 export const App: React.FC = () => {
   const { scrollTo, stop, start } = useLenis();
 
-  // Active View State initialized from window location hash
-  const [currentPage, setCurrentPage] = useState<PageType>(() => {
-    const hash = window.location.hash.replace('#', '');
-    if (hash === 'ai-services' || hash === 'ai-development') return 'ai-product-engineering';
-    if (hash && (hash in SERVICES_DATA || [
-      'insights', 'blog', 'company-updates', 'portfolio', 'about-us', 'contacts',
-      'privacy-policy', 'cookie-policy', 'security-policy',
-      'product-discovery', 'product-engineering', 'business-analysis',
-      'it-consulting', 'ui-ux-design'
-    ].includes(hash))) {
-      return hash as PageType;
+  // Helper to parse current browser URL and hash into PageType and articleId
+  const resolveRoute = useCallback((): { page: PageType; articleId: string | null } => {
+    if (typeof window === 'undefined') return { page: 'home', articleId: null };
+
+    const rawHash = window.location.hash || '';
+    const cleanHash = rawHash.replace(/^#\/?/, '').trim();
+    const rawPath = window.location.pathname || '/';
+    const cleanPath = rawPath.replace(/^\/+|\/+$/g, '').trim();
+
+    const matchSlug = (slug: string): PageType | null => {
+      if (!slug || slug === 'home') return 'home';
+      if (slug === 'ai-services' || slug === 'ai-development-service' || slug === 'ai-product-engineering') {
+        return 'ai-product-engineering';
+      }
+      if (slug === 'chatbot-video-bot-development' || slug === 'chatbot-videobot') {
+        return 'chatbot-videobot';
+      }
+      if (slug in SERVICES_DATA) return slug as PageType;
+      if (slug in UNIVERSAL_SERVICES_MAP) return slug as PageType;
+      if ([
+        'insights', 'blog', 'company-updates', 'portfolio', 'about-us', 'contacts',
+        'privacy-policy', 'cookie-policy', 'security-policy',
+        'product-discovery', 'product-engineering', 'business-analysis',
+        'it-consulting', 'ui-ux-design'
+      ].includes(slug)) {
+        return slug as PageType;
+      }
+      return null;
+    };
+
+    // 1. Pathname takes primary routing precedence (canonical clean URLs)
+    if (cleanPath) {
+      const parts = cleanPath.split('/');
+      if (parts[0] === 'services' && parts[1]) {
+        const resolved = matchSlug(parts[1]);
+        if (resolved) return { page: resolved, articleId: null };
+        return { page: '404', articleId: null };
+      }
+      if (parts[0] === 'blog') {
+        if (parts[1]) {
+          return { page: 'blog', articleId: parts[1] };
+        }
+        return { page: 'blog', articleId: null };
+      }
+      if (parts[0] === '404') {
+        return { page: '404', articleId: null };
+      }
+      const resolved = matchSlug(parts[0]);
+      if (resolved) return { page: resolved, articleId: null };
+      return { page: '404', articleId: null };
     }
-    if (window.location.hash === '#casestudies') return 'portfolio';
-    if (window.location.hash === '#leaders') return 'about-us';
-    if (window.location.hash === '#contact') return 'contacts';
-    return 'home';
-  });
+
+    // 2. Hash routing fallback (backward compatibility for existing external links)
+    if (cleanHash) {
+      if (cleanHash === 'casestudies') return { page: 'portfolio', articleId: null };
+      if (cleanHash === 'leaders') return { page: 'about-us', articleId: null };
+      if (cleanHash === 'contact') return { page: 'contacts', articleId: null };
+      if (['hero', 'services', 'delivery', 'recognition'].includes(cleanHash)) {
+        return { page: 'home', articleId: null };
+      }
+      const resolved = matchSlug(cleanHash);
+      if (resolved) return { page: resolved, articleId: null };
+      return { page: '404', articleId: null };
+    }
+
+    return { page: 'home', articleId: null };
+  }, []);
+
+  // Active View State initialized from route
+  const [currentPage, setCurrentPage] = useState<PageType>(() => resolveRoute().page);
+  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(() => resolveRoute().articleId);
 
   // Interactive Modal & Palette State
   const [selectedCaseStudy, setSelectedCaseStudy] = useState<string | null>(null);
-  const [selectedArticleId, setSelectedArticleId] = useState<string | null>(null);
   const [selectedService, setSelectedService] = useState<number | null>(null);
   const [legalModal, setLegalModal] = useState<{
     isOpen: boolean;
@@ -83,57 +138,27 @@ export const App: React.FC = () => {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
-  // Listen for hash changes in browser window
+  // Listen for browser popstate and hashchange events
   useEffect(() => {
-    const handleHashChange = () => {
-      const rawHash = window.location.hash;
-      const cleanHash = rawHash.replace('#', '');
-
-      if (cleanHash === 'ai-services' || cleanHash === 'ai-development') {
-        setCurrentPage('ai-product-engineering');
-      } else if (cleanHash in UNIVERSAL_SERVICES_MAP) {
-        setCurrentPage(cleanHash as PageType);
-      } else if (cleanHash in SERVICES_DATA) {
-        setCurrentPage(cleanHash as PageType);
-      } else if (cleanHash === 'chatbot-video-bot-development') {
-        setCurrentPage('chatbot-videobot');
-      } else if (cleanHash === 'insights') {
-        setCurrentPage('insights');
-      } else if (cleanHash === 'blog') {
-        setCurrentPage('blog');
-      } else if (cleanHash === 'company-updates') {
-        setCurrentPage('company-updates');
-      } else if (cleanHash === 'portfolio' || rawHash === '#casestudies') {
-        setCurrentPage('portfolio');
-      } else if (cleanHash === 'about-us' || rawHash === '#leaders') {
-        setCurrentPage('about-us');
-      } else if (cleanHash === 'contacts' || rawHash === '#contact') {
-        setCurrentPage('contacts');
-      } else if (cleanHash === 'privacy-policy') {
-        setCurrentPage('privacy-policy');
-      } else if (cleanHash === 'cookie-policy') {
-        setCurrentPage('cookie-policy');
-      } else if (cleanHash === 'security-policy') {
-        setCurrentPage('security-policy');
-      } else if (cleanHash === 'product-discovery') {
-        setCurrentPage('product-discovery');
-      } else if (cleanHash === 'product-engineering') {
-        setCurrentPage('product-engineering');
-      } else if (cleanHash === 'business-analysis') {
-        setCurrentPage('business-analysis');
-      } else if (cleanHash === 'it-consulting') {
-        setCurrentPage('it-consulting');
-      } else if (cleanHash === 'ui-ux-design') {
-        setCurrentPage('ui-ux-design');
-      } else if (!rawHash || cleanHash === 'home' || rawHash === '#home' || rawHash === '#hero' || rawHash === '#services') {
-        setCurrentPage('home');
-      }
+    const handleUrlChange = () => {
+      const route = resolveRoute();
+      setCurrentPage(route.page);
+      setSelectedArticleId(route.articleId);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
-  }, []);
+    window.addEventListener('popstate', handleUrlChange);
+    window.addEventListener('hashchange', handleUrlChange);
+    return () => {
+      window.removeEventListener('popstate', handleUrlChange);
+      window.removeEventListener('hashchange', handleUrlChange);
+    };
+  }, [resolveRoute]);
+
+  // Synchronize document metadata, Open Graph, Twitter cards, and Schema.org JSON-LD
+  useEffect(() => {
+    updateHeadMetadata(currentPage, selectedArticleId);
+  }, [currentPage, selectedArticleId]);
 
   // Freeze background scroll when any modal/palette is active
   const isAnyModalOpen = Boolean(
@@ -163,7 +188,7 @@ export const App: React.FC = () => {
 
       if (currentPage !== 'home') {
         setCurrentPage('home');
-        window.history.pushState(null, '', ' ');
+        window.history.pushState(null, '', '/');
         setTimeout(() => {
           scrollTo(targetId, { offset: 0, lerp: 0.1 });
         }, 100);
@@ -174,13 +199,28 @@ export const App: React.FC = () => {
     [currentPage, scrollTo]
   );
 
-  const handleSelectPage = (page: PageType) => {
+  const handleSelectPage = (page: PageType, articleId?: string | null) => {
     setCurrentPage(page);
-    if (page === 'home') {
-      window.history.pushState(null, '', ' ');
+    if (articleId !== undefined) {
+      setSelectedArticleId(articleId);
     } else {
-      window.history.pushState(null, '', `#${page}`);
+      setSelectedArticleId(null);
     }
+
+    let targetUrl = '/';
+    if (page === 'home') {
+      targetUrl = '/';
+    } else if (page in SERVICES_DATA) {
+      targetUrl = `/services/${page}`;
+    } else if (page === 'blog' && articleId) {
+      targetUrl = `/blog/${articleId}`;
+    } else if (page === '404') {
+      targetUrl = '/404';
+    } else {
+      targetUrl = `/${page}`;
+    }
+
+    window.history.pushState(null, '', targetUrl);
     scrollTo(0, { immediate: true });
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
@@ -226,7 +266,7 @@ export const App: React.FC = () => {
         </a>
 
         {/* Global Navigation Header with 11-Service Mega Menu & Mobile Drawer */}
-        {currentPage !== 'ai-product-engineering' && (
+        {currentPage !== 'ai-product-engineering' && currentPage !== '404' && (
           <Header
             onNavigate={handleNavigate}
             currentPage={currentPage}
@@ -237,6 +277,16 @@ export const App: React.FC = () => {
         {/* ========================================================
             VIEW ROUTER: RENDER BASED ON ACTIVE SELECTION
             ======================================================== */}
+
+        {/* 0. 404 Error Page */}
+        {currentPage === '404' && (
+          <main id="main-content">
+            <NotFoundPage
+              onNavigateHome={() => handleSelectPage('home')}
+              onNavigatePage={(p) => handleSelectPage(p as PageType)}
+            />
+          </main>
+        )}
 
         {/* Dedicated Bespoke AI Services Page (EffectiveSoft.ai Aesthetic & Design) */}
         {currentPage === 'ai-product-engineering' && (

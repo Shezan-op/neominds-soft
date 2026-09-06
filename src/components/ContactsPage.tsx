@@ -140,7 +140,7 @@ export const ContactsPage: React.FC<ContactsPageProps> = ({
         <RevealElement variant="card" delay={0.12}>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '24px', flexWrap: 'wrap' }}>
             <a
-              href="mailto:contact@neominds.cloud"
+              href="mailto:contact@neominds.io"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -157,7 +157,7 @@ export const ContactsPage: React.FC<ContactsPageProps> = ({
               }}
             >
               <Mail size={18} style={{ color: '#2258e7' }} />
-              <span>contact@neominds.cloud</span>
+              <span>contact@neominds.io</span>
             </a>
 
             <a
