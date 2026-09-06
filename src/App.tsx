@@ -16,6 +16,7 @@ import { Footer } from './components/Footer';
 
 // Universal Service Page System & 28 Services Registry
 import { ServicePage } from './components/service/ServicePage';
+import { AIServicesPage } from './components/AIServicesPage';
 import { UNIVERSAL_SERVICES_MAP } from './data/universalServicesRegistry';
 import { SERVICES_DATA } from './data/servicesData';
 
@@ -53,6 +54,7 @@ export const App: React.FC = () => {
   // Active View State initialized from window location hash
   const [currentPage, setCurrentPage] = useState<PageType>(() => {
     const hash = window.location.hash.replace('#', '');
+    if (hash === 'ai-services' || hash === 'ai-development') return 'ai-product-engineering';
     if (hash && (hash in SERVICES_DATA || [
       'insights', 'blog', 'company-updates', 'portfolio', 'about-us', 'contacts',
       'privacy-policy', 'cookie-policy', 'security-policy',
@@ -87,7 +89,9 @@ export const App: React.FC = () => {
       const rawHash = window.location.hash;
       const cleanHash = rawHash.replace('#', '');
 
-      if (cleanHash in UNIVERSAL_SERVICES_MAP) {
+      if (cleanHash === 'ai-services' || cleanHash === 'ai-development') {
+        setCurrentPage('ai-product-engineering');
+      } else if (cleanHash in UNIVERSAL_SERVICES_MAP) {
         setCurrentPage(cleanHash as PageType);
       } else if (cleanHash in SERVICES_DATA) {
         setCurrentPage(cleanHash as PageType);
@@ -121,7 +125,7 @@ export const App: React.FC = () => {
         setCurrentPage('it-consulting');
       } else if (cleanHash === 'ui-ux-design') {
         setCurrentPage('ui-ux-design');
-      } else if (!rawHash || rawHash === '#hero' || rawHash === '#services') {
+      } else if (!rawHash || cleanHash === 'home' || rawHash === '#home' || rawHash === '#hero' || rawHash === '#services') {
         setCurrentPage('home');
       }
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -222,18 +226,30 @@ export const App: React.FC = () => {
         </a>
 
         {/* Global Navigation Header with 11-Service Mega Menu & Mobile Drawer */}
-        <Header
-          onNavigate={handleNavigate}
-          currentPage={currentPage}
-          onSelectPage={handleSelectPage}
-        />
+        {currentPage !== 'ai-product-engineering' && (
+          <Header
+            onNavigate={handleNavigate}
+            currentPage={currentPage}
+            onSelectPage={handleSelectPage}
+          />
+        )}
 
         {/* ========================================================
             VIEW ROUTER: RENDER BASED ON ACTIVE SELECTION
             ======================================================== */}
 
-        {/* 1. Universal Canonical Service Page System for All 28 Services */}
-        {isOfficialServicePage && UNIVERSAL_SERVICES_MAP[currentPage] && (
+        {/* Dedicated Bespoke AI Services Page (EffectiveSoft.ai Aesthetic & Design) */}
+        {currentPage === 'ai-product-engineering' && (
+          <main id="main-content">
+            <AIServicesPage
+              onNavigateHome={() => handleSelectPage('home')}
+              onContactClick={() => handleSelectPage('contacts')}
+            />
+          </main>
+        )}
+
+        {/* 1. Universal Canonical Service Page System for All Other Services */}
+        {isOfficialServicePage && currentPage !== 'ai-product-engineering' && UNIVERSAL_SERVICES_MAP[currentPage] && (
           <main id="main-content">
             <ServicePage
               data={UNIVERSAL_SERVICES_MAP[currentPage]}

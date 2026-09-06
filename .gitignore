@@ -37,3 +37,9 @@ Thumbs.db
 
 # Offline Markdown Documentation
 docs/
+
+# Playwright & Testing MCP artifacts
+.playwright-mcp/
+test-results/
+playwright-report/
+blob-report/
