@@ -20,13 +20,21 @@ export default defineConfig({
     minify: 'esbuild',
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-          animations: ['gsap', 'framer-motion', 'lenis'],
-          icons: ['lucide-react'],
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react') || id.includes('scheduler')) {
+              return 'vendor-react';
+            }
+            if (id.includes('gsap') || id.includes('framer-motion') || id.includes('lenis')) {
+              return 'vendor-animation';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-icons';
+            }
+          }
         },
       },
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 600,
   },
 });

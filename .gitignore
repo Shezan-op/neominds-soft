@@ -36,7 +36,8 @@ Thumbs.db
 *.tsbuildinfo
 
 # Offline Markdown Documentation
-docs/
+/docs/
+!public/docs/
 
 # Playwright & Testing MCP artifacts
 .playwright-mcp/

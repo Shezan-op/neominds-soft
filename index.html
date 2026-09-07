@@ -16,6 +16,7 @@
   <meta name="author" content="Neominds" />
   <meta name="theme-color" content="#2258E7" />
   <link rel="canonical" href="https://neominds.io/" />
+  <link rel="describedby" href="/llms.txt" />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
@@ -33,11 +34,14 @@
     content="Premier product engineering and AI integration partner delivering complex, enterprise-scale software solutions." />
   <meta name="twitter:image" content="https://neominds.io/images/hero-ribbon.jpg" />
 
-  <!-- Preconnect & Fonts -->
+  <!-- Preconnect & Asynchronous Fonts (Non-Render-Blocking) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@300;400;500;600;700;800&display=swap"
-    rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@300;400;500;600;700;800&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@300;400;500;600;700;800&display=swap" media="print" onload="this.media='all'" />
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=Manrope:wght@300;400;500;600;700;800&display=swap" />
+  </noscript>
 
   <!-- Schema.org JSON-LD Structured Data -->
   <script type="application/ld+json">

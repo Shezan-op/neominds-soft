@@ -321,6 +321,9 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
                     src={member.image}
                     alt={member.name}
                     loading="lazy"
+                    decoding="async"
+                    width="280"
+                    height="320"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
                         'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop';
@@ -381,6 +384,10 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
                     src={currentTestimonial.avatar}
                     alt={currentTestimonial.author}
                     className="s-testimonials__avatar"
+                    loading="lazy"
+                    decoding="async"
+                    width="56"
+                    height="56"
                     onError={(e) => {
                       (e.target as HTMLImageElement).style.display = 'none';
                     }}
@@ -399,6 +406,10 @@ export const AboutUsPage: React.FC<AboutUsPageProps> = ({
                   src={currentTestimonial.logo}
                   alt={`${currentTestimonial.author} company logo`}
                   className="s-testimonials__logo"
+                  loading="lazy"
+                  decoding="async"
+                  width="120"
+                  height="36"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = 'none';
                   }}

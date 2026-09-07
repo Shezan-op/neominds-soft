@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, Suspense, lazy } from 'react';
 import { useLenis } from './hooks/useLenis';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Header, PageType } from './components/Header';
@@ -14,41 +14,65 @@ import { ContactSection } from './components/ContactSection';
 import { LocationsSection } from './components/LocationsSection';
 import { Footer } from './components/Footer';
 
-// Universal Service Page System & 28 Services Registry
-import { ServicePage } from './components/service/ServicePage';
-import { AIServicesPage } from './components/AIServicesPage';
-import { UNIVERSAL_SERVICES_MAP } from './data/universalServicesRegistry';
-import { SERVICES_DATA } from './data/servicesData';
+// Lightweight Service Slugs & SEO
+import { isServiceSlug } from './data/serviceSlugs';
+import { updateHeadMetadata } from './utils/seo';
 
-// Content & Legacy Strategy Pages
-import { ProductDiscoveryPage } from './components/ProductDiscoveryPage';
-import { ProductEngineeringPage } from './components/ProductEngineeringPage';
-import { BusinessAnalysisPage } from './components/BusinessAnalysisPage';
-import { ITConsultingPage } from './components/ITConsultingPage';
-import { UIUXDesignPage } from './components/UIUXDesignPage';
-import { PortfolioPage } from './components/PortfolioPage';
-import { AboutUsPage } from './components/AboutUsPage';
-import { ContactsPage } from './components/ContactsPage';
-import { InsightsPage } from './components/InsightsPage';
-import { BlogHubPage } from './components/BlogHubPage';
-import { CompanyUpdatesPage } from './components/CompanyUpdatesPage';
-import { BlogPostDetailPage } from './components/BlogPostDetailPage';
-
-// Legal Policy Pages
-import { PrivacyPolicyPage } from './components/PrivacyPolicyPage';
-import { CookiePolicyPage } from './components/CookiePolicyPage';
-import { SecurityPolicyPage } from './components/SecurityPolicyPage';
-
-// Modals & UI Utilities
-import { CaseStudyModal } from './components/CaseStudyModal';
-import { ServiceModal } from './components/ServiceModal';
-import { LegalModal } from './components/LegalModal';
+// UI Utilities & Banners
 import { CookieConsent } from './components/CookieConsent';
-import { CommandPalette } from './components/CommandPalette';
 import { Toast, ToastMessage } from './components/Toast';
 import { CinematicScroll } from './components/lightswind/cinematic-scroll';
-import { NotFoundPage } from './components/NotFoundPage';
-import { updateHeadMetadata } from './utils/seo';
+
+// Route Code Splitting: Lazy-Loaded Sub-Pages & Modals
+const ServicePageContainer = lazy(() => import('./components/service/ServicePage'));
+const AIServicesPage = lazy(() => import('./components/AIServicesPage').then((m) => ({ default: m.AIServicesPage })));
+const AboutUsPage = lazy(() => import('./components/AboutUsPage').then((m) => ({ default: m.AboutUsPage })));
+const BlogHubPage = lazy(() => import('./components/BlogHubPage').then((m) => ({ default: m.BlogHubPage })));
+const BlogPostDetailPage = lazy(() => import('./components/BlogPostDetailPage').then((m) => ({ default: m.BlogPostDetailPage })));
+const CompanyUpdatesPage = lazy(() => import('./components/CompanyUpdatesPage').then((m) => ({ default: m.CompanyUpdatesPage })));
+const PortfolioPage = lazy(() => import('./components/PortfolioPage').then((m) => ({ default: m.PortfolioPage })));
+const ContactsPage = lazy(() => import('./components/ContactsPage').then((m) => ({ default: m.ContactsPage })));
+const InsightsPage = lazy(() => import('./components/InsightsPage').then((m) => ({ default: m.InsightsPage })));
+const PrivacyPolicyPage = lazy(() => import('./components/PrivacyPolicyPage').then((m) => ({ default: m.PrivacyPolicyPage })));
+const CookiePolicyPage = lazy(() => import('./components/CookiePolicyPage').then((m) => ({ default: m.CookiePolicyPage })));
+const SecurityPolicyPage = lazy(() => import('./components/SecurityPolicyPage').then((m) => ({ default: m.SecurityPolicyPage })));
+const ProductDiscoveryPage = lazy(() => import('./components/ProductDiscoveryPage').then((m) => ({ default: m.ProductDiscoveryPage })));
+const ProductEngineeringPage = lazy(() => import('./components/ProductEngineeringPage').then((m) => ({ default: m.ProductEngineeringPage })));
+const BusinessAnalysisPage = lazy(() => import('./components/BusinessAnalysisPage').then((m) => ({ default: m.BusinessAnalysisPage })));
+const ITConsultingPage = lazy(() => import('./components/ITConsultingPage').then((m) => ({ default: m.ITConsultingPage })));
+const UIUXDesignPage = lazy(() => import('./components/UIUXDesignPage').then((m) => ({ default: m.UIUXDesignPage })));
+const NotFoundPage = lazy(() => import('./components/NotFoundPage').then((m) => ({ default: m.NotFoundPage })));
+
+// Lazy Modals & Palettes
+const CommandPalette = lazy(() => import('./components/CommandPalette').then((m) => ({ default: m.CommandPalette })));
+const CaseStudyModal = lazy(() => import('./components/CaseStudyModal').then((m) => ({ default: m.CaseStudyModal })));
+const ServiceModal = lazy(() => import('./components/ServiceModal').then((m) => ({ default: m.ServiceModal })));
+const LegalModal = lazy(() => import('./components/LegalModal').then((m) => ({ default: m.LegalModal })));
+
+// Clean Suspense Fallback Loader
+const PageLoader: React.FC = () => (
+  <div
+    style={{
+      minHeight: '70vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#070b14',
+    }}
+  >
+    <div
+      style={{
+        width: '32px',
+        height: '32px',
+        border: '3px solid rgba(34, 88, 231, 0.2)',
+        borderTopColor: '#2258e7',
+        borderRadius: '50%',
+        animation: 'spinLoader 0.7s linear infinite',
+      }}
+    />
+    <style>{`@keyframes spinLoader { to { transform: rotate(360deg); } }`}</style>
+  </div>
+);
 
 export const App: React.FC = () => {
   const { scrollTo, stop, start } = useLenis();
@@ -70,8 +94,7 @@ export const App: React.FC = () => {
       if (slug === 'chatbot-video-bot-development' || slug === 'chatbot-videobot') {
         return 'chatbot-videobot';
       }
-      if (slug in SERVICES_DATA) return slug as PageType;
-      if (slug in UNIVERSAL_SERVICES_MAP) return slug as PageType;
+      if (isServiceSlug(slug)) return slug as PageType;
       if ([
         'insights', 'blog', 'company-updates', 'portfolio', 'about-us', 'contacts',
         'privacy-policy', 'cookie-policy', 'security-policy',
@@ -176,7 +199,7 @@ export const App: React.FC = () => {
   const handleNavigate = useCallback(
     (targetId: string) => {
       const cleanTarget = targetId.replace('#', '');
-      if (cleanTarget in SERVICES_DATA || [
+      if (isServiceSlug(cleanTarget) || [
         'insights', 'blog', 'company-updates', 'portfolio', 'about-us', 'contacts',
         'privacy-policy', 'cookie-policy', 'security-policy',
         'product-discovery', 'product-engineering', 'business-analysis',
@@ -210,7 +233,7 @@ export const App: React.FC = () => {
     let targetUrl = '/';
     if (page === 'home') {
       targetUrl = '/';
-    } else if (page in SERVICES_DATA) {
+    } else if (isServiceSlug(page)) {
       targetUrl = `/services/${page}`;
     } else if (page === 'blog' && articleId) {
       targetUrl = `/blog/${articleId}`;
@@ -237,407 +260,408 @@ export const App: React.FC = () => {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
-  // Helper to check if current page is one of the 11 official service pages
-  const isOfficialServicePage = currentPage in SERVICES_DATA;
+  const isOfficialServicePage = isServiceSlug(currentPage);
 
   return (
     <ErrorBoundary>
-      <CinematicScroll isGlobal accentColor="#2258e7" blurSize={80} blurMax={20}>
+      <CinematicScroll isGlobal accentColor="#2258e7" blurSize={60} blurMax={12} blurLayers={2}>
         <div className="neominds-app">
-        {/* Skip to Main Content Link for Accessibility */}
-        <a
-          href="#main-content"
-          style={{
-            position: 'absolute',
-            top: '-100px',
-            left: '20px',
-            backgroundColor: '#2258E7',
-            color: '#ffffff',
-            padding: '10px 18px',
-            zIndex: 99999,
-            fontWeight: 600,
-            fontSize: '14px',
-            transition: 'top 0.2s',
-          }}
-          onFocus={(e) => (e.currentTarget.style.top = '20px')}
-          onBlur={(e) => (e.currentTarget.style.top = '-100px')}
-        >
-          Skip to main content
-        </a>
+          {/* Skip to Main Content Link for Accessibility */}
+          <a
+            href="#main-content"
+            className="skip-link"
+            style={{
+              position: 'absolute',
+              top: '-100px',
+              left: '20px',
+              backgroundColor: '#2258E7',
+              color: '#ffffff',
+              padding: '10px 18px',
+              zIndex: 99999,
+              fontWeight: 600,
+              fontSize: '14px',
+              transition: 'top 0.2s',
+            }}
+            onFocus={(e) => (e.currentTarget.style.top = '20px')}
+            onBlur={(e) => (e.currentTarget.style.top = '-100px')}
+          >
+            Skip to main content
+          </a>
 
-        {/* Global Navigation Header with 11-Service Mega Menu & Mobile Drawer */}
-        {currentPage !== 'ai-product-engineering' && currentPage !== '404' && (
-          <Header
-            onNavigate={handleNavigate}
-            currentPage={currentPage}
-            onSelectPage={handleSelectPage}
-          />
-        )}
-
-        {/* ========================================================
-            VIEW ROUTER: RENDER BASED ON ACTIVE SELECTION
-            ======================================================== */}
-
-        {/* 0. 404 Error Page */}
-        {currentPage === '404' && (
-          <main id="main-content">
-            <NotFoundPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
+          {/* Global Navigation Header with 11-Service Mega Menu & Mobile Drawer */}
+          {currentPage !== 'ai-product-engineering' && currentPage !== '404' && (
+            <Header
+              onNavigate={handleNavigate}
+              currentPage={currentPage}
+              onSelectPage={handleSelectPage}
             />
-          </main>
-        )}
+          )}
 
-        {/* Dedicated Bespoke AI Services Page (EffectiveSoft.ai Aesthetic & Design) */}
-        {currentPage === 'ai-product-engineering' && (
-          <main id="main-content">
-            <AIServicesPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onContactClick={() => handleSelectPage('contacts')}
-            />
-          </main>
-        )}
+          {/* ========================================================
+              VIEW ROUTER: RENDER BASED ON ACTIVE SELECTION
+              ======================================================== */}
+          <Suspense fallback={<PageLoader />}>
+            {/* 0. 404 Error Page */}
+            {currentPage === '404' && (
+              <main id="main-content">
+                <NotFoundPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                />
+              </main>
+            )}
 
-        {/* 1. Universal Canonical Service Page System for All Other Services */}
-        {isOfficialServicePage && currentPage !== 'ai-product-engineering' && UNIVERSAL_SERVICES_MAP[currentPage] && (
-          <main id="main-content">
-            <ServicePage
-              data={UNIVERSAL_SERVICES_MAP[currentPage]}
-              allServices={UNIVERSAL_SERVICES_MAP}
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-              onOpenLegal={(tab) => {
-                if (tab === 'privacy') handleSelectPage('privacy-policy');
-                else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                else handleSelectPage('security-policy');
-              }}
-            />
-          </main>
-        )}
+            {/* Dedicated Bespoke AI Services Page (EffectiveSoft.ai Aesthetic & Design) */}
+            {currentPage === 'ai-product-engineering' && (
+              <main id="main-content">
+                <AIServicesPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onContactClick={() => handleSelectPage('contacts')}
+                />
+              </main>
+            )}
 
-        {/* 2. Insights & Tech Briefs Hub */}
-        {currentPage === 'insights' && (
-          <main id="main-content">
-            <InsightsPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-              onOpenLegal={(tab) => {
-                if (tab === 'privacy') handleSelectPage('privacy-policy');
-                else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                else handleSelectPage('security-policy');
-              }}
-            />
-          </main>
-        )}
+            {/* 1. Universal Canonical Service Page System for All Other Services */}
+            {isOfficialServicePage && currentPage !== 'ai-product-engineering' && (
+              <main id="main-content">
+                <ServicePageContainer
+                  slug={currentPage}
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg) => addToast('Success', msg, 'success')}
+                  onOpenLegal={(tab) => {
+                    if (tab === 'privacy') handleSelectPage('privacy-policy');
+                    else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                    else handleSelectPage('security-policy');
+                  }}
+                />
+              </main>
+            )}
 
-        {/* 2b. Technical Blog Hub & Reader */}
-        {currentPage === 'blog' && (
-          <main id="main-content">
-            {selectedArticleId ? (
-              <BlogPostDetailPage
-                articleId={selectedArticleId}
-                onBack={() => setSelectedArticleId(null)}
-                onNavigatePage={(p) => handleSelectPage(p as PageType)}
-                onSelectArticle={(id) => setSelectedArticleId(id)}
-                onSuccessToast={(msg) => addToast('Article', msg, 'info')}
+            {/* 2. Insights & Tech Briefs Hub */}
+            {currentPage === 'insights' && (
+              <main id="main-content">
+                <InsightsPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg) => addToast('Success', msg, 'success')}
+                  onOpenLegal={(tab) => {
+                    if (tab === 'privacy') handleSelectPage('privacy-policy');
+                    else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                    else handleSelectPage('security-policy');
+                  }}
+                />
+              </main>
+            )}
+
+            {/* 2b. Technical Blog Hub & Reader */}
+            {currentPage === 'blog' && (
+              <main id="main-content">
+                {selectedArticleId ? (
+                  <BlogPostDetailPage
+                    articleId={selectedArticleId}
+                    onBack={() => setSelectedArticleId(null)}
+                    onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                    onSelectArticle={(id) => setSelectedArticleId(id)}
+                    onSuccessToast={(msg) => addToast('Article', msg, 'info')}
+                    onOpenLegal={(tab) => {
+                      if (tab === 'privacy') handleSelectPage('privacy-policy');
+                      else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                      else handleSelectPage('security-policy');
+                    }}
+                  />
+                ) : (
+                  <BlogHubPage
+                    onNavigateHome={() => handleSelectPage('home')}
+                    onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                    onSelectArticle={(id) => setSelectedArticleId(id)}
+                    onSuccessToast={(msg) => addToast('Blog', msg, 'info')}
+                    onOpenLegal={(tab) => {
+                      if (tab === 'privacy') handleSelectPage('privacy-policy');
+                      else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                      else handleSelectPage('security-policy');
+                    }}
+                  />
+                )}
+              </main>
+            )}
+
+            {/* 2c. Company Updates & Milestones */}
+            {currentPage === 'company-updates' && (
+              <main id="main-content">
+                <CompanyUpdatesPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg) => addToast('Company Update', msg, 'info')}
+                  onOpenLegal={(tab) => {
+                    if (tab === 'privacy') handleSelectPage('privacy-policy');
+                    else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                    else handleSelectPage('security-policy');
+                  }}
+                />
+              </main>
+            )}
+
+            {/* 3. Portfolio & Case Studies */}
+            {currentPage === 'portfolio' && (
+              <main id="main-content">
+                <PortfolioPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+
+            {/* 4. About Us & Leadership */}
+            {currentPage === 'about-us' && (
+              <main id="main-content">
+                <AboutUsPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+
+            {/* 5. Contacts & Global RFP Form */}
+            {currentPage === 'contacts' && (
+              <main id="main-content">
+                <ContactsPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+
+            {/* 6. Privacy Policy Page */}
+            {currentPage === 'privacy-policy' && (
+              <main id="main-content">
+                <PrivacyPolicyPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onOpenLegal={(tab) => {
+                    if (tab === 'privacy') handleSelectPage('privacy-policy');
+                    else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                    else handleSelectPage('security-policy');
+                  }}
+                />
+              </main>
+            )}
+
+            {/* 7. Cookie Policy Page */}
+            {currentPage === 'cookie-policy' && (
+              <main id="main-content">
+                <CookiePolicyPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onOpenLegal={(tab) => {
+                    if (tab === 'privacy') handleSelectPage('privacy-policy');
+                    else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                    else handleSelectPage('security-policy');
+                  }}
+                />
+              </main>
+            )}
+
+            {/* 8. Security & Compliance Standards Page */}
+            {currentPage === 'security-policy' && (
+              <main id="main-content">
+                <SecurityPolicyPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p) => handleSelectPage(p as PageType)}
+                  onOpenLegal={(tab) => {
+                    if (tab === 'privacy') handleSelectPage('privacy-policy');
+                    else if (tab === 'cookie') handleSelectPage('cookie-policy');
+                    else handleSelectPage('security-policy');
+                  }}
+                />
+              </main>
+            )}
+
+            {/* 9. Legacy / Specialized Solution Landing Pages */}
+            {currentPage === 'product-discovery' && (
+              <main id="main-content">
+                <ProductDiscoveryPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onOpenPrivacy={() => handleSelectPage('privacy-policy')}
+                  onSuccessToast={(msg: string) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+
+            {currentPage === 'product-engineering' && (
+              <main id="main-content">
+                <ProductEngineeringPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onOpenPrivacy={() => handleSelectPage('privacy-policy')}
+                  onSuccessToast={(msg: string) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+
+            {currentPage === 'business-analysis' && (
+              <main id="main-content">
+                <BusinessAnalysisPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onOpenPrivacy={() => handleSelectPage('privacy-policy')}
+                  onSuccessToast={(msg: string) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+
+            {currentPage === 'it-consulting' && (
+              <main id="main-content">
+                <ITConsultingPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p: string) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg: string) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+
+            {currentPage === 'ui-ux-design' && (
+              <main id="main-content">
+                <UIUXDesignPage
+                  onNavigateHome={() => handleSelectPage('home')}
+                  onNavigatePage={(p: string) => handleSelectPage(p as PageType)}
+                  onSuccessToast={(msg: string) => addToast('Success', msg, 'success')}
+                />
+              </main>
+            )}
+          </Suspense>
+
+          {/* 10. Default Home View: Complete Interactive Corporate Landing Architecture */}
+          {currentPage === 'home' && (
+            <main id="main-content">
+              <HeroSection onTalkClick={() => handleSelectPage('contacts')} />
+
+              <ExperienceSection />
+
+              <IndustryRecognition />
+
+              <EngineeringBlobSection />
+
+              <DeliveryPrinciples />
+
+              <ServicesStack onSelectService={(slug: string) => handleSelectPage(slug as PageType)} />
+
+              <CaseStudiesHorizontal
+                onContactClick={() => handleSelectPage('contacts')}
+                onSelectCaseStudy={(id: string) => setSelectedCaseStudy(id)}
+              />
+
+              <Testimonials />
+
+              <ContactSection
+                onSuccessToast={(msg: string) => addToast('Request Sent', msg, 'success')}
+                onOpenPrivacy={() => handleSelectPage('privacy-policy')}
+              />
+
+              <LocationsSection />
+
+              <Footer
+                onNavigate={(target) => {
+                  if (target === '#casestudies') {
+                    handleSelectPage('portfolio');
+                  } else if (target === '#contact') {
+                    handleSelectPage('contacts');
+                  } else {
+                    handleNavigate(target);
+                  }
+                }}
                 onOpenLegal={(tab) => {
                   if (tab === 'privacy') handleSelectPage('privacy-policy');
                   else if (tab === 'cookie') handleSelectPage('cookie-policy');
                   else handleSelectPage('security-policy');
                 }}
               />
-            ) : (
-              <BlogHubPage
-                onNavigateHome={() => handleSelectPage('home')}
-                onNavigatePage={(p) => handleSelectPage(p as PageType)}
-                onSelectArticle={(id) => setSelectedArticleId(id)}
-                onSuccessToast={(msg) => addToast('Blog', msg, 'info')}
-                onOpenLegal={(tab) => {
-                  if (tab === 'privacy') handleSelectPage('privacy-policy');
-                  else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                  else handleSelectPage('security-policy');
+            </main>
+          )}
+
+          {/* Suspense Container for Modals */}
+          <Suspense fallback={null}>
+            {/* Global Case Study Deep-Dive Modal */}
+            {selectedCaseStudy && (
+              <CaseStudyModal
+                studyId={selectedCaseStudy}
+                onClose={() => setSelectedCaseStudy(null)}
+                onRequestQuote={() => {
+                  setSelectedCaseStudy(null);
+                  handleSelectPage('contacts');
                 }}
               />
             )}
-          </main>
-        )}
 
-        {/* 2c. Company Updates & Milestones */}
-        {currentPage === 'company-updates' && (
-          <main id="main-content">
-            <CompanyUpdatesPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Company Update', msg, 'info')}
-              onOpenLegal={(tab) => {
-                if (tab === 'privacy') handleSelectPage('privacy-policy');
-                else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                else handleSelectPage('security-policy');
-              }}
-            />
-          </main>
-        )}
-
-        {/* 3. Portfolio & Case Studies */}
-        {currentPage === 'portfolio' && (
-          <main id="main-content">
-            <PortfolioPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {/* 4. About Us & Leadership */}
-        {currentPage === 'about-us' && (
-          <main id="main-content">
-            <AboutUsPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {/* 5. Contacts & Global RFP Form */}
-        {currentPage === 'contacts' && (
-          <main id="main-content">
-            <ContactsPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {/* 6. Privacy Policy Page */}
-        {currentPage === 'privacy-policy' && (
-          <main id="main-content">
-            <PrivacyPolicyPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onOpenLegal={(tab) => {
-                if (tab === 'privacy') handleSelectPage('privacy-policy');
-                else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                else handleSelectPage('security-policy');
-              }}
-            />
-          </main>
-        )}
-
-        {/* 7. Cookie Policy Page */}
-        {currentPage === 'cookie-policy' && (
-          <main id="main-content">
-            <CookiePolicyPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onOpenLegal={(tab) => {
-                if (tab === 'privacy') handleSelectPage('privacy-policy');
-                else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                else handleSelectPage('security-policy');
-              }}
-            />
-          </main>
-        )}
-
-        {/* 8. Security & Compliance Standards Page */}
-        {currentPage === 'security-policy' && (
-          <main id="main-content">
-            <SecurityPolicyPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onOpenLegal={(tab) => {
-                if (tab === 'privacy') handleSelectPage('privacy-policy');
-                else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                else handleSelectPage('security-policy');
-              }}
-            />
-          </main>
-        )}
-
-        {/* 9. Specialized Strategic Phases (Product Discovery, etc.) */}
-        {currentPage === 'product-discovery' && (
-          <main id="main-content">
-            <ProductDiscoveryPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onOpenPrivacy={() => handleSelectPage('privacy-policy')}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {currentPage === 'product-engineering' && (
-          <main id="main-content">
-            <ProductEngineeringPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onOpenPrivacy={() => handleSelectPage('privacy-policy')}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {currentPage === 'business-analysis' && (
-          <main id="main-content">
-            <BusinessAnalysisPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onOpenPrivacy={() => handleSelectPage('privacy-policy')}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {currentPage === 'it-consulting' && (
-          <main id="main-content">
-            <ITConsultingPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {currentPage === 'ui-ux-design' && (
-          <main id="main-content">
-            <UIUXDesignPage
-              onNavigateHome={() => handleSelectPage('home')}
-              onNavigatePage={(p) => handleSelectPage(p as PageType)}
-              onSuccessToast={(msg) => addToast('Success', msg, 'success')}
-            />
-          </main>
-        )}
-
-        {/* 10. Default Homepage with Full-Bleed Scroll Stack & Narrative Story */}
-        {currentPage === 'home' && (
-          <main id="main-content">
-            {/* 1. Hero Section */}
-            <HeroSection onTalkClick={() => handleSelectPage('contacts')} />
-
-            {/* 2. 23 Years / Line-by-Line Text Fill & Client Logos */}
-            <ExperienceSection />
-
-            {/* 3. Industry Recognition 5s Crossfade Carousel */}
-            <IndustryRecognition />
-
-            {/* 4. Engineering First / Radial Blue Blob Scroll Transition */}
-            <EngineeringBlobSection />
-
-            {/* 5. 5-Layer Delivery Principles Accordion with Progress Fill */}
-            <DeliveryPrinciples />
-
-            {/* 6. Full-Width Borderless Pinned Scroll-Stacking Service Cards */}
-            <ServicesStack onSelectService={(slug) => handleSelectPage(slug as PageType)} />
-
-            {/* 7. Horizontal Scroll Pinned Case Studies */}
-            <CaseStudiesHorizontal
-              onContactClick={() => handleSelectPage('contacts')}
-              onSelectCaseStudy={(id) => setSelectedCaseStudy(id)}
-            />
-
-            {/* 8. Canopy Client Testimonial Video/Photo Reel */}
-            <Testimonials />
-
-            {/* 9. Contact & RFP Form */}
-            <ContactSection
-              onSuccessToast={(msg) => addToast('Request Sent', msg, 'success')}
-              onOpenPrivacy={() => handleSelectPage('privacy-policy')}
-            />
-
-            {/* 10. Global Engineering Locations */}
-            <LocationsSection />
-
-            {/* 11. Footer */}
-            <Footer
-              onNavigate={(target) => {
-                if (target === '#casestudies') {
-                  handleSelectPage('portfolio');
-                } else if (target === '#contact') {
+            {/* Global Service Capability Modal */}
+            {selectedService !== null && (
+              <ServiceModal
+                serviceId={selectedService}
+                onClose={() => setSelectedService(null)}
+                onRequestQuote={() => {
+                  setSelectedService(null);
                   handleSelectPage('contacts');
-                } else {
-                  handleNavigate(target);
-                }
-              }}
-              onOpenLegal={(tab) => {
-                if (tab === 'privacy') handleSelectPage('privacy-policy');
-                else if (tab === 'cookie') handleSelectPage('cookie-policy');
-                else handleSelectPage('security-policy');
-              }}
-            />
-          </main>
-        )}
+                }}
+              />
+            )}
 
-        {/* Global Case Study Deep-Dive Modal */}
-        <CaseStudyModal
-          studyId={selectedCaseStudy}
-          onClose={() => setSelectedCaseStudy(null)}
-          onRequestQuote={() => {
-            setSelectedCaseStudy(null);
-            handleSelectPage('contacts');
-          }}
-        />
+            {/* Global Privacy / Cookies / Security Modal */}
+            {legalModal.isOpen && (
+              <LegalModal
+                isOpen={legalModal.isOpen}
+                initialTab={legalModal.tab}
+                onClose={() => setLegalModal({ isOpen: false, tab: 'privacy' })}
+              />
+            )}
 
-        {/* Global Service Capability Modal */}
-        <ServiceModal
-          serviceId={selectedService}
-          onClose={() => setSelectedService(null)}
-          onRequestQuote={() => {
-            setSelectedService(null);
-            handleSelectPage('contacts');
-          }}
-        />
+            {/* Global Quick Command Palette (Cmd+K / Ctrl+K) */}
+            {isCommandPaletteOpen && (
+              <CommandPalette
+                isOpen={isCommandPaletteOpen}
+                onClose={() => setIsCommandPaletteOpen(false)}
+                onSelect={(targetId: string) => {
+                  const clean = targetId.replace('#', '');
+                  if (isServiceSlug(clean)) {
+                    handleSelectPage(clean as PageType);
+                  } else if (clean === 'insights') {
+                    handleSelectPage('insights');
+                  } else if (clean === 'portfolio' || targetId === '#casestudies') {
+                    handleSelectPage('portfolio');
+                  } else if (clean === 'about-us' || targetId === '#leaders') {
+                    handleSelectPage('about-us');
+                  } else if (clean === 'contacts' || targetId === '#contact') {
+                    handleSelectPage('contacts');
+                  } else if (clean === 'privacy-policy') {
+                    handleSelectPage('privacy-policy');
+                  } else if (clean === 'cookie-policy') {
+                    handleSelectPage('cookie-policy');
+                  } else if (clean === 'security-policy') {
+                    handleSelectPage('security-policy');
+                  } else if (clean === 'product-discovery') {
+                    handleSelectPage('product-discovery');
+                  } else if (clean === 'product-engineering') {
+                    handleSelectPage('product-engineering');
+                  } else if (clean === 'business-analysis') {
+                    handleSelectPage('business-analysis');
+                  } else if (clean === 'it-consulting') {
+                    handleSelectPage('it-consulting');
+                  } else if (clean === 'ui-ux-design') {
+                    handleSelectPage('ui-ux-design');
+                  } else {
+                    handleNavigate(targetId);
+                  }
+                  setIsCommandPaletteOpen(false);
+                }}
+              />
+            )}
+          </Suspense>
 
-        {/* Global Privacy / Cookies / Security Modal */}
-        <LegalModal
-          isOpen={legalModal.isOpen}
-          initialTab={legalModal.tab}
-          onClose={() => setLegalModal({ isOpen: false, tab: 'privacy' })}
-        />
+          {/* EU / Global Cookie Consent Banner */}
+          <CookieConsent onOpenPrivacy={() => handleSelectPage('privacy-policy')} />
 
-        {/* EU / Global Cookie Consent Banner */}
-        <CookieConsent onOpenPrivacy={() => handleSelectPage('privacy-policy')} />
-
-        {/* Global Quick Command Palette (Cmd+K / Ctrl+K) */}
-        <CommandPalette
-          isOpen={isCommandPaletteOpen}
-          onClose={() => setIsCommandPaletteOpen(false)}
-          onSelect={(targetId: string) => {
-            const clean = targetId.replace('#', '');
-            if (clean in SERVICES_DATA) {
-              handleSelectPage(clean as PageType);
-            } else if (clean === 'insights') {
-              handleSelectPage('insights');
-            } else if (clean === 'portfolio' || targetId === '#casestudies') {
-              handleSelectPage('portfolio');
-            } else if (clean === 'about-us' || targetId === '#leaders') {
-              handleSelectPage('about-us');
-            } else if (clean === 'contacts' || targetId === '#contact') {
-              handleSelectPage('contacts');
-            } else if (clean === 'privacy-policy') {
-              handleSelectPage('privacy-policy');
-            } else if (clean === 'cookie-policy') {
-              handleSelectPage('cookie-policy');
-            } else if (clean === 'security-policy') {
-              handleSelectPage('security-policy');
-            } else if (clean === 'product-discovery') {
-              handleSelectPage('product-discovery');
-            } else if (clean === 'product-engineering') {
-              handleSelectPage('product-engineering');
-            } else if (clean === 'business-analysis') {
-              handleSelectPage('business-analysis');
-            } else if (clean === 'it-consulting') {
-              handleSelectPage('it-consulting');
-            } else if (clean === 'ui-ux-design') {
-              handleSelectPage('ui-ux-design');
-            } else {
-              handleNavigate(targetId);
-            }
-          }}
-        />
-
-        {/* Toast Notification Container */}
-        <Toast toasts={toasts} onDismiss={removeToast} />
+          {/* Toast Notification Container */}
+          <Toast toasts={toasts} onDismiss={removeToast} />
         </div>
       </CinematicScroll>
     </ErrorBoundary>

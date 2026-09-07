@@ -238,3 +238,32 @@ export const ServicePage: React.FC<ServicePageProps> = ({
     </div>
   );
 };
+
+// Container component that encapsulates service registry lookup so the main bundle stays lightweight
+import { UNIVERSAL_SERVICES_MAP } from '../../data/universalServicesRegistry';
+
+export interface ServicePageContainerProps {
+  slug: string;
+  onNavigateHome: () => void;
+  onNavigatePage: (page: string) => void;
+  onSuccessToast: (msg: string) => void;
+  onOpenLegal?: (tab: 'privacy' | 'cookie' | 'security') => void;
+}
+
+export const ServicePageContainer: React.FC<ServicePageContainerProps> = ({
+  slug,
+  ...rest
+}) => {
+  const serviceData = UNIVERSAL_SERVICES_MAP[slug];
+  if (!serviceData) return null;
+  return (
+    <ServicePage
+      data={serviceData}
+      allServices={UNIVERSAL_SERVICES_MAP}
+      {...rest}
+    />
+  );
+};
+
+export default ServicePageContainer;
+

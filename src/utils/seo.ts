@@ -1,5 +1,5 @@
 import { PageType } from '../components/Header';
-import { UNIVERSAL_SERVICES_MAP } from '../data/universalServicesRegistry';
+import { SERVICE_METADATA_MAP } from '../data/serviceMetadata';
 import { BLOG_POSTS_DATA } from '../data/blogData';
 
 export interface PageMeta {
@@ -68,15 +68,15 @@ export const getPageMetadata = (page: PageType | '404', articleId?: string | nul
   }
 
   // 3. 28 Universal Canonical Service Pages
-  if (page in UNIVERSAL_SERVICES_MAP) {
-    const service = UNIVERSAL_SERVICES_MAP[page];
-    const canonicalSlug = service.slug === 'chatbot-videobot' ? 'chatbot-videobot' : service.slug;
+  if (page in SERVICE_METADATA_MAP) {
+    const service = SERVICE_METADATA_MAP[page];
+    const canonicalSlug = page === 'chatbot-videobot' ? 'chatbot-videobot' : page;
     return {
       title: `${service.title} Services | Neominds Enterprise Engineering`,
-      description: service.hero.description || service.overview.statement,
+      description: service.description,
       canonicalPath: `/services/${canonicalSlug}`,
       ogType: 'website',
-      ogImage: service.hero.heroImage || DEFAULT_OG_IMAGE,
+      ogImage: service.heroImage || DEFAULT_OG_IMAGE,
       schema: {
         '@context': 'https://schema.org',
         '@graph': [
@@ -112,7 +112,7 @@ export const getPageMetadata = (page: PageType | '404', articleId?: string | nul
               url: PRODUCTION_DOMAIN,
             },
             areaServed: 'Worldwide',
-            description: service.hero.description,
+            description: service.description,
             offers: {
               '@type': 'Offer',
               priceCurrency: 'USD',
