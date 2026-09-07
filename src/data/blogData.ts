@@ -4,7 +4,7 @@ export interface BlogArticle {
   title: string;
   subtitle: string;
   excerpt: string;
-  category: 'AI & Machine Learning' | 'Cloud & Architecture' | 'Fintech & Security' | 'Engineering Leadership';
+  category: string;
   author: {
     name: string;
     role: string;
@@ -55,18 +55,19 @@ export const BLOG_POSTS_DATA: BlogArticle[] = [
     id: 'why-ai-projects-fail-in-enterprises',
     slug: 'why-ai-projects-fail-in-enterprises',
     title: 'Why AI projects fail in enterprises: the implementation gap between pilots and production',
-    subtitle: 'From flashy proofs-of-concept to deterministic enterprise execution',
+    subtitle: 'The implementation gap between pilots and production',
     excerpt:
-      'Over 78% of enterprise GenAI pilots never make it to full-scale production. We dissect the technical pitfalls—from vector hallucination drift and non-deterministic tool chaining to governance failures—and demonstrate the rigorous engineering discipline required to cross the chasm.',
-    category: 'AI & Machine Learning',
+      'The pattern is consistent across industries: organizations invest in AI, run a pilot that impresses stakeholders, and then spend the next six to twelve months unable to explain why it never made it to production.',
+    category: 'Artificial intelligence',
     author: {
       name: 'Alexander Kachaev',
-      role: 'Chief Technology Officer',
+      role: 'Chief Executive Officer',
+      avatar: '/uploads/ESThumbnails/81727/660.Alexander-Kachaev-1.png',
     },
-    date: 'February 24, 2026',
-    readTime: '7 min read',
-    coverImage: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop',
-    tags: ['Generative AI', 'Production Engineering', 'RAG Evaluation', 'Enterprise Architecture', 'LangGraph'],
+    date: '2 months ago',
+    readTime: '21 min read',
+    coverImage: '/uploads/ESThumbnails/139066/1280.ai-projects-fail-in-enterprises.jpg',
+    tags: ['Artificial intelligence', 'Enterprise', 'Machine learning', 'IT consulting'],
     content: {
       intro:
         'Building a demonstration prototype using an LLM API takes an afternoon. Getting that same system to operate with 99.95% accuracy, sub-200ms latency, zero PII leaks, and predictable cost bounds inside an enterprise banking or healthcare environment takes world-class software engineering. This disconnect is what we call the "Enterprise AI Implementation Gap."',
@@ -91,7 +92,7 @@ export const BLOG_POSTS_DATA: BlogArticle[] = [
           heading: '2. Solving Retrieval Drift with Hybrid Graph & Keyword Indexing',
           body:
             'Leading enterprises have moved past simple vector chunking. Modern architectures employ multi-stage retrieval pipelines: BM25 keyword filtering to guarantee exact part numbers and entity matches, dense vector embeddings for semantic nuance, and knowledge graph cross-referencing to confirm multi-hop relationships.',
-          codeSnippet: `// Example: Multi-Stage Hybrid Retrieval Pipeline Schema
+          codeSnippet: `// Multi-Stage Hybrid Retrieval Pipeline Schema
 interface RetrievalPipelineConfig {
   denseSearch: {
     model: 'text-embedding-3-large';
@@ -115,11 +116,179 @@ interface RetrievalPipelineConfig {
         {
           heading: '3. Deterministic State Machines Over Free-Form Autonomous Loops',
           body:
-            'While fully autonomous agent swarms make for captivating demos, enterprise systems require deterministic execution bounds. At Neominds, we structure complex workflows using state machines (such as LangGraph or custom Go workflow runtimes) where every tool call, state transition, and retry policy is strictly bounded and audited.',
+            'While fully autonomous agent swarms make for captivating demos, enterprise systems require deterministic execution bounds. At Neominds, we structure complex workflows using state machines where every tool call, state transition, and retry policy is strictly bounded and audited.',
         },
       ],
       conclusion:
         'Enterprise AI succeeds not by hoping an LLM gets it right, but by surrounding stochastic neural networks with deterministic software engineering, observability telemetry, and strict compliance boundaries. If you are preparing to bridge the pilot-to-production gap, engineering discipline is your single greatest asset.',
+    },
+  },
+  {
+    id: 'ai-in-education',
+    slug: 'ai-in-education',
+    title: 'AI in education: use cases, benefits, implementation guide',
+    subtitle: 'Transforming classrooms, corporate training, and digital learning platforms',
+    excerpt:
+      'Education is no longer limited to traditional schooling. From classrooms and universities to corporate training and digital learning platforms, people are expected to continuously acquire new skills in a world shaped by rapid technological advancements and artificial intelligence (AI).',
+    category: 'Artificial intelligence',
+    author: {
+      name: 'Elena Rostova',
+      role: 'Head of Business Analysis & Strategy',
+      avatar: '/uploads/ESThumbnails/81721/660.Arina-Lozyuk-1.png',
+    },
+    date: '4 months ago',
+    readTime: '1 min read',
+    coverImage: '/uploads/ESThumbnails/136853/1280.ai-use-cases-in-education.jpg',
+    tags: ['Artificial intelligence', 'E-learning', 'Digital transformation'],
+    content: {
+      intro:
+        'Education is undergoing an unprecedented structural evolution. As digital learning environments become ubiquitous, artificial intelligence empowers educators and enterprise learning administrators to personalize curriculum delivery, automate assessment feedback, and identify knowledge gaps in real time.',
+      keyTakeaways: [
+        'Adaptive learning paths dynamically adjust curriculum difficulty according to student mastery indices.',
+        'Automated grading systems reduce grading overhead by up to 65% while providing granular feedback.',
+        'Synthetic multilingual tutoring agents bridge educational accessibility across geographical boundaries.',
+        'Enterprise onboarding programs accelerate employee ramp time through interactive simulation labs.',
+      ],
+      sections: [
+        {
+          heading: '1. Intelligent Adaptive Learning Environments',
+          body:
+            'Unlike static online courses, modern AI-driven educational platforms model learner cognitive retention over time. Algorithms identify specific concepts where students hesitate and immediately supply tailored refresher exercises and scaffolded hints.',
+        },
+        {
+          heading: '2. Continuous Skill Mapping for Corporate Reskilling',
+          body:
+            'In corporate settings, AI maps an organization’s engineering, compliance, and product competencies directly against business roadmaps, highlighting skill deficits before they impact delivery velocity.',
+        },
+      ],
+      conclusion:
+        'AI is not replacing human instructors; it is amplifying their impact by eliminating mechanical administrative burdens and equipping learners with bespoke 24/7 intelligent mentorship.',
+    },
+  },
+  {
+    id: 'ai-in-product-development',
+    slug: 'ai-in-product-development',
+    title: 'A guide to building AI-enabled products: best practices and use cases',
+    subtitle: 'Applying AI in ways that solve specific user problems and hold up in real-world conditions',
+    excerpt:
+      'Artificial intelligence (AI) is becoming easier to access, but building useful AI-enabled products is not. The challenge now lies in applying AI in ways that solve specific user problems and hold up in real-world conditions.',
+    category: 'Artificial intelligence',
+    author: {
+      name: 'Mark Minehart',
+      role: 'Chief Technology Officer',
+      avatar: '/uploads/ESThumbnails/81730/660.Mark-Minehart.png',
+    },
+    date: '4 months ago',
+    readTime: '1 min read',
+    coverImage: '/uploads/ESThumbnails/136028/1280.ai-product-development.jpg',
+    tags: ['Artificial intelligence', 'Design', 'Enterprise', 'Machine learning'],
+    content: {
+      intro:
+        'While API access to foundation models has become commoditized, designing resilient AI products requires solving hard challenges: latency unpredictability, interface affordances for probabilistic outputs, and transparent error handling when models encounter ambiguous inputs.',
+      keyTakeaways: [
+        'Start with the user problem, not the model capability: AI should be invisible when it works best.',
+        'Implement optimistic UI rendering with streaming responses to keep perceived latency below 200ms.',
+        'Design graceful fallback modes when model confidence scores drop below operational thresholds.',
+        'Track token economics and caching ratios directly in application telemetry dashboards.',
+      ],
+      sections: [
+        {
+          heading: '1. Designing for Probabilistic Interfaces',
+          body:
+            'Traditional UI designs assume binary deterministic responses. When incorporating generative models, product teams must provide inline editing, regeneration affordances, and confidence indicators so users remain firmly in control of the creative output.',
+        },
+        {
+          heading: '2. Cost Bounds & Latency Budgets',
+          body:
+            'Every LLM call introduces variability in inference time and compute cost. High-throughput applications must deploy semantic caching (e.g. GPTCache or Redis vector stores) to serve frequent queries instantly without invoking expensive foundation models.',
+        },
+      ],
+      conclusion:
+        'Great AI-enabled products are defined not by the size of the underlying model, but by the elegance with which they solve real customer pain points reliably, fast, and at sustainable unit economics.',
+    },
+  },
+  {
+    id: 'ai-in-software-development-lifecycle',
+    slug: 'ai-in-software-development-lifecycle',
+    title: 'AI in the SDLC',
+    subtitle: 'How coding assistants and AI agents evolve across the software lifecycle',
+    excerpt:
+      'Software teams are writing more code lines than ever, but not all of them are written by humans anymore. Single experiments with coding assistants have evolved to become an integral part of the software development lifecycle (SDLC).',
+    category: 'Artificial intelligence',
+    author: {
+      name: 'Alexander Kachaev',
+      role: 'Chief Executive Officer',
+      avatar: '/uploads/ESThumbnails/81727/660.Alexander-Kachaev-1.png',
+    },
+    date: '5 months ago',
+    readTime: '2 min read',
+    coverImage: '/uploads/ESThumbnails/134677/1280.AI-in-SDLC.jpg',
+    tags: ['Artificial intelligence', 'Agile', 'Enterprise', 'DevOps'],
+    content: {
+      intro:
+        'Coding assistants have progressed from rudimentary tab-completion plugins into sophisticated multi-file context reasoning agents that participate in sprint planning, pull request reviews, test generation, and architectural refactoring.',
+      keyTakeaways: [
+        'Synthetic test generation boosts unit and integration branch coverage without slowing down feature sprints.',
+        'Automated static security scanning driven by LLMs catches prompt injection and memory leaks pre-merge.',
+        'Legacy code migration (COBOL to Java, monolith to Go) is compressed by up to 70% with semantic transpilation.',
+        'Human engineering judgment remains essential for system boundary design, domain modeling, and trade-off decisions.',
+      ],
+      sections: [
+        {
+          heading: '1. Accelerating Code Review & Vulnerability Detection',
+          body:
+            'By integrating contextual AI reviewers into GitHub and GitLab CI pipelines, teams catch subtle race conditions, unhandled exceptions, and API breaking changes before human reviewers spend hours evaluating line-by-line diffs.',
+        },
+        {
+          heading: '2. Automated Test Synthesis & Edge Case Detection',
+          body:
+            'AI tooling can automatically ingest database schemas and OpenAPI specs to generate exhaustive property-based tests, boundary test vectors, and mock fixtures that reveal latent concurrency bugs.',
+        },
+      ],
+      conclusion:
+        'The integration of AI into the SDLC elevates engineers from typing boilerplate syntax to directing system architectures, enforcing reliability gates, and solving higher-level domain challenges.',
+    },
+  },
+  {
+    id: 'ai-in-hr',
+    slug: 'ai-in-hr',
+    title: 'AI in HR: use cases, benefits, and implementation guide',
+    subtitle: 'Process automation, talent analytics, and decision intelligence in human resources',
+    excerpt:
+      'Human resources (HR) teams manage every stage of the employee life cycle, from attracting and hiring talent to supporting development, engagement, and retention. Alongside these critical responsibilities, HR professionals also handle large volumes of administrative and repetitive work. Artificial intelligence (AI) enables process automation, improves efficiency, and supports better decision-making.',
+    category: 'Artificial intelligence',
+    author: {
+      name: 'Anna Aleksina',
+      role: 'Director, Human Resources',
+      avatar: '/uploads/ESThumbnails/85945/660.Anna-Aleksina-2.jpg',
+    },
+    date: '6 months ago',
+    readTime: '3 min read',
+    coverImage: '/uploads/ESThumbnails/133156/1280.artificial-intelligence-in-human-resources.jpg',
+    tags: ['Artificial intelligence', 'Enterprise', 'Business intelligence'],
+    content: {
+      intro:
+        'Human resources operations are laden with repetitive documentation, candidate screening workflows, and onboarding administration. Modern AI tools help talent acquisition and HR operations teams streamline repetitive tasks while maintaining unbiased, auditable candidate evaluations.',
+      keyTakeaways: [
+        'Semantic resume parsing matches candidate skill topologies against job requirements with zero keyword bias.',
+        'Automated self-service HR chatbots resolve up to 80% of common benefits and policy inquiries instantly.',
+        'Predictive retention modeling surfaces early flight risk indicators to support proactive talent management.',
+        'Strict data privacy governance ensures all employee metrics comply with GDPR, EEOC, and labor standards.',
+      ],
+      sections: [
+        {
+          heading: '1. Talent Acquisition & Automated Screening',
+          body:
+            'Modern screening engines analyze candidate technical project contributions and experience depth rather than relying on crude keyword matching, ensuring qualified candidates from diverse backgrounds are surfaced to hiring managers.',
+        },
+        {
+          heading: '2. Employee Engagement & Predictive Analytics',
+          body:
+            'By aggregating anonymized sentiment feedback and team throughput telemetry, HR leadership gains visibility into organizational burnout, team friction points, and management support needs in real time.',
+        },
+      ],
+      conclusion:
+        'Deploying AI in human resources is not about replacing human connection—it is about removing administrative friction so HR leaders can focus on mentorship, culture, and organizational excellence.',
     },
   },
   {
@@ -129,15 +298,16 @@ interface RetrievalPipelineConfig {
     subtitle: 'Step-by-step Strangler Fig pattern execution processing $4.2B in transactional volume',
     excerpt:
       'How we decoupled a legacy monolithic database into high-throughput Go microservices and Apache Kafka event streams without a single second of unplanned downtime or ledger inconsistency.',
-    category: 'Fintech & Security',
+    category: 'Fintech',
     author: {
       name: 'Vladimir Arefyev',
-      role: 'Head of Cloud & Architecture',
+      role: 'Principal Solution Consultant',
+      avatar: '/uploads/ESThumbnails/141626/660.Vladimir-Arefev-2.png',
     },
     date: 'February 12, 2026',
     readTime: '9 min read',
-    coverImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
-    tags: ['Fintech', 'Event-Driven', 'Kafka', 'Go', 'Zero Downtime', 'PostgreSQL'],
+    coverImage: '/uploads/ESThumbnails/101582/1280.Data-warehouse-development.png',
+    tags: ['Fintech', 'Banking', 'Cloud', 'Blockchain', 'Legacy modernization', 'Enterprise'],
     content: {
       intro:
         'Replacing a core transactional engine while processing hundreds of thousands of daily card payments is the engineering equivalent of rebuilding an aircraft engine mid-flight. Here is the architectural playbook we executed to migrate an enterprise financial provider to event-driven Go microservices with zero downtime.',
@@ -162,23 +332,46 @@ interface RetrievalPipelineConfig {
           heading: '2. Continuous Reconciliation with Debezium and Kafka',
           body:
             'To ensure zero data loss and eliminate ledger drift, we deployed Debezium on top of PostgreSQL logical replication. Every transaction committed in the legacy schema was instantly streamed to Kafka, where an automated reconciliation worker compared balances across both systems in real time.',
-          codeSnippet: `// Kafka Event Envelope with Cryptographic Hash Integrity
-{
-  "eventId": "evt_98f410a2",
-  "aggregateId": "acct_8420194",
-  "eventType": "LEDGER_CREDIT_POSTED",
-  "timestamp": "2026-02-12T14:32:00.104Z",
-  "payload": {
-    "amount": "14500.00",
-    "currency": "USD",
-    "idempotencyKey": "req_uniq_01824"
-  },
-  "hashSha256": "3a8f1b6...d94c"
-}`,
         },
       ],
       conclusion:
         'Modernizing legacy core systems does not require gambling on risky cutovers. By leveraging modern event streaming, bi-directional CDC queues, and strict idempotency, enterprises can achieve cloud-native resilience while maintaining complete operational continuity.',
+    },
+  },
+  {
+    id: 'healthcare-revenue-cycle-management-automation',
+    slug: 'healthcare-revenue-cycle-management-automation',
+    title: 'Automating Healthcare Revenue Cycle Management with Deterministic AI Pipelines',
+    subtitle: 'Cutting claim denial rates by 48% across enterprise hospital networks',
+    excerpt:
+      'Healthcare revenue cycle management is plagued by manual coding backlogs, delayed claims submissions, and arbitrary insurer denials. We detail the end-to-end automation architecture that recovered millions in operational revenue.',
+    category: 'Healthcare',
+    author: {
+      name: 'Mikhail Tyuzin',
+      role: 'Senior Solution Architect',
+      avatar: '/uploads/ESThumbnails/94001/660.Mikhail-Tyuzin-1.png',
+    },
+    date: 'January 28, 2026',
+    readTime: '6 min read',
+    coverImage: '/uploads/ESThumbnails/101578/1280.healthcare-revenue-cycle-management-software.png',
+    tags: ['Healthcare', 'Data analytics', 'Artificial intelligence', 'Business intelligence'],
+    content: {
+      intro:
+        'Hospital networks lose billions annually due to claim rejections caused by minor coding inaccuracies, missing documentation, or payer policy shifts. By deploying automated validation and OCR extraction pipelines, healthcare organizations eliminate manual billing friction.',
+      keyTakeaways: [
+        'Automated ICD-10 and CPT cross-validation prevents initial billing rejections before submission.',
+        'Real-time payer rule ingestion adapts claims forms dynamically to insurance policy changes.',
+        'HIPAA-compliant on-premise inference engines protect protected health information (PHI).',
+      ],
+      sections: [
+        {
+          heading: '1. Intelligent Pre-Submission Scrubbing',
+          body:
+            'Our machine learning pipelines cross-reference clinical notes, pathology reports, and procedural codes to verify medical necessity documentation before electronic submission to clearinghouses.',
+        },
+      ],
+      conclusion:
+        'Automating the revenue cycle turns billing from an operational liability into a predictable, optimized engine for healthcare systems.',
     },
   },
 ];

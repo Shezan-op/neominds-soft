@@ -1,250 +1,649 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Sparkles,
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  ShieldCheck,
+  Mail,
+  Phone,
+  Upload,
+  Play,
 } from 'lucide-react';
+import {
+  ABOUT_TEAM_MEMBERS,
+  ABOUT_TESTIMONIALS,
+  ABOUT_LOCATIONS,
+} from '../data/aboutData';
 import { Footer } from './Footer';
 import { ScrollReveal, RevealElement } from './scroll-reveal';
+import './AboutUsPage.css';
 
 interface AboutUsPageProps {
   onNavigateHome?: () => void;
   onNavigatePage: (page: string) => void;
   onSuccessToast?: (msg: string) => void;
+  onOpenLegal?: (tab: 'privacy' | 'cookie' | 'security') => void;
 }
 
 export const AboutUsPage: React.FC<AboutUsPageProps> = ({
   onNavigatePage,
+  onSuccessToast,
+  onOpenLegal,
 }) => {
-  const leaders = [
-    {
-      name: 'Alexander Kachaev',
-      title: 'Chief Executive Officer',
-      role: 'Global Leadership & Strategic Vision',
-      bio: 'Leading EffectiveSoft since inception, Alexander has scaled the company into a premier international engineering powerhouse delivering transformative software solutions for Fortune 500 enterprises and hyper-growth innovators.',
-      image: '/uploads/ESThumbnails/127053/330.Image.jpeg',
-    },
-    {
-      name: 'Mark Minehart',
-      title: 'Chief Technology Officer',
-      role: 'Technology Strategy & Architecture',
-      bio: 'Directs the engineering practices, cloud infrastructure modernization, and AI innovation labs across all global delivery centers, ensuring rock-solid technical execution and adherence to ISO/IEC 27001 standards.',
-      image: '/uploads/ESThumbnails/141627/330.Vladimir-Arefev.png',
-    },
-    {
-      name: 'Elena Rostova',
-      title: 'Head of Business Analysis & Strategy',
-      role: 'CBAP Certified, Requirements Engineering',
-      bio: 'Over 14 years bridging executive vision and software code. Elena leads our requirements engineering practice, ensuring every product sprint delivers quantifiable commercial ROI and zero scope ambiguity.',
-      image: '/uploads/ESThumbnails/140007/330.Emanuel-Hernandez-Castillo.png',
-    },
-    {
-      name: 'Vladimir Arefyev',
-      title: 'Principal Solution Consultant',
-      role: 'Enterprise Architecture & Cloud Advisory',
-      bio: 'Specializes in legacy monolith strangler migrations, distributed microservices, and high-throughput streaming pipelines for automotive and financial platforms.',
-      image: '/uploads/ESThumbnails/141627/330.Vladimir-Arefev.png',
-    },
-  ];
+  // Testimonial Carousel state
+  const [currentTestimonialIndex, setCurrentTestimonialIndex] = useState(0);
+
+  // Locations Tab state
+  const [locationTab, setLocationTab] = useState<'americas' | 'europe'>('americas');
+
+  // Contact Form state
+  const [formState, setFormState] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    company: '',
+    message: '',
+    ndaFirst: false,
+    consent: false,
+  });
+  const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
+
+  const nextTestimonial = () => {
+    setCurrentTestimonialIndex((prev) => (prev + 1) % ABOUT_TESTIMONIALS.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonialIndex((prev) =>
+      prev === 0 ? ABOUT_TESTIMONIALS.length - 1 : prev - 1
+    );
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (onSuccessToast) {
+      onSuccessToast(
+        `Thank you ${formState.name || 'there'}! We have received your challenge and our solutions team will respond within 1–2 business days.`
+      );
+    }
+    setFormState({
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      message: '',
+      ndaFirst: false,
+      consent: false,
+    });
+    setSelectedFileName(null);
+  };
+
+  const currentTestimonial = ABOUT_TESTIMONIALS[currentTestimonialIndex];
 
   return (
-    <div style={{ backgroundColor: '#ffffff', color: '#0f172a', minHeight: '100vh', paddingTop: '68px', fontFamily: 'var(--font-body)' }}>
+    <div className="p-about-page">
       {/* ========================================================
-          HERO SECTION
+          1. SUPERHERO SECTION (.s-superhero theme-dark)
           ======================================================== */}
-      <section
-        style={{
-          padding: 'clamp(64px, 8vw, 90px) 24px clamp(48px, 6vw, 70px)',
-          maxWidth: '1240px',
-          margin: '0 auto',
-          textAlign: 'center',
-        }}
-      >
-        <div
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '8px',
-            padding: '6px 14px',
-            backgroundColor: 'rgba(34, 88, 231, 0.08)',
-            border: '1px solid rgba(34, 88, 231, 0.25)',
-            borderRadius: '2px',
-            color: '#2258e7',
-            fontSize: '13px',
-            fontWeight: 600,
-            letterSpacing: '0.04em',
-            marginBottom: '24px',
-            textTransform: 'uppercase',
-          }}
-        >
-          <Sparkles size={14} />
-          <span>About Neominds</span>
-        </div>
-
-        <ScrollReveal
-          as="h1"
-          style={{
-            fontSize: 'clamp(40px, 6vw, 68px)',
-            fontWeight: 800,
-            lineHeight: 1.1,
-            letterSpacing: '-0.03em',
-            color: '#0f172a',
-            marginBottom: '24px',
-            fontFamily: 'var(--font-heading)',
-            display: 'block',
-          }}
-          blurStrength={8}
-        >
-          Fueling <span style={{ color: '#2258e7' }}>Disruption</span>
-        </ScrollReveal>
-
-        <RevealElement variant="text" delay={0.06}>
-          <p
-            style={{
-              fontSize: 'clamp(17px, 1.3vw, 20px)',
-              lineHeight: 1.6,
-              color: '#475569',
-              maxWidth: '780px',
-              margin: '0 auto 48px',
-            }}
-          >
-            For over 23 years, Neominds has been the trusted software product engineering partner for global enterprises and fast-growing innovators, turning ambitious technical vision into resilient digital reality.
-          </p>
-        </RevealElement>
-
-        {/* Stats Grid */}
-        <RevealElement variant="card" start="top 92%" end="top 65%">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-              gap: '20px',
-              maxWidth: '1040px',
-              margin: '0 auto',
-            }}
-          >
-            <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '28px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)' }}>
-              <div style={{ fontSize: '42px', fontWeight: 800, color: '#2258e7', fontFamily: 'var(--font-heading)' }}>23+</div>
-              <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px', fontWeight: 500 }}>Years of Engineering Excellence</div>
-            </div>
-            <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '28px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)' }}>
-              <div style={{ fontSize: '42px', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-heading)' }}>1,000+</div>
-              <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px', fontWeight: 500 }}>Delivered Software Projects</div>
-            </div>
-            <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '28px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)' }}>
-              <div style={{ fontSize: '42px', fontWeight: 800, color: '#16a34a', fontFamily: 'var(--font-heading)' }}>52%</div>
-              <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px', fontWeight: 500 }}>Clients Partnering &gt; 4 Years</div>
-            </div>
-            <div style={{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '28px', boxShadow: '0 4px 12px rgba(0, 0, 0, 0.03)' }}>
-              <div style={{ fontSize: '42px', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-heading)' }}>9+</div>
-              <div style={{ fontSize: '14px', color: '#64748b', marginTop: '6px', fontWeight: 500 }}>Global Delivery Locations</div>
-            </div>
+      <section className="s-superhero" data-block-name="about-first-window">
+        <div className="s-superhero__glow"></div>
+        <div className="s-superhero__container">
+          <div className="s-superhero__badge">
+            <Sparkles size={14} />
+            <span>About Neominds</span>
           </div>
-        </RevealElement>
-      </section>
 
-      {/* ========================================================
-          LEADERSHIP TEAM (Image & Bio Grid)
-          ======================================================== */}
-      <section style={{ padding: '80px 24px', maxWidth: '1240px', margin: '0 auto', borderTop: '1px solid #e2e8f0' }}>
-        <div style={{ textAlign: 'center', marginBottom: '60px' }}>
-          <div style={{ fontSize: '12px', fontWeight: 700, color: '#2258e7', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '12px' }}>
-            Executive Leadership
-          </div>
-          <ScrollReveal
-            as="h2"
-            style={{ fontSize: '36px', fontWeight: 800, color: '#0f172a', fontFamily: 'var(--font-heading)', display: 'block' }}
-            blurStrength={7}
-          >
-            Guiding Minds
+          <ScrollReveal as="h1" className="s-superhero__title" blurStrength={8}>
+            Fueling <span>Disruption</span>
           </ScrollReveal>
-        </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '28px' }}>
-          {leaders.map((ldr, idx) => (
-            <RevealElement key={ldr.name} variant="card" delay={(idx % 4) * 0.08} start="top 90%" end="top 65%">
-              <div
-                style={{
-                  backgroundColor: '#f8fafc',
-                  border: '1px solid #e2e8f0',
-                  borderRadius: '8px',
-                  padding: '28px',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
-                  height: '100%',
-                  boxShadow: '0 4px 16px rgba(0, 0, 0, 0.03)',
-                }}
-              >
-                <div>
-                  <div style={{ width: '64px', height: '64px', borderRadius: '50%', backgroundColor: 'rgba(34, 88, 231, 0.1)', border: '2px solid #2258e7', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '22px', fontWeight: 800, color: '#2258e7', marginBottom: '20px' }}>
-                    {ldr.name.charAt(0)}
-                  </div>
-                  <h3 style={{ fontSize: '20px', fontWeight: 700, color: '#0f172a', marginBottom: '4px', fontFamily: 'var(--font-heading)' }}>{ldr.name}</h3>
-                  <div style={{ fontSize: '13px', fontWeight: 600, color: '#2258e7', marginBottom: '16px' }}>{ldr.title}</div>
-                  <p style={{ fontSize: '14px', lineHeight: 1.6, color: '#475569', margin: 0 }}>{ldr.bio}</p>
-                </div>
-                <div style={{ borderTop: '1px solid #e2e8f0', paddingTop: '16px', marginTop: '20px', fontSize: '12px', color: '#64748b', fontWeight: 500 }}>
-                  {ldr.role}
-                </div>
-              </div>
-            </RevealElement>
-          ))}
-        </div>
-      </section>
+          <RevealElement variant="text" delay={0.06}>
+            <p className="s-superhero__subtitle">
+              We engineer mission-critical software, enterprise AI systems, and high-throughput cloud architectures
+              that turn ambitious capabilities into lasting competitive advantage.
+            </p>
+          </RevealElement>
 
-      {/* ========================================================
-          GLOBAL LOCATIONS
-          ======================================================== */}
-      <section style={{ padding: '80px 24px', backgroundColor: '#f8fafc', borderTop: '1px solid #e2e8f0', borderBottom: '1px solid #e2e8f0' }}>
-        <div style={{ maxWidth: '1240px', margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-            <ScrollReveal
-              as="h2"
-              style={{ fontSize: '32px', fontWeight: 800, color: '#0f172a', marginBottom: '12px', fontFamily: 'var(--font-heading)', display: 'block' }}
-              blurStrength={6}
+          <RevealElement variant="card" delay={0.12}>
+            <button
+              type="button"
+              className="s-cta-section__btn"
+              onClick={() => {
+                const el = document.getElementById('contact-video');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+                else onNavigatePage('contacts');
+              }}
             >
-              Our Global Locations
-            </ScrollReveal>
-            <RevealElement variant="text" delay={0.06}>
-              <p style={{ fontSize: '16px', color: '#64748b' }}>Worldwide engineering centers and client collaboration offices</p>
-            </RevealElement>
-          </div>
-
-          <RevealElement variant="card" start="top 90%" end="top 65%">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
-              <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '6px', borderLeft: '3px solid #2258e7', border: '1px solid #e2e8f0', borderLeftWidth: '3px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>Hyderabad, India (HQ)</h4>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Moguls Court 7th Floor, Basheer Bagh, Hyderabad, Telangana, India</p>
-              </div>
-              <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '6px', borderLeft: '3px solid #2258e7', border: '1px solid #e2e8f0', borderLeftWidth: '3px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>San Francisco, California</h4>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>50 California St #1500, 94111</p>
-              </div>
-              <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '6px', borderLeft: '3px solid #2258e7', border: '1px solid #e2e8f0', borderLeftWidth: '3px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>Warsaw, Poland</h4>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>126/134 Marszalkowska Street, 00-008</p>
-              </div>
-              <div style={{ backgroundColor: '#ffffff', padding: '24px', borderRadius: '6px', borderLeft: '3px solid #2258e7', border: '1px solid #e2e8f0', borderLeftWidth: '3px', boxShadow: '0 2px 8px rgba(0,0,0,0.03)' }}>
-                <h4 style={{ fontSize: '16px', fontWeight: 700, color: '#0f172a', marginBottom: '6px', fontFamily: 'var(--font-heading)' }}>Dubai, UAE</h4>
-                <p style={{ fontSize: '13px', color: '#64748b', margin: 0 }}>Dubai Silicon Oasis, DDP, Building A1</p>
-              </div>
-            </div>
+              <span>Discuss your challenge</span>
+              <ArrowRight size={16} />
+            </button>
           </RevealElement>
         </div>
       </section>
 
       {/* ========================================================
-          GLOBAL FOOTER
+          2. BLOCKQUOTE SECTION (.s-blockquote theme-dark2)
           ======================================================== */}
+      <section className="s-blockquote">
+        <div className="s-blockquote__container">
+          <div className="s-blockquote__author-card">
+            <img
+              src="/uploads/ESThumbnails/81727/660.Alexander-Kachaev-1.png"
+              alt="Alexander Kachaev"
+              className="s-blockquote__avatar"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src =
+                  'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop';
+              }}
+            />
+            <h3 className="s-blockquote__name">Alexander Kachaev</h3>
+            <p className="s-blockquote__role">Chief Executive Officer</p>
+          </div>
+
+          <div className="s-blockquote__content">
+            <div className="s-blockquote__quote-mark">&ldquo;</div>
+            <blockquote className="s-blockquote__text">
+              We don’t just get things done—we <em>think bold</em>. It’s our team’s mindset.
+            </blockquote>
+            <p className="s-blockquote__subtext">
+              Over two decades of engineering execution have taught us that cutting-edge software is not defined by novelty,
+              but by structural elegance, mathematical rigor, and uncompromising reliability in production.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          3. VIDEO / BRAND SHOWCASE SECTION (.s-video__video)
+          ======================================================== */}
+      <section className="s-video-section">
+        <div className="s-video-section__container">
+          <div className="s-video-section__header">
+            <h2 className="s-video-section__title">
+              Living our <span>values</span>
+            </h2>
+            <p className="s-video-section__desc">
+              From collaborative architecture reviews to deep domain research, our culture is rooted in craftsmanship, curiosity, and shared ambition.
+            </p>
+          </div>
+
+          <div className="s-video-section__player">
+            <video
+              poster="/uploads/ESThumbnails/100348/1280.Video.png"
+              preload="metadata"
+              loop
+              muted
+              playsInline
+              autoPlay
+            >
+              <source src="/uploads/2025/06/Video-About-us.mp4" type="video/mp4" />
+              <source src="/uploads/2025/07/about-effectivesoft.webm" type="video/webm" />
+            </video>
+            <div
+              style={{
+                position: 'absolute',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '10px 20px',
+                backgroundColor: 'rgba(7, 11, 20, 0.75)',
+                backdropFilter: 'blur(8px)',
+                borderRadius: '40px',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                color: '#ffffff',
+                fontSize: '14px',
+                fontWeight: 600,
+                pointerEvents: 'none',
+              }}
+            >
+              <Play size={16} style={{ color: '#38bdf8', fill: '#38bdf8' }} />
+              <span>Neominds Global Culture &amp; Engineering</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          4. CORE VALUES SECTION (.s-values theme-dark2)
+          ======================================================== */}
+      <section className="s-values" id="values">
+        <div className="s-values__container">
+          <div className="s-values__header">
+            <div className="s-values__badge">
+              <span>Principles &amp; Conviction</span>
+            </div>
+            <h2 className="s-values__title">What we stand for?</h2>
+          </div>
+
+          <div className="s-values__grid">
+            {/* Value 1: Respect */}
+            <div className="s-values__card">
+              <span className="s-values__card-number">01</span>
+              <h3 className="s-values__card-name">Respect</h3>
+              <p className="s-values__card-text">
+                We build strong, healthy relationships by valuing each person in every interaction —whether they’re a client or an employee.
+              </p>
+            </div>
+
+            {/* Value 2: Common sense */}
+            <div className="s-values__card">
+              <span className="s-values__card-number">02</span>
+              <h3 className="s-values__card-name">Common sense</h3>
+              <p className="s-values__card-text">
+                We always ask ourselves if our actions are reasonable and what value they bring before proceeding.
+              </p>
+            </div>
+
+            {/* Value 3: Curiosity */}
+            <div className="s-values__card">
+              <span className="s-values__card-number">03</span>
+              <h3 className="s-values__card-name">Curiosity</h3>
+              <p className="s-values__card-text">
+                We seek answers to deep-rooted questions and uncover the real business needs behind client requests.
+              </p>
+            </div>
+
+            {/* Value 4: Courage */}
+            <div className="s-values__card">
+              <span className="s-values__card-number">04</span>
+              <h3 className="s-values__card-name">Courage</h3>
+              <p className="s-values__card-text">
+                We tackle every challenge with bravery and determination, always ready to face the unknown. Sounds tough? We’re in!
+              </p>
+            </div>
+
+            {/* Value 5: Commitment */}
+            <div className="s-values__card">
+              <span className="s-values__card-number">05</span>
+              <h3 className="s-values__card-name">Commitment</h3>
+              <p className="s-values__card-text">
+                We stay true to our promises, acting with transparency and responsibility in all our dealings. We said it, we’ll do it.
+              </p>
+            </div>
+
+            {/* Partnership Card */}
+            <div
+              className="s-values__card"
+              style={{
+                background: 'linear-gradient(135deg, #111e40 0%, #0f172a 100%)',
+                borderColor: '#2258e7',
+              }}
+            >
+              <span className="s-values__card-number" style={{ color: '#60a5fa' }}>06</span>
+              <h3 className="s-values__card-name">Long-Term Partnership</h3>
+              <p className="s-values__card-text">
+                We measure our success through client retention and enterprise milestone outcomes that compound over decades of collaboration.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          5. VALUES CTA SECTION (.s-cta js-cta)
+          ======================================================== */}
+      <section className="s-cta-section">
+        <div className="s-cta-section__container">
+          <h2 className="s-cta-section__title">
+            Do our values align with yours?
+          </h2>
+          <button
+            type="button"
+            className="s-cta-section__btn"
+            onClick={() => onNavigatePage('contacts')}
+          >
+            <span>Join us</span>
+            <ArrowRight size={16} />
+          </button>
+        </div>
+      </section>
+
+      {/* ========================================================
+          6. TEAM GALLERY SECTION (.s-team-gallery js-team-gallery)
+          ======================================================== */}
+      <section className="s-team-section" id="team">
+        <div className="s-team-section__container">
+          <div className="s-team-section__header">
+            <div className="s-team-section__badge">
+              <span>Our People &amp; Practice Leaders</span>
+            </div>
+            <h2 className="s-team-section__title">Engineering Minds Behind Every Release</h2>
+            <p className="s-team-section__desc">
+              Meet the principal architects, delivery managers, and domain consultants driving mission-critical projects globally.
+            </p>
+          </div>
+
+          <div className="s-team-section__grid">
+            {ABOUT_TEAM_MEMBERS.map((member) => (
+              <div key={member.id} className="s-team-section__card">
+                <div className="s-team-section__media">
+                  <img
+                    src={member.image}
+                    alt={member.name}
+                    loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=400&auto=format&fit=crop';
+                    }}
+                  />
+                </div>
+                <div className="s-team-section__info">
+                  <h4 className="s-team-section__name">{member.name}</h4>
+                  <p className="s-team-section__position">{member.position}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          7. CLIENT TESTIMONIALS CAROUSEL (.s-carousel theme-dark2)
+          ======================================================== */}
+      <section className="s-testimonials" id="testimonials">
+        <div className="s-testimonials__container">
+          <div className="s-testimonials__header">
+            <div>
+              <h2 className="s-testimonials__title">
+                Work that <span>moves things</span>
+              </h2>
+            </div>
+
+            <div className="s-testimonials__controls">
+              <button
+                type="button"
+                className="s-testimonials__ctrl-btn"
+                onClick={prevTestimonial}
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                type="button"
+                className="s-testimonials__ctrl-btn"
+                onClick={nextTestimonial}
+                aria-label="Next testimonial"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+          </div>
+
+          <div className="s-testimonials__card">
+            <p className="s-testimonials__quote">
+              &ldquo;{currentTestimonial.quote}&rdquo;
+            </p>
+
+            <div className="s-testimonials__meta">
+              <div className="s-testimonials__author-wrap">
+                {currentTestimonial.avatar && (
+                  <img
+                    src={currentTestimonial.avatar}
+                    alt={currentTestimonial.author}
+                    className="s-testimonials__avatar"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                )}
+                <div>
+                  <h4 className="s-testimonials__author-name">{currentTestimonial.author}</h4>
+                  {currentTestimonial.role && (
+                    <p className="s-testimonials__author-role">{currentTestimonial.role}</p>
+                  )}
+                </div>
+              </div>
+
+              {currentTestimonial.logo && (
+                <img
+                  src={currentTestimonial.logo}
+                  alt={`${currentTestimonial.author} company logo`}
+                  className="s-testimonials__logo"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = 'none';
+                  }}
+                />
+              )}
+            </div>
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: '24px' }}>
+            {ABOUT_TESTIMONIALS.map((t, idx) => (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => setCurrentTestimonialIndex(idx)}
+                style={{
+                  width: idx === currentTestimonialIndex ? '28px' : '8px',
+                  height: '8px',
+                  borderRadius: '4px',
+                  backgroundColor: idx === currentTestimonialIndex ? '#2258e7' : '#334155',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                  padding: 0,
+                }}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================================
+          8. CONTACT VIDEO & FORM SECTION (.s-contact-video theme-dark2)
+          ======================================================== */}
+      <section className="s-contact-form-section" id="contact-video">
+        <div className="s-contact-form-section__container">
+          <h2 className="s-contact-form-section__title">
+            Got a challenge? <span>Let’s discuss it</span>
+          </h2>
+          <p className="s-contact-form-section__desc">
+            Share your technical requirements with our solutions architects for a direct, confidential assessment.
+          </p>
+
+          <form onSubmit={handleFormSubmit} className="s-contact-form">
+            <div className="s-contact-form__field">
+              <label htmlFor="c-name" className="s-contact-form__label">Name*</label>
+              <input
+                id="c-name"
+                type="text"
+                className="s-contact-form__input"
+                placeholder="Your full name"
+                required
+                value={formState.name}
+                onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+              />
+            </div>
+
+            <div className="s-contact-form__field">
+              <label htmlFor="c-email" className="s-contact-form__label">Corporate email*</label>
+              <input
+                id="c-email"
+                type="email"
+                className="s-contact-form__input"
+                placeholder="name@company.com"
+                required
+                value={formState.email}
+                onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+              />
+            </div>
+
+            <div className="s-contact-form__field">
+              <label htmlFor="c-phone" className="s-contact-form__label">Phone Number</label>
+              <input
+                id="c-phone"
+                type="tel"
+                className="s-contact-form__input"
+                placeholder="+1 (555) 000-0000"
+                value={formState.phone}
+                onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
+              />
+            </div>
+
+            <div className="s-contact-form__field">
+              <label htmlFor="c-company" className="s-contact-form__label">Company*</label>
+              <input
+                id="c-company"
+                type="text"
+                className="s-contact-form__input"
+                placeholder="Company name"
+                required
+                value={formState.company}
+                onChange={(e) => setFormState({ ...formState, company: e.target.value })}
+              />
+            </div>
+
+            <div className="s-contact-form__field s-contact-form__full">
+              <label htmlFor="c-message" className="s-contact-form__label">Message*</label>
+              <textarea
+                id="c-message"
+                className="s-contact-form__textarea"
+                placeholder="Briefly describe your initiative, tech stack, or engineering bottleneck..."
+                required
+                value={formState.message}
+                onChange={(e) => setFormState({ ...formState, message: e.target.value })}
+              ></textarea>
+            </div>
+
+            <div className="s-contact-form__field s-contact-form__full">
+              <label
+                htmlFor="c-file-upload"
+                style={{
+                  border: '1px dashed #334155',
+                  borderRadius: '4px',
+                  padding: '24px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  gap: '8px',
+                  cursor: 'pointer',
+                  backgroundColor: '#0f172a',
+                  transition: 'border-color 0.2s ease',
+                }}
+              >
+                <Upload size={20} style={{ color: '#38bdf8' }} />
+                <span style={{ fontSize: '14px', color: '#e2e8f0', fontWeight: 500 }}>
+                  {selectedFileName ? selectedFileName : 'Click to upload or drag and drop 1 file'}
+                </span>
+                <span style={{ fontSize: '12px', color: '#64748b' }}>
+                  SVG, PNG, JPG, PDF or DOC (max. 33 MB)
+                </span>
+                <input
+                  id="c-file-upload"
+                  type="file"
+                  style={{ display: 'none' }}
+                  onChange={(e) => {
+                    const f = e.target.files?.[0];
+                    if (f) setSelectedFileName(f.name);
+                  }}
+                />
+              </label>
+            </div>
+
+            <div className="s-contact-form__field s-contact-form__full">
+              <label className="s-contact-form__checkbox">
+                <input
+                  type="checkbox"
+                  checked={formState.ndaFirst}
+                  onChange={(e) => setFormState({ ...formState, ndaFirst: e.target.checked })}
+                />
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px' }}>
+                  <ShieldCheck size={16} style={{ color: '#38bdf8' }} />
+                  Secure data with mutual NDA first
+                </span>
+              </label>
+            </div>
+
+            <div className="s-contact-form__field s-contact-form__full">
+              <label className="s-contact-form__checkbox">
+                <input
+                  type="checkbox"
+                  required
+                  checked={formState.consent}
+                  onChange={(e) => setFormState({ ...formState, consent: e.target.checked })}
+                />
+                <span>
+                  I consent to the processing of personal data as set out in the Privacy Policy and Cookies Policy,
+                  and agree to receive technical communication regarding my inquiry.
+                </span>
+              </label>
+            </div>
+
+            <div className="s-contact-form__field s-contact-form__full">
+              <button type="submit" className="s-contact-form__submit-btn">
+                Submit challenge &amp; request discovery
+              </button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      {/* ========================================================
+          9. GLOBAL LOCATIONS SECTION (.s-contacts theme-dark2)
+          ======================================================== */}
+      <section className="s-about-locations" id="our-locations">
+        <div className="s-about-locations__container">
+          <div className="s-about-locations__header">
+            <h2 className="s-about-locations__title">Our locations</h2>
+            <p className="s-about-locations__desc">
+              Say hello to our friendly team at one of these locations.
+            </p>
+            <a
+              href="mailto:contact@neominds.io"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                color: '#38bdf8',
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
+            >
+              <Mail size={16} />
+              <span>contact@neominds.io</span>
+            </a>
+          </div>
+
+          <div className="s-about-locations__tabs">
+            <button
+              type="button"
+              className={`s-about-locations__tab-btn ${locationTab === 'americas' ? 'is-active' : ''}`}
+              onClick={() => setLocationTab('americas')}
+            >
+              Americas
+            </button>
+            <button
+              type="button"
+              className={`s-about-locations__tab-btn ${locationTab === 'europe' ? 'is-active' : ''}`}
+              onClick={() => setLocationTab('europe')}
+            >
+              Europe
+            </button>
+          </div>
+
+          <div className="s-about-locations__grid">
+            {ABOUT_LOCATIONS[locationTab].map((loc) => (
+              <div key={loc.city} className="s-about-locations__card">
+                <h4 className="s-about-locations__city">{loc.city}</h4>
+                <p className="s-about-locations__address">
+                  {loc.address}
+                  <br />
+                  {loc.postalCode}
+                </p>
+                <a href={`tel:${loc.phone}`} className="s-about-locations__phone">
+                  <Phone size={13} />
+                  <span>{loc.phone}</span>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer
-        onNavigate={(target) => {
-          if (target === '#contact') {
-            onNavigatePage('contacts');
-          } else if (target === '#casestudies') {
-            onNavigatePage('portfolio');
-          } else {
-            onNavigatePage('home');
-          }
-        }}
+        onNavigate={(target) => onNavigatePage(target.replace('#', ''))}
+        onOpenLegal={onOpenLegal}
       />
     </div>
   );
